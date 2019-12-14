@@ -1,0 +1,1 @@
+export { VendorsRepository } from './VendorsRepository';

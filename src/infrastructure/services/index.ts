@@ -1,0 +1,1 @@
+export { ClassValidatorsValidatorService } from './ClassValidatorsValidatorService';
