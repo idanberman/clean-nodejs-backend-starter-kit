@@ -1,8 +1,8 @@
 import { Vendor } from '../entities/Vendor';
 import { Injectable, Inject } from '@nestjs/common';
-import { VendorsRepository } from '../repositories/VendorsRepository';
+import { VendorsRepository } from '.';
 import InterfaceId from '../types-interfaces-identifiers';
-import { SuccessResponse } from '../value-objects/responses/SuccessResponse';
+import { SuccessResponse } from '../value-objects';
 
 @Injectable()
 export class VendorsService {

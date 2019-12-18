@@ -1,0 +1,1 @@
+export { TypeormVendorsRepository } from './TypeormVendorsRepository';

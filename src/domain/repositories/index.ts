@@ -1,1 +1,1 @@
-export { VendorsRepository } from './VendorsRepository';
+export { VendorsRepository } from '../vendors/VendorsRepository';
