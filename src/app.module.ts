@@ -6,7 +6,7 @@ import { CoreModule } from './infrastructure/core/CoreModule';
 import { TypeormDatabaseModule } from './infrastructure/database/TypeormDatabaseModule';
 
 @Module({
-  imports: [CoreModule, TypeormDatabaseModule],
+  imports: [CoreModule, TypeormDatabaseModule, VendorsModule],
   controllers: [AppController],
   providers: [AppService],
 })

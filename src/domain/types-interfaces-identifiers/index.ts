@@ -1,9 +1,9 @@
 const InterfaceId = {
-  CoreService: Symbol.for('CoreService'),
+  CoreService: ('CoreService'),
 
-  VendorsService: Symbol.for('VendorsService'),
+  VendorsService: ('VendorsService'),
 
-  VendorsRepository: Symbol.for('VendorsRepository'),
+  VendorsRepository: ('VendorsRepository'),
 };
 
 export default InterfaceId;

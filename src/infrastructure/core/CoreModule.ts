@@ -2,9 +2,11 @@ import { Module, Global } from '@nestjs/common';
 import { ConfigurationLoaderService } from './ConfigurationLoaderService';
 import InterfaceId from 'src/domain/types-interfaces-identifiers';
 import { CoreContext } from './CoreContext';
+import { ConfigModule } from '@nestjs/config';
 
 @Global()
 @Module({
+  imports: [ConfigModule.forRoot()],
   providers: [
     {
       provide: ConfigurationLoaderService,

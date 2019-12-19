@@ -12,6 +12,7 @@ export class VendorsService {
   ) {}
 
   async find(): Promise<SuccessResponse<Vendor[]>> {
-    return Promise.reject('Not implemented');
+    return new SuccessResponse(await this.vendorsRepository.find());
+    // return Promise.reject('Not implemented');
   }
 }

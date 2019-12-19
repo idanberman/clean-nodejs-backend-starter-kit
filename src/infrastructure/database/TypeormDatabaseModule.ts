@@ -1,41 +1,26 @@
-import { Module, DynamicModule, Inject } from '@nestjs/common';
-import { CoreModule } from '../core/CoreModule';
-import {
-  createConnection,
-  Connection,
-  ConnectionOptions,
-  Repository,
-  ObjectLiteral,
-} from 'typeorm';
-import InterfaceId from 'src/domain/types-interfaces-identifiers';
-import { CoreService } from 'src/domain/core/services/CoreService';
-import { InjectionId } from './consts/InjectionId';
-import { InterfaceToRepositoryImplementation } from './consts/InterfaceIdToRepositoryClass';
-import { RepositoryProvidersFactory } from './utils/RepositoryProvidersFactory';
-import { TypeormConnectionModule } from './TypeormConnectionModule';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CoreService } from 'src/domain/core/services/CoreService';
+import InterfaceId from 'src/domain/types-interfaces-identifiers';
+import { CoreModule } from '../core/CoreModule';
+import { RepositoryProvidersFactory } from './utils/RepositoryProvidersFactory';
+import { RepositoriesInterfacesIdProvider } from './utils/RepositoriesInterfacesIdProvider';
+import { InjectionId } from './consts';
+import { Connection } from 'typeorm';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRootAsync({
-      imports: [CoreModule],
+  imports: [CoreModule],
 
-      useFactory: async (coreService: CoreService) =>
-        coreService.getConfiguration().database,
-      inject: [InterfaceId.CoreService],
-    }),
-  ],
-  providers: [
-    // {
-    //   provide: InjectionId.DatabaseConnection,
-    //   useFactory: async (coreService: CoreService) => {
-    //     return await createConnection(coreService.getConfiguration().database);
-    //   },
-    //   inject: [InterfaceId.CoreService],
-    // },
-    // ...RepositoryProvidersFactory.get(),
-  ],
-  exports: [],
-  // exports: [...Object.keys(InterfaceToRepositoryImplementation)],
+  // imports: [
+  //   TypeOrmModule.forRootAsync({
+  //     imports: [CoreModule],
+  //     useFactory: async (coreService: CoreService) =>
+  //       coreService.getConfiguration().database,
+  //     inject: [InterfaceId.CoreService],
+  //   }),
+  // ],
+  providers: [...RepositoryProvidersFactory.get()],
+  // exports: [],
+  exports: [...RepositoriesInterfacesIdProvider.get()],
 })
 export class TypeormDatabaseModule {}
