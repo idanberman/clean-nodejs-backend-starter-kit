@@ -6,13 +6,16 @@ import { DomainType } from '../DomainType';
 
 @injectable()
 export class VendorsService {
+  private readonly vendorsRepository: VendorsRepository;
+
   constructor(
     @inject(DomainType.VendorsRepository)
-    private readonly vendorsRepository: VendorsRepository,
-  ) {}
+    vendorsRepositoryFactory: () => VendorsRepository,
+  ) {
+    this.vendorsRepository = vendorsRepositoryFactory();
+  }
 
   async findAll(): Promise<SuccessResult<Vendor[]>> {
     return new SuccessResult(await this.vendorsRepository.findAll());
-    // return Promise.reject('Not implemented');
   }
 }

@@ -18,9 +18,8 @@ export class VendorsController implements interfaces.Controller {
     @inject(DomainType.VendorsService)
     private readonly vendorsService: VendorsService,
   ) {}
-  @httpGet('/id')
+  @httpGet('/')
   async getFind(): Promise<SuccessResult<Vendor[]>> {
-    console.log('hhhx');
     return await this.vendorsService.findAll();
   }
 }

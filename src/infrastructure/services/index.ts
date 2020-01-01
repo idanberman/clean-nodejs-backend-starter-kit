@@ -1,1 +1,1 @@
-// export { ClassValidatorsValidatorService } from './ClassValidatorsValidatorService';
+export { ClassValidatorsValidatorService } from './ClassValidatorsValidatorService';

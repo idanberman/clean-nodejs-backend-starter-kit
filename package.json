@@ -10,7 +10,7 @@
     "build:debug": "webpack --mode=development",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "node dist/",
-    "start:dev": "webpack --mode development && concurrently -r -n \"Webpack,Nodemon\" \"yarn run webpack-watch\" \"yarn run server-watch\"",
+    "start:dev": "concurrently -r -n \"Webpack,Nodemon\" \"yarn run webpack-watch\" \"yarn run server-watch\"",
     "start:debug": "node --inspect dist/",
     "start:prod": "node dist/main",
     "lint": "tslint -p tsconfig.json -c tslint.json",
@@ -55,7 +55,6 @@
     "typescript": "^3.6.3",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1",
     "webpack-node-externals": "^1.7.2"
   },
   "jest": {

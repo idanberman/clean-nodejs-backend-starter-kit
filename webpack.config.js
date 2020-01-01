@@ -8,9 +8,6 @@ module.exports = {
 
   entry: './src/main.ts',
   devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './dist',
-  },
   module: {
     rules: [
       {

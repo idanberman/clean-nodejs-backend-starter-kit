@@ -15,7 +15,7 @@ import {
   EntityManager,
 } from 'typeorm';
 import { Initializable } from 'src/app/interfaces/Initializable';
-import { BaseRepository } from 'src/domain/interfaces/BaseRepository';
+import { Entities } from './consts/Entities';
 
 export class TypeormDatabaseConnection implements Initializable {
   constructor(private readonly databaseConfiguration: DatabaseConfiguration) {}
@@ -23,7 +23,10 @@ export class TypeormDatabaseConnection implements Initializable {
   private connection: Connection;
 
   public async init(): Promise<void> {
-    this.connection = await createConnection(this.databaseConfiguration);
+    this.connection = await createConnection({
+      ...this.databaseConfiguration,
+      entities: Entities,
+    });
   }
 
   public isConnected() {

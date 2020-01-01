@@ -69,18 +69,7 @@ export class Application {
 
   public async init() {
     this.ioc = await Application.getContainer();
-
     this.express = Application.getWebServer(this.ioc);
-    const routeInfo = getRouteInfo(this.ioc);
-    console.log('Routes', JSON.stringify(routeInfo, null, '  '));
-    console.log(
-      'Routes',
-      JSON.stringify(
-        this.express._router.stack.filter(r => r.route).map(r => r.route.path),
-        null,
-        '  ',
-      ),
-    );
   }
 
   public async start(): Promise<void> {
