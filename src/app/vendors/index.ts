@@ -1,0 +1,1 @@
+export { VendorsController } from './VendorsController';

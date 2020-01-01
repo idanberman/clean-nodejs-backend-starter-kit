@@ -1,7 +1,7 @@
 import { Length, IsPhoneNumber, IsEmail } from 'class-validator';
-import Dto from './Dto.interface';
+import BaseDto from './BaseDto';
 
-export class VendorDto implements Dto {
+export class VendorDto implements BaseDto {
   @Length(10, 10)
   governmentalId: string;
 

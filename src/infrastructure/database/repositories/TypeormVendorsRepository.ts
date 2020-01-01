@@ -1,11 +1,12 @@
 import { VendorsRepository } from 'src/domain/vendors';
-import { Repository, EntityRepository } from 'typeorm';
+import { Repository, EntityRepository, EntityManager } from 'typeorm';
 import { Vendor } from 'src/domain/entities';
+import { CrudTypeormRepository } from './CrudTypeormRepository';
 
 @EntityRepository(Vendor)
-export class TypeormVendorsRepository extends Repository<Vendor>
+export class TypeormVendorsRepository extends CrudTypeormRepository<Vendor>
   implements VendorsRepository {
-  constructor() {
-    super();
+  constructor(manager: EntityManager) {
+    super(Vendor, manager);
   }
 }

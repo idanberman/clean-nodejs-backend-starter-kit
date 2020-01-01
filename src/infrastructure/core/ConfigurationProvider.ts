@@ -1,17 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { injectable, inject } from 'inversify';
 import {
   AppConfiguration,
   DatabaseConfiguration,
   DatabaseConfigurationSqlDataBaseType,
+  WebServerConfiguration,
 } from 'src/domain/value-objects/configuration/AppConfiguration';
+import dotenv = require('dotenv');
+dotenv.config();
 
-@Injectable()
-export class ConfigurationLoaderService {
+@injectable()
+export class ConfigurationProvider {
   private readonly configuration: AppConfiguration;
 
   constructor() {
     this.configuration = {
       database: this.getDatabaseConfiguration(),
+      webServer: this.getWebServerConfiguration(),
     };
   }
 
@@ -27,7 +31,13 @@ export class ConfigurationLoaderService {
       synchronize: true,
     };
   }
-  public getConfiguration(): AppConfiguration {
+  private getWebServerConfiguration(): WebServerConfiguration {
+    const { env } = process;
+    return {
+      httpPort: parseInt(env.WEB_SERVER_HTTP_PORT, 10) || 3000,
+    };
+  }
+  public provide(): AppConfiguration {
     return this.configuration;
   }
 }

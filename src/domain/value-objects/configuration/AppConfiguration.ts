@@ -12,6 +12,11 @@ export interface DatabaseConfiguration {
   readonly synchronize?: boolean;
 }
 
+export interface WebServerConfiguration {
+  readonly httpPort: number;
+}
+
 export interface AppConfiguration {
   readonly database: DatabaseConfiguration;
+  readonly webServer: WebServerConfiguration;
 }

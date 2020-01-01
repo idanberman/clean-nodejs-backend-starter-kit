@@ -1,1 +1,0 @@
-export { VendorsModule } from './VendorsModule';
