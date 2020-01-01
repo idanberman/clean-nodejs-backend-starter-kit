@@ -1,2 +1,2 @@
 // tslint:disable-next-line: no-empty-interface
-export default interface Dto {}
+export default interface BaseDto {}

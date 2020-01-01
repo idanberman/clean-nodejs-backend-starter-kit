@@ -3,33 +3,33 @@ import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
 @Entity()
 export class Vendor {
   @PrimaryGeneratedColumn()
-  id: number;
+  readonly id: number;
 
   @Index({ unique: true })
   @Column()
-  governmentalId: string;
+  readonly governmentalId: string;
 
   @Column()
-  name: string;
+  readonly name: string;
 
   @Column()
-  contactName: string;
+  readonly contactName: string;
 
   @Column()
-  contactPhone: string;
+  readonly contactPhone: string;
 
   @Column()
-  email: string;
+  readonly email: string;
 
   @Column()
-  address: string;
+  readonly address: string;
 
   @Column()
-  city: string;
+  readonly city: string;
 
   @Column()
-  zipCode: string;
+  readonly zipCode: string;
 
   @Column()
-  budgetClassification: string;
+  readonly budgetClassification: string;
 }

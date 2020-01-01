@@ -4,6 +4,6 @@ interface PaginationMetaData {
   pageNumber: number;
 }
 
-export interface ResponseMetaData {
+export interface ResultMetaData {
   pagination?: PaginationMetaData;
 }
