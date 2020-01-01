@@ -11,13 +11,8 @@ export class VendorsService {
     private readonly vendorsRepository: VendorsRepository,
   ) {}
 
-<<<<<<< HEAD
   async findAll(): Promise<SuccessResult<Vendor[]>> {
     return new SuccessResult(await this.vendorsRepository.findAll());
-=======
-  async find(): Promise<SuccessResponse<Vendor[]>> {
-    return new SuccessResponse(await this.vendorsRepository.find());
->>>>>>> f92321b2ecfed4819e328249e4d10e6025fb5295
     // return Promise.reject('Not implemented');
   }
 }
