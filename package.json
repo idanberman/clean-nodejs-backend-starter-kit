@@ -23,7 +23,6 @@
     "server-watch": "nodemon --watch dist/index.js dist/"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@decorators/express": "^2.3.0",
     "@types/body-parser": "^1.17.1",
     "body-parser": "^1.19.0",
@@ -31,14 +30,6 @@
     "express": "^4.17.1",
     "inversify": "^5.0.1",
     "inversify-express-utils": "^6.3.2",
-=======
-    "@nestjs/common": "^6.7.2",
-    "@nestjs/config": "^0.0.7",
-    "@nestjs/core": "^6.7.2",
-    "@nestjs/platform-express": "^6.7.2",
-    "@nestjs/typeorm": "^6.2.0",
-    "class-validator": "^0.11.0",
->>>>>>> f92321b2ecfed4819e328249e4d10e6025fb5295
     "mysql": "^2.17.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
