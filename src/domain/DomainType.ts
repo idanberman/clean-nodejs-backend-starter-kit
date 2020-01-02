@@ -4,4 +4,5 @@ export const DomainType = {
   VendorsService: Symbol.for('VendorsService'),
 
   VendorsRepository: Symbol.for('VendorsRepository'),
+  Vendor: Symbol.for('Vendor'),
 };

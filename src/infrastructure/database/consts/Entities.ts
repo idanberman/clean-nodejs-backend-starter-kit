@@ -1,4 +1,4 @@
-import { Vendor } from 'src/domain/entities/Vendor';
+import { Vendor } from 'src/domain/vendors';
 import { EntitySchema } from 'typeorm';
 
 // tslint:disable-next-line: ban-types

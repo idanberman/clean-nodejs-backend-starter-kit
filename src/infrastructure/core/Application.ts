@@ -1,6 +1,6 @@
 import { Container, interfaces } from 'inversify';
 import { DomainType } from 'src/domain/DomainType';
-import { VendorsRepository, VendorsService } from 'src/domain/vendors';
+import { VendorsRepository, VendorsService, Vendor } from 'src/domain/vendors';
 import { TypeormDatabaseService } from '../database/TypeormDatabaseService';
 import { InfrastructureType } from '../InfrastructureType';
 import { ConfigurationProvider } from './ConfigurationProvider';
@@ -20,14 +20,19 @@ export class Application {
     container
       .bind<ConfigurationProvider>(DomainType.ConfigurationProvider)
       .to(ConfigurationProvider);
-    container
-      .bind<VendorsService>(DomainType.VendorsService)
-      .toService(VendorsService);
 
     container
       .bind<TypeormDatabaseService>(InfrastructureType.DatabaseService)
       .to(TypeormDatabaseService)
       .inSingletonScope();
+
+    // Domain Services
+    container
+      .bind<VendorsService>(DomainType.VendorsService)
+      .toService(VendorsService);
+
+    // Domain Entities
+    container.bind<Vendor>(Vendor).toSelf();
 
     // init external services
 

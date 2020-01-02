@@ -5,8 +5,9 @@ import {
   httpPut,
   httpDelete,
   interfaces,
+  requestParam,
 } from 'inversify-express-utils';
-import { Vendor } from 'src/domain/entities/Vendor';
+import { Vendor, VendorsRepository } from 'src/domain/vendors';
 import { SuccessResult } from 'src/domain/value-objects';
 import { VendorsService } from 'src/domain/vendors';
 import { injectable, inject } from 'inversify';
@@ -15,11 +16,20 @@ import { DomainType } from 'src/domain/DomainType';
 @controller('/vendors')
 export class VendorsController implements interfaces.Controller {
   constructor(
-    @inject(DomainType.VendorsService)
-    private readonly vendorsService: VendorsService,
+    @inject(DomainType.VendorsRepository)
+    private readonly vendorsRepository: VendorsRepository,
   ) {}
   @httpGet('/')
-  async getFind(): Promise<SuccessResult<Vendor[]>> {
-    return await this.vendorsService.findAll();
+  async getAll(): Promise<SuccessResult<Vendor[]>> {
+    return SuccessResult.create<Vendor[]>(
+      await this.vendorsRepository.findAll(),
+    );
+  }
+
+  @httpGet('/:id')
+  async getOne(@requestParam('id') id: string): Promise<SuccessResult<Vendor>> {
+    return SuccessResult.create<Vendor>(
+      await this.vendorsRepository.findById(id),
+    );
   }
 }

@@ -1,8 +1,8 @@
 import { FieldErrorDescription } from './FieldsErrorDescription';
 
-export class ValidationResult {
+export class BaseValidationResult<T> {
   constructor(
     public readonly success: boolean,
-    public readonly fieldErrorDescription: FieldErrorDescription[],
+    public readonly objectToValidate: T,
   ) {}
 }

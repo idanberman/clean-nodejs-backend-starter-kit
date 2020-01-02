@@ -1,6 +1,5 @@
-import { VendorsRepository } from 'src/domain/vendors';
-import { Repository, EntityRepository, EntityManager } from 'typeorm';
-import { Vendor } from 'src/domain/entities';
+import { Vendor, VendorDto, VendorsRepository } from 'src/domain/vendors';
+import { EntityManager, EntityRepository } from 'typeorm';
 import { CrudTypeormRepository } from './CrudTypeormRepository';
 
 @EntityRepository(Vendor)

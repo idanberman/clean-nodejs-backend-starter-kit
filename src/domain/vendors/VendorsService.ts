@@ -1,4 +1,4 @@
-import { Vendor } from '../entities/Vendor';
+import { Vendor } from './Vendor';
 import { injectable, inject } from 'inversify';
 import { VendorsRepository } from '.';
 import { SuccessResult } from '../value-objects';
@@ -13,9 +13,5 @@ export class VendorsService {
     vendorsRepositoryFactory: () => VendorsRepository,
   ) {
     this.vendorsRepository = vendorsRepositoryFactory();
-  }
-
-  async findAll(): Promise<SuccessResult<Vendor[]>> {
-    return new SuccessResult(await this.vendorsRepository.findAll());
   }
 }

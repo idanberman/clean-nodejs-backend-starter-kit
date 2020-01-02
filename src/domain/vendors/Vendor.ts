@@ -1,7 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
+import { injectable, inject } from 'inversify';
+import { DomainType } from '../DomainType';
+import { VendorsRepository, VendorDto } from '.';
 
 @Entity()
 export class Vendor {
+  private readonly vendorsRepository: VendorsRepository;
+
   @PrimaryGeneratedColumn()
   readonly id: number;
 

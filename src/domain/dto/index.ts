@@ -1,1 +1,0 @@
-export { VendorDto } from './VendorDto';

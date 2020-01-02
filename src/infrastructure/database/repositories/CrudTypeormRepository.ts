@@ -12,8 +12,9 @@ export class CrudTypeormRepository<T> implements BaseRepository<T> {
   async findById(id: any): Promise<T> {
     return await this.typeormRepository.findOneOrFail(id);
   }
-  async insertEntity(entity: T): Promise<T> {
-    return await this.typeormRepository.save(entity);
+  async createEntity(entity: T): Promise<T> {
+    const insertResult = await this.typeormRepository.insert(entity);
+    return entity;
   }
   async updateEntity(entity: T): Promise<T> {
     return await this.typeormRepository.save(entity);

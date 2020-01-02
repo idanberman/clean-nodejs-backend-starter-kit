@@ -1,5 +1,5 @@
 import { Length, IsPhoneNumber, IsEmail } from 'class-validator';
-import BaseDto from './BaseDto';
+import BaseDto from '../interfaces/BaseDto';
 
 export class VendorDto implements BaseDto {
   @Length(10, 10)
