@@ -1,10 +1,8 @@
-import { BaseValidationResult } from './BaseValidationResult';
+import { ValidationResultMetaData } from './meta-data';
 
-export class ValidationSuccessResult<T> extends BaseValidationResult<T> {
+export class ValidationSuccessResult<T> {
   constructor(
-    public readonly objectToValidate: T,
-    public readonly sanitizedObject: T,
-  ) {
-    super(true, objectToValidate);
-  }
+    public readonly metaData: ValidationResultMetaData<T>,
+    public readonly validValue: T,
+  ) {}
 }

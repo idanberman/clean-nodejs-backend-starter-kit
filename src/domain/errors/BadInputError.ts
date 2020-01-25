@@ -1,4 +1,4 @@
-import { FieldErrorDescription } from '../value-objects/validation/FieldsErrorDescription';
+import { FieldErrorDescription } from '../value-objects/validation/FieldErrorDescription';
 
 export class BadInputError {
   constructor(

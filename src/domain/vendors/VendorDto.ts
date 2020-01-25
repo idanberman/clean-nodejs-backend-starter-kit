@@ -1,7 +1,17 @@
-import { Length, IsPhoneNumber, IsEmail } from 'class-validator';
+import {
+  Length,
+  IsPhoneNumber,
+  IsEmail,
+  IsInt,
+  IsOptional,
+} from 'class-validator';
 import BaseDto from '../interfaces/BaseDto';
 
 export class VendorDto implements BaseDto {
+  @IsInt()
+  @IsOptional()
+  readonly id: number;
+
   @Length(10, 10)
   governmentalId: string;
 
