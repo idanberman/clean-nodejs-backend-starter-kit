@@ -5,8 +5,6 @@ import { VendorsRepository, VendorDto } from '.';
 
 @Entity()
 export class Vendor {
-  private readonly vendorsRepository: VendorsRepository;
-
   @PrimaryGeneratedColumn()
   readonly id: number;
 

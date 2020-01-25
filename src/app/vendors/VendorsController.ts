@@ -15,10 +15,13 @@ import { DomainType } from 'src/domain/DomainType';
 
 @controller('/vendors')
 export class VendorsController implements interfaces.Controller {
+  private readonly vendorsRepository;
   constructor(
     @inject(DomainType.VendorsRepository)
-    private readonly vendorsRepository: VendorsRepository,
-  ) {}
+    vendorsRepositoryFactory: () => VendorsRepository,
+  ) {
+    this.vendorsRepository = vendorsRepositoryFactory();
+  }
   @httpGet('/')
   async getAll(): Promise<SuccessResult<Vendor[]>> {
     return SuccessResult.create<Vendor[]>(
