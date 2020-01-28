@@ -1,7 +1,9 @@
-import { BaseRepository } from 'src/domain/interfaces/BaseRepository';
+import { BasicReadRepository } from 'src/domain/interfaces/BasicReadRepository';
+import { BasicWriteRepository } from 'src/domain/interfaces/BasicWriteRepository';
 import { Repository, EntityManager, ObjectType } from 'typeorm';
 
-export class CrudTypeormRepository<T> implements BaseRepository<T> {
+export class CrudTypeormRepository<T>
+  implements BasicReadRepository<T>, BasicWriteRepository<T> {
   private readonly typeormRepository: Repository<T>;
   constructor(private target: ObjectType<T>, manager: EntityManager) {
     this.typeormRepository = manager.getRepository(target);
@@ -10,7 +12,7 @@ export class CrudTypeormRepository<T> implements BaseRepository<T> {
     return await this.typeormRepository.find();
   }
   async findById(id: any): Promise<T> {
-    return await this.typeormRepository.findOneOrFail(id);
+    return await this.typeormRepository.findOne(id);
   }
   async createEntity(entity: T): Promise<T> {
     const insertResult = await this.typeormRepository.insert(entity);

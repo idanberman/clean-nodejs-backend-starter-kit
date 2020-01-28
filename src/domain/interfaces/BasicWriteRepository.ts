@@ -1,8 +1,6 @@
 import { BaseEntity } from 'src/domain/interfaces/BaseEntity';
 
-export interface BaseRepository<T extends BaseEntity> {
-  findAll(): Promise<T[]>;
-  findById(id: any): Promise<T>;
+export interface BasicWriteRepository<T extends BaseEntity> {
   createEntity(entity: T): Promise<T>;
   updateEntity(entity: T): Promise<T>;
   removeEntity(entity: T): Promise<void>;

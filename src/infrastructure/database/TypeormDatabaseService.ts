@@ -1,7 +1,5 @@
-import { BaseRepository } from 'src/domain/interfaces/BaseRepository';
 import { NoDatabaseConnectionError } from './errors/NoDatabaseConnectionError';
-import { Connection, ObjectType, EntityManager } from 'typeorm';
-import { BaseEntity } from 'src/domain/interfaces/BaseEntity';
+import { EntityManager } from 'typeorm';
 import { inject, injectable } from 'inversify';
 import { DomainType } from 'src/domain/DomainType';
 import { AppConfiguration } from 'src/domain/value-objects/configuration';

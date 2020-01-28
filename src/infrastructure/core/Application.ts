@@ -5,10 +5,13 @@ import { TypeormDatabaseService } from '../database/TypeormDatabaseService';
 import { InfrastructureType } from '../InfrastructureType';
 import { ConfigurationProvider } from './ConfigurationProvider';
 import { InversifyExpressServer, getRouteInfo } from 'inversify-express-utils';
-import { TypeormVendorsRepository } from '../database/repositories';
+import { TypeormVendorsReadWriteRepository } from '../database/repositories';
 import express = require('express');
 import * as bodyParser from 'body-parser';
 import 'src/app/vendors';
+import { AppType } from 'src/app/AppType';
+import { ClassValidatorsValidatorService } from '../validators';
+import { DtoValidatorService } from 'src/app/interfaces';
 
 export class Application {
   private ioc: Container;
@@ -34,6 +37,11 @@ export class Application {
     // Domain Entities
     container.bind<Vendor>(Vendor).toSelf();
 
+    // Application Services
+    container
+      .bind<DtoValidatorService>(AppType.DtoValidatorService)
+      .to(ClassValidatorsValidatorService);
+
     // init external services
 
     // Db will be abele to be bind as needed after this issue will be resolved
@@ -48,7 +56,7 @@ export class Application {
       .bind<interfaces.Factory<VendorsRepository>>(DomainType.VendorsRepository)
       .toFactory((ctx: interfaces.Context) => {
         return () =>
-          new TypeormVendorsRepository(
+          new TypeormVendorsReadWriteRepository(
             ctx.container
               .get<TypeormDatabaseService>(InfrastructureType.DatabaseService)
               .getManager(),

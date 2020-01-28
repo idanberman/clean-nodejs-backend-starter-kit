@@ -1,12 +1,35 @@
-import { BaseValidator } from 'src/domain/interfaces/BaseValidator';
-import BaseDto from 'src/domain/interfaces/BaseDto';
+import { BaseDto } from 'src/domain/interfaces/';
 import { injectable, inject } from 'inversify';
 import { ValidationResult } from 'src/domain/value-objects';
+import { validate, ValidationError } from 'class-validator';
+import { ClassValidationResultToDomanResultConverter } from './ClassValidationResultToDomanResultConverter';
+import { ValidationMode } from 'src/domain/value-objects/validation';
+import { DtoValidatorService } from 'src/app/interfaces';
 
 @injectable()
-export class ClassValidatorsValidatorService<T extends BaseDto>
-  implements BaseValidator<T> {
-  validate<T extends BaseDto>(objectToValidate: T): ValidationResult<T> {
-    throw new Error('Method not implemented.');
+export class ClassValidatorsValidatorService implements DtoValidatorService {
+  private readonly classValidationResultToDomanResultConverter: ClassValidationResultToDomanResultConverter;
+  constructor() {
+    this.classValidationResultToDomanResultConverter = new ClassValidationResultToDomanResultConverter();
   }
+
+  async validate<T extends BaseDto>(
+    objectToValidate: T,
+    options?: {
+      validationMode?: ValidationMode;
+    },
+  ): Promise<ValidationResult> {
+    const classValidationResult = await validate(objectToValidate, {
+      whitelist: true,
+      groups: [options.validationMode],
+    });
+
+    return Promise.resolve(
+      this.classValidationResultToDomanResultConverter.convert(
+        classValidationResult,
+      ),
+    );
+  }
+
+  convertRawValidationResultToDomainValidation;
 }

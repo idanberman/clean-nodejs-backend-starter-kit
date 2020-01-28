@@ -1,3 +1,7 @@
-export { ValidationResultMetaData } from './validation/meta-data';
-export { FieldErrorDescription } from './validation/FieldErrorDescription';
+export {
+  FieldErrorDescription,
+  ValidationFailedResult,
+  ValidationSuccessResult,
+  ValidationResult,
+} from './validation/';
 export { SuccessResult } from './results/SuccessResult';

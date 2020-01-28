@@ -1,9 +1,18 @@
-import { ValidationResultMetaData } from './meta-data/';
 import { FieldErrorDescription } from './FieldErrorDescription';
+import { ValidationResult } from './ValidationResult';
 
-export class ValidationFailedResult<T> {
-  constructor(
-    public readonly metaData: ValidationResultMetaData<T>,
-    public readonly fieldErrorDescription: FieldErrorDescription[],
+export class ValidationFailedResult implements ValidationResult {
+  private constructor(
+    public readonly fieldErrorsDescription: FieldErrorDescription[],
   ) {}
+
+  isSucceed(): boolean {
+    return false;
+  }
+
+  static create(
+    fieldErrorsDescription: FieldErrorDescription[],
+  ): ValidationFailedResult {
+    return new ValidationFailedResult(fieldErrorsDescription);
+  }
 }

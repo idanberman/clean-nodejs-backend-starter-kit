@@ -1,4 +1,7 @@
 import { Vendor } from './Vendor';
-import { BaseRepository } from '../interfaces/BaseRepository';
+import { BasicReadRepository } from '../interfaces/BasicReadRepository';
+import { BasicWriteRepository } from '../interfaces/BasicWriteRepository';
 
-export interface VendorsRepository extends BaseRepository<Vendor> {}
+export interface VendorsRepository
+  extends BasicReadRepository<Vendor>,
+    BasicWriteRepository<Vendor> {}
