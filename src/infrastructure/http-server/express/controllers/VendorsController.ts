@@ -2,7 +2,6 @@ import { Controller, Get } from '@tsed/common';
 
 import express from 'express';
 import { ExpressJsAdapter } from '../adapter/ExpressJsAdapter';
-import { GetAllVendorsUseCase } from 'src/app/vendors';
 import { ApplicationInterface } from 'src/app/interfaces';
 import { RepositoryId } from 'src/domain/RepositoryId';
 import { VendorsRepository } from 'src/domain/vendors';

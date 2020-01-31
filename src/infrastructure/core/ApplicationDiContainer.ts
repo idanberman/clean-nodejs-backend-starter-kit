@@ -1,4 +1,4 @@
-import { ConfigurationProvider } from 'src/app/interfaces';
+import { ConfigurationProvider, DtoValidatorService } from 'src/app/interfaces';
 import { DotenvConfigurationProvider } from '../configuration/DotenvConfigurationProvider';
 import { AppType } from 'src/app/AppType';
 import { Container, interfaces } from 'inversify';
@@ -8,12 +8,16 @@ import { VendorsRepository } from 'src/domain/vendors';
 import { DomainType } from 'src/domain/DomainType';
 import { TypeormVendorsReadWriteRepository } from '../repositories/repositories';
 import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
+import { IndexVendorsUseCase } from 'src/app/vendors';
+import { ClassValidatorsValidatorService } from '../validators';
 
 export class ApplicationDiContainer {
   private readonly container: Container;
   constructor() {
     this.container = new Container({ autoBindInjectable: true });
     this.bindConfiguration();
+    this.bindUseCases();
+    this.bindServices();
   }
 
   bindConfiguration() {
@@ -44,7 +48,18 @@ export class ApplicationDiContainer {
       );
   }
 
-  bindServices() {}
+  bindUseCases() {
+    this.container
+      .bind<IndexVendorsUseCase>(AppType.IndexVendorsUseCase)
+      .to(IndexVendorsUseCase);
+  }
+
+  bindServices() {
+    // Application Services
+    this.container
+      .bind<DtoValidatorService>(AppType.DtoValidatorService)
+      .to(ClassValidatorsValidatorService);
+  }
   // public static async getContainer(): Promise<Container> {
   //   const container: Container = new Container({ autoBindInjectable: true });
   //   // Micro-service infrastructure
@@ -57,11 +72,6 @@ export class ApplicationDiContainer {
 
   //   // Domain Entities
   //   container.bind<Vendor>(Vendor).toSelf();
-
-  //   // Application Services
-  //   container
-  //     .bind<DtoValidatorService>(AppType.DtoValidatorService)
-  //     .to(ClassValidatorsValidatorService);
 
   //   // init external services
 

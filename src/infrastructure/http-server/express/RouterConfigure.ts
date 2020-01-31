@@ -10,7 +10,7 @@ export class RouterConfigure {
   ): void {
     const expressAdapter: ExpressJsAdapter = new ExpressJsAdapter();
     expressApp
-      .route('vendors/')
+      .route('/vendors/')
       .get((request: express.Request, response: express.Response) => {
         const useCase = application.getUseCase(AppType.IndexVendorsUseCase);
         const context = expressAdapter.createUseCaseContextFromRequest(

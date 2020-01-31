@@ -1,2 +1,2 @@
 export { CreateVendorUseCase } from './CreateVendorUseCase';
-export { GetAllVendorsUseCase } from './GetAllVendorsUseCase';
+export { IndexVendorsUseCase } from './IndexVendorsUseCase';
