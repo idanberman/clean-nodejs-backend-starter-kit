@@ -1,95 +1,85 @@
 import { Container, interfaces } from 'inversify';
 import { DomainType } from 'src/domain/DomainType';
 import { VendorsRepository, VendorsService, Vendor } from 'src/domain/vendors';
-import { TypeormDatabaseService } from '../database/TypeormDatabaseService';
 import { InfrastructureType } from '../InfrastructureType';
-import { ConfigurationProvider } from './ConfigurationProvider';
 import { InversifyExpressServer, getRouteInfo } from 'inversify-express-utils';
-import { TypeormVendorsReadWriteRepository } from '../database/repositories';
+import { TypeormVendorsReadWriteRepository } from '../repositories/repositories';
 import express = require('express');
 import * as bodyParser from 'body-parser';
 import 'src/app/vendors';
 import { AppType } from 'src/app/AppType';
 import { ClassValidatorsValidatorService } from '../validators';
-import { DtoValidatorService } from 'src/app/interfaces';
+import {
+  DtoValidatorService,
+  UseCaseResultPresenter,
+  ConfigurationProvider,
+} from 'src/app/interfaces';
+import { ApplicationGateway } from 'src/app/interfaces';
+import { RepositoryFactoryProvider } from 'src/app/interfaces';
+import { AppConfiguration } from 'src/domain/value-objects/configuration';
+import { ApplicationInterface } from 'src/app/interfaces/ApplicationInterface';
+import { UseCaseInput, UseCase } from 'src/app/use-case';
+import { UseCaseContext } from 'src/app/context/UseCaseContext';
+import { SecurityContext } from 'src/app/context';
+import { RepositoryId } from 'src/domain/RepositoryId';
+import { DomainRepository } from 'src/domain/interfaces';
+import { DotenvConfigurationProvider } from '../configuration/DotenvConfigurationProvider';
+import { ApplicationDiContainer } from './ApplicationDiContainer';
+import { UseCaseDispatcher } from 'src/app/services';
+import { Initializable } from 'src/app/interfaces/Initializable';
 
-export class Application {
-  private ioc: Container;
-  private express: express.Application;
+export class Application implements ApplicationInterface, Initializable {
+  private applicationDiContainer: ApplicationDiContainer;
+  private useCaseDispatcher: UseCaseDispatcher;
+  private applicationGateways: ApplicationGateway[];
 
-  public static async getContainer(): Promise<Container> {
-    const container: Container = new Container({ autoBindInjectable: true });
-
-    container
-      .bind<ConfigurationProvider>(DomainType.ConfigurationProvider)
-      .to(ConfigurationProvider);
-
-    container
-      .bind<TypeormDatabaseService>(InfrastructureType.DatabaseService)
-      .to(TypeormDatabaseService)
-      .inSingletonScope();
-
-    // Domain Services
-    container
-      .bind<VendorsService>(DomainType.VendorsService)
-      .toService(VendorsService);
-
-    // Domain Entities
-    container.bind<Vendor>(Vendor).toSelf();
-
-    // Application Services
-    container
-      .bind<DtoValidatorService>(AppType.DtoValidatorService)
-      .to(ClassValidatorsValidatorService);
-
-    // init external services
-
-    // Db will be abele to be bind as needed after this issue will be resolved
-    // https://github.com/inversify/InversifyJS/pull/1132
-    const dbService = container.get<TypeormDatabaseService>(
-      InfrastructureType.DatabaseService,
-    );
-    await dbService.init();
-
-    // Bind repositories
-    container
-      .bind<interfaces.Factory<VendorsRepository>>(DomainType.VendorsRepository)
-      .toFactory((ctx: interfaces.Context) => {
-        return () =>
-          new TypeormVendorsReadWriteRepository(
-            ctx.container
-              .get<TypeormDatabaseService>(InfrastructureType.DatabaseService)
-              .getManager(),
-          );
-      });
-
-    return container;
+  constructor() {
+    this.applicationDiContainer = new ApplicationDiContainer();
+    this.useCaseDispatcher = new UseCaseDispatcher();
+    this.applicationGateways = [];
   }
 
-  private static getWebServer(ioc: Container): express.Application {
-    const app = express();
-    // add body parser
-    app.use(
-      bodyParser.urlencoded({
-        extended: true,
-      }),
-    );
-    app.use(bodyParser.json());
+  // private ioc: Container;
+  // private express: express.Application;
 
-    const server = new InversifyExpressServer(ioc, null, null, app);
-    return server.build();
+  createUseCaseContext(
+    input: UseCaseInput,
+    securityContext: SecurityContext,
+  ): UseCaseContext {
+    return new UseCaseContext(input, securityContext);
   }
 
-  public async init() {
-    this.ioc = await Application.getContainer();
-    this.express = Application.getWebServer(this.ioc);
-  }
-
-  public async start(): Promise<void> {
-    const configuration = this.ioc
-      .get<ConfigurationProvider>(DomainType.ConfigurationProvider)
+  getConfiguration(): AppConfiguration {
+    return this.applicationDiContainer
+      .get<ConfigurationProvider>(AppType.ConfigurationProvider)
       .provide();
-    const { httpPort } = configuration.webServer;
-    this.express.listen(httpPort);
+  }
+
+  getUseCase(useCaseId): UseCase {
+    return this.applicationDiContainer.get<UseCase>(useCaseId) as UseCase;
+  }
+
+  injectMock<T>(injectionId, value: new (...args: any[]) => T) {
+    this.applicationDiContainer.injectMock<T>(injectionId, value);
+  }
+
+  loadGateway(gateway: ApplicationGateway) {
+    gateway.load(this as Application);
+    this.applicationGateways.push(gateway);
+  }
+
+  dispatchUseCase(
+    useCase: UseCase,
+    context: UseCaseContext,
+    presenter: UseCaseResultPresenter,
+  ) {
+    this.useCaseDispatcher.dispatch(useCase, context, presenter);
+  }
+
+  async init(): Promise<void> {
+    await this.applicationDiContainer.bindRepositories();
+    this.applicationGateways.forEach(gateway => {
+      gateway.start();
+    });
   }
 }

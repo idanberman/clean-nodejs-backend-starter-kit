@@ -5,13 +5,40 @@ import {
   IsInt,
   IsOptional,
   IsEmpty,
+  Allow,
 } from 'class-validator';
-import { BaseDto } from '../interfaces/BaseDto';
+import { BaseEntityDto } from '../interfaces/BaseEntityDto';
 import { ValidationMode } from '../value-objects/validation';
+import { Vendor } from './Vendor';
 
-export class VendorDto implements BaseDto {
-  @IsInt()
-  @IsOptional()
+export class VendorDto implements BaseEntityDto {
+  constructor(copyFrom: Partial<VendorDto>) {
+    const {
+      id,
+      governmentalId,
+      name,
+      contactName,
+      contactPhone,
+      email,
+      address,
+      city,
+      zipCode,
+      budgetClassification,
+    } = copyFrom;
+    Object.apply(this, {
+      id,
+      governmentalId,
+      name,
+      contactName,
+      contactPhone,
+      email,
+      address,
+      city,
+      zipCode,
+      budgetClassification,
+    });
+  }
+  @IsEmpty()
   readonly id: number;
 
   @Length(10, 10, { groups: [ValidationMode.Create] })

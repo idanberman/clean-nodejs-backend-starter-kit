@@ -1,45 +1,61 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
+  Entity,
   Index,
+  PrimaryGeneratedColumn,
   VersionColumn,
 } from 'typeorm';
+import { BaseEntity } from '../interfaces';
+import { BaseEntityDto } from '../interfaces/BaseEntityDto';
+import { VendorDto } from './VendorDto';
 
 @Entity()
-export class Vendor {
-  @PrimaryGeneratedColumn()
-  @Column('integer')
+export class Vendor implements BaseEntity {
+  private constructor(properties: Partial<Vendor>, id?: number) {
+    Object.assign(this, { ...properties, id: undefined });
+  }
+  @PrimaryGeneratedColumn('increment')
   readonly id: number;
 
   @Index({ unique: true })
-  @Column('string', { length: 32 })
+  @Column('varchar', { length: 32 })
   readonly governmentalId: string;
 
-  @Column('string', { length: 200 })
+  @Column('varchar', { length: 200 })
   readonly name: string;
 
-  @Column('string', { length: 60 })
+  @Column('varchar', { length: 60 })
   readonly contactName: string;
 
-  @Column('string', { length: 15 })
+  @Column('varchar', { length: 15 })
   readonly contactPhone: string;
 
-  @Column('string', { length: 254 })
+  @Column('varchar', { length: 254 })
   readonly email: string;
 
-  @Column('string', { length: 254 })
+  @Column('varchar', { length: 254 })
   readonly address: string;
 
-  @Column('string', { length: 100 })
+  @Column('varchar', { length: 100 })
   readonly city: string;
 
-  @Column('string', { length: 10 })
+  @Column('varchar', { length: 10 })
   readonly zipCode: string;
 
-  @Column('string', { length: 254 })
+  @Column('varchar', { length: 254 })
   readonly budgetClassification: string;
 
   @VersionColumn()
   version: number;
+
+  getId() {
+    return this.getId();
+  }
+
+  toDto(): BaseEntityDto {
+    return new VendorDto(this);
+  }
+  public static build(partialEntity: Partial<Vendor>): Vendor {
+    return new Vendor(partialEntity);
+  }
 }

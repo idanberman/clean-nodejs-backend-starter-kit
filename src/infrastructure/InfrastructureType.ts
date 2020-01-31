@@ -1,4 +1,3 @@
 export const InfrastructureType = {
-  ConfigurationLoaderService: 'ConfigurationLoaderService',
-  DatabaseService: 'DatabaseService',
+  TypeormAdapter: 'TypeormAdapter',
 };

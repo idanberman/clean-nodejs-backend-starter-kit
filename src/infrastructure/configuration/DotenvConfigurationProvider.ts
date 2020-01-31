@@ -1,4 +1,3 @@
-import { injectable, inject } from 'inversify';
 import {
   AppConfiguration,
   DatabaseConfiguration,
@@ -6,10 +5,12 @@ import {
   WebServerConfiguration,
 } from 'src/domain/value-objects/configuration/AppConfiguration';
 import dotenv = require('dotenv');
+import { ConfigurationProvider } from 'src/app/interfaces';
+import { injectable } from 'inversify';
 dotenv.config();
 
 @injectable()
-export class ConfigurationProvider {
+export class DotenvConfigurationProvider implements ConfigurationProvider {
   private readonly configuration: AppConfiguration;
 
   constructor() {

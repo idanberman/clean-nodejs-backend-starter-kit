@@ -1,1 +1,2 @@
-export { VendorsController } from './VendorsController';
+export { CreateVendorUseCase } from './CreateVendorUseCase';
+export { GetAllVendorsUseCase } from './GetAllVendorsUseCase';

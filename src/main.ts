@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
 import { Application } from './infrastructure/core/Application';
-
-const app = new Application();
-app.init().then(() => app.start());
+import { ApplicationFactory } from './infrastructure/core/ApplicationFactory';
+const applicationFactory: ApplicationFactory = new ApplicationFactory();
+applicationFactory.productionApp();

@@ -1,6 +1,6 @@
 import { UseCaseResult } from '../UseCaseResult';
 import { UseCaseTerminationStatus } from '..';
-import { FieldErrorDescription } from '../..';
+import { FieldErrorDescription } from '../../../domain/value-objects';
 import { ClassValidatorsValidatorService } from 'src/infrastructure/validators';
 
 export class UseCaseBadInputResult implements UseCaseResult {
