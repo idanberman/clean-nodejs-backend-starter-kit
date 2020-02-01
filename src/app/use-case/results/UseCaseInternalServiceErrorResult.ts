@@ -1,7 +1,7 @@
 import { UseCaseResult } from '../UseCaseResult';
 import { UseCaseTerminationStatus } from '..';
 
-export class UseCaseInternalServiceError implements UseCaseResult {
+export class UseCaseInternalServiceErrorResult implements UseCaseResult {
   public readonly terminationStatus: UseCaseTerminationStatus =
     UseCaseTerminationStatus.InternalError;
   readonly devNotes?: {

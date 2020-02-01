@@ -5,7 +5,7 @@ import {
   InternalServiceError,
 } from 'src/domain/errors';
 import { UseCaseInputSyntaxErrorResult } from 'src/app/use-case/results/UseCaseInputSyntaxErrorResult';
-import { UseCaseInternalServiceError } from 'src/app/use-case/results/UseCaseInternalServiceError';
+import { UseCaseInternalServiceErrorResult } from 'src/app/use-case/results/UseCaseInternalServiceErrorResult';
 
 export class ErrorToUseCaseResultConverter {
   convert(error: Error): UseCaseResult {
@@ -19,14 +19,14 @@ export class ErrorToUseCaseResultConverter {
         actionId,
         parameters,
       }: ResourceFailedError = error as ResourceFailedError;
-      return new UseCaseInternalServiceError(
+      return new UseCaseInternalServiceErrorResult(
         causedBy,
         componentId,
         actionId,
         parameters,
       );
     } else if (error instanceof Error) {
-      return new UseCaseInternalServiceError(
+      return new UseCaseInternalServiceErrorResult(
         error,
         'Unhandled unknown component error',
       );

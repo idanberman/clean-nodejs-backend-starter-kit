@@ -8,7 +8,7 @@ import { VendorsRepository } from 'src/domain/vendors';
 import { DomainType } from 'src/domain/DomainType';
 import { TypeormVendorsReadWriteRepository } from '../repositories/repositories';
 import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
-import { IndexVendorsUseCase } from 'src/app/vendors';
+import { IndexVendorsUseCase, CreateVendorUseCase } from 'src/app/vendors';
 import { ClassValidatorsValidatorService } from '../validators';
 
 export class ApplicationDiContainer {
@@ -52,6 +52,10 @@ export class ApplicationDiContainer {
     this.container
       .bind<IndexVendorsUseCase>(AppType.IndexVendorsUseCase)
       .to(IndexVendorsUseCase);
+
+    this.container
+      .bind<CreateVendorUseCase>(AppType.CreateVendorUseCase)
+      .to(CreateVendorUseCase);
   }
 
   bindServices() {

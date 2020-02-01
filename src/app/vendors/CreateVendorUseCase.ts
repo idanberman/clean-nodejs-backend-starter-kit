@@ -6,19 +6,27 @@ import { AppType } from '../AppType';
 import { DtoValidatorService } from '../interfaces';
 import { UseCaseInputSyntaxErrorResult } from 'src/app/use-case/results/UseCaseInputSyntaxErrorResult';
 import { ValidationFailedResult } from 'src/domain/value-objects';
-import { DomainType } from 'src/domain/DomainType';
 import { UseCaseSucceedResult } from 'src/app/use-case/results/UseCaseSucceedResult';
 import { ErrorToUseCaseResultConverter } from '../services/ErrorToUseCaseResultConverter';
 import { UseCaseResultPresenter } from '../interfaces/UseCaseResultPresenter';
 import { UseCaseContext } from '../context/UseCaseContext';
+import { ValidationMode } from 'src/domain/value-objects/validation';
+import { InstanceFactory } from '../interfaces/InstanceFactory';
 
+@injectable()
 export class CreateVendorUseCase implements UseCase {
   private readonly errorToUseCaseResultConverter: ErrorToUseCaseResultConverter;
+  private readonly vendorsRepository: VendorsRepository;
   constructor(
+    @inject(AppType.DtoValidatorService)
     private readonly dtoValidator: DtoValidatorService,
-    private readonly vendorsRepository: VendorsRepository,
+    @inject(AppType.VendorsRepository)
+    private readonly vendorsRepositoryFactory: InstanceFactory<
+      VendorsRepository
+    >,
   ) {
     this.errorToUseCaseResultConverter = new ErrorToUseCaseResultConverter();
+    this.vendorsRepository = vendorsRepositoryFactory();
   }
   // tslint:disable-next-line: no-empty
   dispose() {}
@@ -26,7 +34,9 @@ export class CreateVendorUseCase implements UseCase {
     context: UseCaseContext,
     presenter: UseCaseResultPresenter,
   ): Promise<UseCaseResult> {
-    const validationResult = await this.dtoValidator.validate(context.input);
+    const validationResult = await this.dtoValidator.validate(context.input, {
+      validationMode: ValidationMode.Create,
+    });
     const createVendorDto = context.input.data;
     if (!validationResult.isSucceed()) {
       return presenter.present(
