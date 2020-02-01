@@ -1,7 +1,5 @@
 import { Application } from './Application';
-import { AppConfiguration } from 'src/domain/value-objects/configuration';
-import { RepositoryFactoryProvider } from 'src/app/interfaces';
-import { ExpressApplicationGateway } from '../http-server/express/adapter/ExpressApplicationGateway';
+import { ExpressApplicationGateway } from '../http-server/express-adapter';
 
 export class ApplicationFactory {
   // private getConfigurationProvider(): ConfigurationProvider {

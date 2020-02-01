@@ -4,7 +4,7 @@ import { UseCaseResult } from 'src/app/use-case/UseCaseResult';
 import { injectable, inject } from 'inversify';
 import { AppType } from '../AppType';
 import { DtoValidatorService } from '../interfaces';
-import { UseCaseBadInputResult } from 'src/app/use-case/results/UseCaseBadInputResult';
+import { UseCaseInputSyntaxErrorResult } from 'src/app/use-case/results/UseCaseInputSyntaxErrorResult';
 import { ValidationFailedResult } from 'src/domain/value-objects';
 import { DomainType } from 'src/domain/DomainType';
 import { UseCaseSucceedResult } from 'src/app/use-case/results/UseCaseSucceedResult';
@@ -30,7 +30,7 @@ export class CreateVendorUseCase implements UseCase {
     const createVendorDto = context.input.data;
     if (!validationResult.isSucceed()) {
       return presenter.present(
-        new UseCaseBadInputResult(
+        new UseCaseInputSyntaxErrorResult(
           (validationResult as ValidationFailedResult).fieldErrorsDescription,
         ),
       );

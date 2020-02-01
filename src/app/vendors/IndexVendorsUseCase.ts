@@ -10,7 +10,6 @@ import { InstanceFactory } from '../interfaces/InstanceFactory';
 import { DtoValidatorService } from '../interfaces';
 import { UseCaseSucceedResult } from '../use-case/results/UseCaseSucceedResult';
 import { ValidationFailedResult } from 'src/domain/value-objects';
-import { UseCaseBadInputResult } from '../use-case/results/UseCaseBadInputResult';
 import { ErrorToUseCaseResultConverter } from '../services/ErrorToUseCaseResultConverter';
 @injectable()
 export class IndexVendorsUseCase implements UseCase {
