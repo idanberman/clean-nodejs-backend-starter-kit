@@ -25,7 +25,7 @@ export class ClassValidationResultToDomanResultConverter {
   ): FieldErrorDescription {
     return new FieldErrorDescription(
       classValidatorValidationError.property,
-      Object.values(classValidatorValidationError),
+      Object.values(classValidatorValidationError.constraints),
     );
   }
 }

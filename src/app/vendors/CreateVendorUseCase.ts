@@ -34,7 +34,8 @@ export class CreateVendorUseCase implements UseCase {
     context: UseCaseContext,
     presenter: UseCaseResultPresenter,
   ): Promise<UseCaseResult> {
-    const validationResult = await this.dtoValidator.validate(context.input, {
+    const dto: VendorDto = new VendorDto(context.input.data);
+    const validationResult = await this.dtoValidator.validate(dto, {
       validationMode: ValidationMode.Create,
     });
     const createVendorDto = context.input.data;

@@ -22,6 +22,7 @@ export class ClassValidatorsValidatorService implements DtoValidatorService {
     const classValidationResult = await validate(objectToValidate, {
       whitelist: true,
       groups: [options.validationMode],
+      forbidUnknownValues: true,
     });
 
     return Promise.resolve(
