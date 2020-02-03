@@ -19,7 +19,7 @@ export class ClassTransformerValidatorsInputService implements InputService {
     this.classValidationErrorToDomainResultConverter = new ClassValidationErrorToDomainResultConverter();
   }
 
-  receiveInputFromObject<T extends BaseDto>(
+  public receiveInputFromObject<T extends BaseDto>(
     toClassType: T,
     fromValue: any,
     options?: {

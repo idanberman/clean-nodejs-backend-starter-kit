@@ -30,21 +30,16 @@ export class IndexVendorsUseCase implements UseCase {
   }
   // tslint:disable-next-line: no-empty
   dispose() {}
-  async run(
-    useCaseContext: UseCaseContext,
-    presenter: UseCaseResultPresenter,
-  ): Promise<UseCaseResult> {
+  async run(useCaseContext: UseCaseContext): Promise<UseCaseResult> {
     try {
       const vendorList: Vendor[] = await this.vendorsRepository.findAll();
       const vendorDtoList: VendorDto[] = vendorList.map(
         vendor => vendor.toDto() as VendorDto,
       );
 
-      return presenter.present(new UseCaseSucceedResult(vendorDtoList));
+      return new UseCaseSucceedResult(vendorDtoList);
     } catch (error) {
-      return presenter.present(
-        this.errorToUseCaseResultConverter.convert(error),
-      );
+      return this.errorToUseCaseResultConverter.convert(error);
     }
   }
 }

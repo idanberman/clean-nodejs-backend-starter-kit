@@ -6,17 +6,13 @@ import { InputSyntaxError } from 'src/domain/errors/operation/by-user/InputSynta
 import { OperationFailedCausedByResource } from 'src/domain/errors';
 
 export class ErrorToUseCaseResultConverter {
-  convert(error: Error): UseCaseResult {
+  public convert(error: Error): UseCaseResult {
     if (error instanceof InputSyntaxError) {
       const syntaxError: InputSyntaxError = error as InputSyntaxError;
       return new UseCaseInputSyntaxErrorResult(syntaxError.errors);
     } else {
-      return new UseCaseInternalServiceErrorResult(
-        error,
-        'Unhandled unknown component error',
-      );
+      // Unknown error
+      throw error;
     }
-
-    throw new Error('Unhandled exception with unknown error object');
   }
 }

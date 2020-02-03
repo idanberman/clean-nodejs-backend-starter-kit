@@ -15,45 +15,44 @@ export class Vendor implements BaseEntity {
     Object.assign(this, { ...properties, id: undefined });
   }
   @PrimaryGeneratedColumn('increment')
-  readonly id: number;
+  public readonly id: number;
 
-  @Index({ unique: true })
-  @Column('varchar', { length: 32 })
-  readonly governmentalId: string;
+  @Column('varchar', { length: 32, unique: true })
+  public readonly governmentalId: string;
 
   @Column('varchar', { length: 200 })
-  readonly name: string;
+  public readonly name: string;
 
   @Column('varchar', { length: 60 })
-  readonly contactName: string;
+  public readonly contactName: string;
 
   @Column('varchar', { length: 15 })
-  readonly contactPhone: string;
+  public readonly contactPhone: string;
 
   @Column('varchar', { length: 254 })
-  readonly email: string;
+  public readonly email: string;
 
   @Column('varchar', { length: 254 })
-  readonly address: string;
+  public readonly address: string;
 
   @Column('varchar', { length: 100 })
-  readonly city: string;
+  public readonly city: string;
 
   @Column('varchar', { length: 10 })
-  readonly zipCode: string;
+  public readonly zipCode: string;
 
-  @Column('varchar', { length: 254 })
-  readonly budgetClassification: string;
+  @Column('varchar', { length: 254, default: '' })
+  public readonly budgetClassification: string;
 
   @VersionColumn()
-  version: number;
+  public readonly version: number;
 
-  getId() {
+  public getId() {
     return this.getId();
   }
 
-  toDto(): BaseEntityDto {
-    return new VendorDto(this);
+  public toDto(): BaseEntityDto {
+    return VendorDto.createFromData(this);
   }
   public static build(partialEntity: Partial<Vendor>): Vendor {
     return new Vendor(partialEntity);

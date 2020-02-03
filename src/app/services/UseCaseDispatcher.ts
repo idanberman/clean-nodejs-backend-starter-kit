@@ -7,33 +7,46 @@ import { InternalServiceError } from 'src/domain/errors';
 import { UseCaseInternalServiceErrorResult } from '../use-case/results/UseCaseInternalServiceErrorResult';
 
 export class UseCaseDispatcher {
-  private handleError(result: UseCaseResult): void {
-    // tslint:disable-next-line: no-console
-    console.log('UseCaseResultFailed', result);
-  }
-  async dispatch(
+  public async dispatch(
     useCase: UseCase,
     context: UseCaseContext,
     presenter: UseCaseResultPresenter,
   ): Promise<UseCaseResult> {
+    let resultToPresent: UseCaseResult;
     try {
-      const result: UseCaseResult = await useCase.run(context, presenter);
+      resultToPresent = await useCase.run(context);
 
-      if (result.terminationStatus !== UseCaseTerminationStatus.Succeed) {
-        this.handleError(result);
+      if (
+        resultToPresent.terminationStatus !== UseCaseTerminationStatus.Succeed
+      ) {
+        this.useCaseFailedHandler(resultToPresent);
       }
-
-      return result;
+      resultToPresent = resultToPresent;
+      return resultToPresent;
     } catch (error) {
-      const internalUseCaseInternalServiceErrorResult = new UseCaseInternalServiceErrorResult(
-        new InternalServiceError('Unhandled Error', error),
-      );
-      presenter.present(internalUseCaseInternalServiceErrorResult);
-      this.handleError(internalUseCaseInternalServiceErrorResult);
+      resultToPresent = this.generateUseCaseResultForUnhandledError(error);
+      this.handleUnhandledError(error);
     } finally {
       if (useCase.dispose) {
         useCase.dispose();
       }
+      presenter.present(resultToPresent);
     }
+  }
+  private handleUnhandledError(error: Error) {
+    // tslint:disable-next-line: no-console
+    console.error('Unhandled Error happened', error);
+  }
+
+  private useCaseFailedHandler(result: UseCaseResult): void {
+    // tslint:disable-next-line: no-console
+    console.log('UseCaseResultFailed', result);
+  }
+  private generateUseCaseResultForUnhandledError(
+    error: Error,
+  ): UseCaseInternalServiceErrorResult {
+    return new UseCaseInternalServiceErrorResult(
+      new InternalServiceError('Unhandled Error', error),
+    );
   }
 }

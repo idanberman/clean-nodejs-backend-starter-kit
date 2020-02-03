@@ -25,6 +25,7 @@ import { DotenvConfigurationProvider } from '../configuration/DotenvConfiguratio
 import { ApplicationDiContainer } from './ApplicationDiContainer';
 import { UseCaseDispatcher } from 'src/app/services';
 import { Initializable } from 'src/app/interfaces/Initializable';
+import { UseCaseResult } from 'src/app/use-case/UseCaseResult';
 
 export class Application implements ApplicationInterface, Initializable {
   private applicationDiContainer: ApplicationDiContainer;
@@ -40,38 +41,38 @@ export class Application implements ApplicationInterface, Initializable {
   // private ioc: Container;
   // private express: express.Application;
 
-  createUseCaseContext(
+  public createUseCaseContext(
     input: UseCaseInput,
     securityContext: SecurityContext,
   ): UseCaseContext {
     return new UseCaseContext(input, securityContext);
   }
 
-  getConfiguration(): AppConfiguration {
+  public getConfiguration(): AppConfiguration {
     return this.applicationDiContainer
       .get<ConfigurationProvider>(AppType.ConfigurationProvider)
       .provide();
   }
 
-  getUseCase(useCaseId): UseCase {
+  public getUseCase(useCaseId): UseCase {
     return this.applicationDiContainer.get<UseCase>(useCaseId) as UseCase;
   }
 
-  injectMock<T>(injectionId, value: new (...args: any[]) => T) {
+  public injectMock<T>(injectionId, value: new (...args: any[]) => T) {
     this.applicationDiContainer.injectMock<T>(injectionId, value);
   }
 
-  loadGateway(gateway: ApplicationGateway) {
+  public loadGateway(gateway: ApplicationGateway) {
     gateway.load(this as Application);
     this.applicationGateways.push(gateway);
   }
 
-  dispatchUseCase(
+  public dispatchUseCase(
     useCase: UseCase,
     context: UseCaseContext,
     presenter: UseCaseResultPresenter,
-  ) {
-    this.useCaseDispatcher.dispatch(useCase, context, presenter);
+  ): Promise<UseCaseResult> {
+    return this.useCaseDispatcher.dispatch(useCase, context, presenter);
   }
 
   async init(): Promise<void> {

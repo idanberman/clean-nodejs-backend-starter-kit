@@ -1,9 +1,16 @@
 import { BaseDto, BaseEntity } from 'src/domain/interfaces';
 import { BasicReadRepository } from 'src/domain/interfaces/BasicReadRepository';
 import { BasicWriteRepository } from 'src/domain/interfaces/BasicWriteRepository';
-import { EntityManager, ObjectType, Repository, UpdateResult } from 'typeorm';
+import {
+  EntityManager,
+  ObjectType,
+  Repository,
+  UpdateResult,
+  InsertResult,
+} from 'typeorm';
 import { ReadResourceNotFoundError } from 'src/domain/errors';
 import { WriteResourceNotFound } from 'src/domain/errors/operation';
+import { VendorDto } from 'src/domain/vendors';
 
 export class CrudTypeormRepository<T extends BaseEntity>
   implements BasicReadRepository<T>, BasicWriteRepository<T> {
@@ -20,8 +27,11 @@ export class CrudTypeormRepository<T extends BaseEntity>
     return await this.typeormRepository.findOne(id);
   }
   async createEntity(entity: T): Promise<T> {
-    const insertResult = await this.typeormRepository.insert(entity.toDto());
-    return entity;
+    const insertResult: InsertResult = await this.typeormRepository.insert(
+      entity.toDto(),
+    );
+
+    return ({ ...entity, ...insertResult.identifiers[0] } as unknown) as T;
   }
 
   private async findOneOrError(id: any): Promise<T> {

@@ -1,4 +1,4 @@
-import { Vendor, VendorDto, VendorsRepository } from 'src/domain/vendors';
+import { Vendor, VendorsRepository } from 'src/domain/vendors';
 import { EntityManager, EntityRepository } from 'typeorm';
 import { CrudTypeormRepository } from './CrudTypeormRepository';
 
