@@ -9,23 +9,26 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { Exclude } from 'class-transformer';
+
 import { BaseEntityDto } from '../interfaces/BaseEntityDto';
-import { ValidationMode } from '../value-objects/validation';
 import { Vendor } from './Vendor';
+import { InputReceivingMode } from 'src/app/services/input';
 
 export class VendorDto implements BaseEntityDto {
-  constructor({
-    id,
-    governmentalId,
-    name = '',
-    contactName = '',
-    contactPhone = '',
-    email = '',
-    address = '',
-    city = '',
-    zipCode = '',
-    budgetClassification = '',
-  }: Partial<VendorDto>) {
+  constructor(fromProps) {
+    const {
+      id,
+      governmentalId,
+      name,
+      contactName,
+      contactPhone,
+      email,
+      address,
+      city,
+      zipCode,
+      budgetClassification,
+    } = fromProps;
     Object.assign(this, {
       id,
       governmentalId,
@@ -40,37 +43,38 @@ export class VendorDto implements BaseEntityDto {
     });
   }
   @IsEmpty()
+  @Exclude()
   readonly id: number;
 
-  @Length(10, 10, { groups: [ValidationMode.Create] })
-  @IsEmpty({ groups: [ValidationMode.Update] })
+  @Length(10, 10, { groups: [InputReceivingMode.Create] })
+  @IsEmpty({ groups: [InputReceivingMode.Update] })
   governmentalId: string;
 
-  @Length(3, 80, { groups: [ValidationMode.Create, ValidationMode.Update] })
+  @Length(3, 80, { always: true })
   name: string;
 
-  @Length(5, 80, { groups: [ValidationMode.Create, ValidationMode.Update] })
+  @Length(5, 80, { always: true })
   contactName: string;
 
   @IsPhoneNumber('IL', {
-    groups: [ValidationMode.Create, ValidationMode.Update],
+    always: true,
   })
   contactPhone: string;
 
   @IsEmail(undefined, {
-    groups: [ValidationMode.Create, ValidationMode.Update],
+    always: true,
   })
   email: string;
 
-  @Length(0, 200, { groups: [ValidationMode.Create, ValidationMode.Update] })
+  @Length(0, 200, { always: true })
   address: string;
 
-  @Length(0, 30, { groups: [ValidationMode.Create, ValidationMode.Update] })
+  @Length(0, 30, { always: true })
   city: string;
 
-  @Length(0, 10, { groups: [ValidationMode.Create, ValidationMode.Update] })
+  @Length(0, 10, { always: true })
   zipCode: string;
 
-  @Length(0, 30, { groups: [ValidationMode.Create, ValidationMode.Update] })
+  @Length(0, 30, { always: true })
   budgetClassification: string;
 }

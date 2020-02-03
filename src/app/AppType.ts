@@ -1,5 +1,5 @@
 export const AppType = {
-  DtoValidatorService: Symbol.for('DtoValidatorService'),
+  InputService: Symbol.for('InputService'),
   ConfigurationProvider: Symbol.for('ConfigurationProvider'),
   VendorsRepository: Symbol.for('VendorsRepository'),
 

@@ -1,4 +1,3 @@
-export { DtoValidatorService } from './DtoValidatorService';
 export { RepositoryFactory } from './RepositoryFactory';
 export { RepositoryFactoryProvider } from './RepositoryFactoryProvider';
 export { ApplicationInterface } from './ApplicationInterface';

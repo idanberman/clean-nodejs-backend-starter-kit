@@ -8,9 +8,7 @@ import express = require('express');
 import * as bodyParser from 'body-parser';
 import 'src/app/vendors';
 import { AppType } from 'src/app/AppType';
-import { ClassValidatorsValidatorService } from '../validators';
 import {
-  DtoValidatorService,
   UseCaseResultPresenter,
   ConfigurationProvider,
 } from 'src/app/interfaces';

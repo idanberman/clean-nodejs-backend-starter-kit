@@ -1,4 +1,4 @@
-import { ConfigurationProvider, DtoValidatorService } from 'src/app/interfaces';
+import { ConfigurationProvider } from 'src/app/interfaces';
 import { DotenvConfigurationProvider } from '../configuration/DotenvConfigurationProvider';
 import { AppType } from 'src/app/AppType';
 import { Container, interfaces } from 'inversify';
@@ -9,7 +9,8 @@ import { DomainType } from 'src/domain/DomainType';
 import { TypeormVendorsReadWriteRepository } from '../repositories/repositories';
 import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
 import { IndexVendorsUseCase, CreateVendorUseCase } from 'src/app/vendors';
-import { ClassValidatorsValidatorService } from '../validators';
+import { ClassTransformerValidatorsInputService } from '../input';
+import { InputService } from 'src/app/services/input';
 
 export class ApplicationDiContainer {
   private readonly container: Container;
@@ -61,9 +62,10 @@ export class ApplicationDiContainer {
   bindServices() {
     // Application Services
     this.container
-      .bind<DtoValidatorService>(AppType.DtoValidatorService)
-      .to(ClassValidatorsValidatorService);
+      .bind<InputService>(AppType.InputService)
+      .to(ClassTransformerValidatorsInputService);
   }
+
   // public static async getContainer(): Promise<Container> {
   //   const container: Container = new Container({ autoBindInjectable: true });
   //   // Micro-service infrastructure

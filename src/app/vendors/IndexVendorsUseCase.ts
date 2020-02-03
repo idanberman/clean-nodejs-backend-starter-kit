@@ -7,10 +7,10 @@ import { injectable, inject } from 'inversify';
 import { DomainType } from 'src/domain/DomainType';
 import { AppType } from '../AppType';
 import { InstanceFactory } from '../interfaces/InstanceFactory';
-import { DtoValidatorService } from '../interfaces';
 import { UseCaseSucceedResult } from '../use-case/results/UseCaseSucceedResult';
-import { ValidationFailedResult } from 'src/domain/value-objects';
 import { ErrorToUseCaseResultConverter } from '../services/ErrorToUseCaseResultConverter';
+import { InputService } from '../services/input';
+
 @injectable()
 export class IndexVendorsUseCase implements UseCase {
   private readonly vendorsRepository: VendorsRepository;
@@ -22,8 +22,8 @@ export class IndexVendorsUseCase implements UseCase {
       VendorsRepository
     >,
 
-    @inject(AppType.DtoValidatorService)
-    private readonly dtoValidator: DtoValidatorService,
+    @inject(AppType.InputService)
+    private readonly inputService: InputService,
   ) {
     this.vendorsRepository = vendorsRepositoryInstanceFactory();
     this.errorToUseCaseResultConverter = new ErrorToUseCaseResultConverter();

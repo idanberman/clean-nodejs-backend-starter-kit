@@ -1,9 +1,9 @@
-import { BadInputError, NotFoundError } from 'src/domain/errors';
-import { BaseEntity, BaseDto } from 'src/domain/interfaces';
-import { BaseEntity as TypeormEntity } from 'typeorm';
+import { BaseDto, BaseEntity } from 'src/domain/interfaces';
 import { BasicReadRepository } from 'src/domain/interfaces/BasicReadRepository';
 import { BasicWriteRepository } from 'src/domain/interfaces/BasicWriteRepository';
 import { EntityManager, ObjectType, Repository, UpdateResult } from 'typeorm';
+import { ReadResourceNotFoundError } from 'src/domain/errors';
+import { WriteResourceNotFound } from 'src/domain/errors/operation';
 
 export class CrudTypeormRepository<T extends BaseEntity>
   implements BasicReadRepository<T>, BasicWriteRepository<T> {
@@ -28,7 +28,7 @@ export class CrudTypeormRepository<T extends BaseEntity>
     const dbEntity: T = await this.typeormRepository.findOne(id);
 
     if (!dbEntity) {
-      throw new NotFoundError(this.entityType, id);
+      throw new ReadResourceNotFoundError('id', id);
     }
 
     return dbEntity;
@@ -42,7 +42,7 @@ export class CrudTypeormRepository<T extends BaseEntity>
     );
 
     if (updateResult.affected === 0) {
-      throw BadInputError;
+      throw new WriteResourceNotFound('id', id);
     }
 
     return updateResult.generatedMaps;
@@ -59,7 +59,7 @@ export class CrudTypeormRepository<T extends BaseEntity>
     const entityToRemove: T = await this.findOneOrError(id);
 
     if (!entityToRemove) {
-      throw new NotFoundError(this.entityType, id);
+      throw new WriteResourceNotFound('id', id);
     }
     await this.removeEntity(entityToRemove);
   }

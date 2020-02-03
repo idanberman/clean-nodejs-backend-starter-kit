@@ -1,14 +1,13 @@
 import { UseCaseResult } from '../UseCaseResult';
 import { UseCaseTerminationStatus } from '..';
-import { FieldErrorDescription } from '../../../domain/value-objects';
-import { ClassValidatorsValidatorService } from 'src/infrastructure/validators';
+import { ErrorDescription } from 'src/domain/errors/operation/by-user/values/ErrorDescription';
 
 export class UseCaseInputSyntaxErrorResult implements UseCaseResult {
   terminationStatus: UseCaseTerminationStatus =
     UseCaseTerminationStatus.InputSyntaxError;
-  data: FieldErrorDescription[];
+  data: ErrorDescription[];
 
-  constructor(public readonly fieldErrorsDescription: FieldErrorDescription[]) {
-    this.data = fieldErrorsDescription;
+  constructor(public readonly syntaxErrors: ErrorDescription[]) {
+    this.data = syntaxErrors;
   }
 }

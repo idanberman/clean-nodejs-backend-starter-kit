@@ -19,7 +19,7 @@ export class ExpressPresenter implements UseCaseResultPresenter {
         return 403;
       case UseCaseTerminationStatus.InputSyntaxError:
         return 400;
-      case UseCaseTerminationStatus.BusinessRuleViolation:
+      case UseCaseTerminationStatus.UnableProcessInput:
         return 422;
 
       case UseCaseTerminationStatus.NotFound:

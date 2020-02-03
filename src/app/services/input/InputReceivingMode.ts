@@ -1,4 +1,4 @@
-export enum ValidationMode {
+export enum InputReceivingMode {
   Create = 'Create',
   Update = 'Update',
 }

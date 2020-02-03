@@ -1,4 +1,3 @@
-export { BadInputError } from './operation/BadInputError';
-export { NotFoundError } from './operation/NotFoundError';
+export { ReadResourceNotFoundError } from './operation/by-user/ReadResourceNotFoundError';
 export { InternalServiceError } from './InternalServiceError';
-export { ResourceFailedError } from './operation/ResourceFailedError';
+export { OperationFailedCausedByResource } from './operation/OperationFailedCausedByResource';

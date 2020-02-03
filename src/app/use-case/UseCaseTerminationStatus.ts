@@ -11,7 +11,7 @@ export enum UseCaseTerminationStatus {
   InputSyntaxError = 'InputSyntaxError',
 
   // 422 Unprocessable Entity
-  BusinessRuleViolation = 'BusinessRuleViolation',
+  UnableProcessInput = 'UnableProcessInput',
 
   // For Read Operation
   // 404

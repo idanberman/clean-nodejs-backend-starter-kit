@@ -1,0 +1,1 @@
+export { ClassTransformerValidatorsInputService } from './ClassTransformerValidatorsInputService';
