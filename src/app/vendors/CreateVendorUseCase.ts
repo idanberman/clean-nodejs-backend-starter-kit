@@ -4,7 +4,6 @@ import { UseCaseResult } from 'src/app/use-case/UseCaseResult';
 import { injectable, inject } from 'inversify';
 import { AppType } from '../AppType';
 import { UseCaseSucceedResult } from 'src/app/use-case/results/UseCaseSucceedResult';
-import { ErrorToUseCaseResultConverter } from '../services/ErrorToUseCaseResultConverter';
 import { UseCaseResultPresenter } from '../interfaces/UseCaseResultPresenter';
 import { UseCaseContext } from '../context/UseCaseContext';
 import { InstanceFactory } from '../interfaces/InstanceFactory';
@@ -16,10 +15,11 @@ import {
   InputReceivingFailedResult,
 } from '../services/input';
 import { InputSyntaxError } from 'src/domain/errors/operation/by-user/InputSyntaxError';
+import { DomainErrorToUseCaseResultConverter } from '../services/DomainErrorToUseCaseResultConverter';
 
 @injectable()
 export class CreateVendorUseCase implements UseCase {
-  private readonly errorToUseCaseResultConverter: ErrorToUseCaseResultConverter;
+  private readonly errorToUseCaseResultConverter: DomainErrorToUseCaseResultConverter;
   private readonly vendorsRepository: VendorsRepository;
   constructor(
     @inject(AppType.InputService)
@@ -27,7 +27,7 @@ export class CreateVendorUseCase implements UseCase {
     @inject(AppType.VendorsRepository)
     readonly vendorsRepositoryFactory: InstanceFactory<VendorsRepository>,
   ) {
-    this.errorToUseCaseResultConverter = new ErrorToUseCaseResultConverter();
+    this.errorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
     this.vendorsRepository = vendorsRepositoryFactory();
   }
   // tslint:disable-next-line: no-empty

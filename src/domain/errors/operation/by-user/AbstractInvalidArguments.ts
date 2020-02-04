@@ -3,7 +3,7 @@ import { FailureCode } from './values/FailureCode';
 
 export abstract class AbstractInvalidArguments
   implements OperationFailedCausedByUser {
-  type: 'OperationFailedCausedByUser';
+  domainErrorType: 'OperationFailedCausedByUser';
   abstract rule: FailureCode;
   protected constructor(public readonly at: string) {}
 }

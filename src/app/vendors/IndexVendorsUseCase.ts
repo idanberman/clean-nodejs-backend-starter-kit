@@ -8,25 +8,23 @@ import { DomainType } from 'src/domain/DomainType';
 import { AppType } from '../AppType';
 import { InstanceFactory } from '../interfaces/InstanceFactory';
 import { UseCaseSucceedResult } from '../use-case/results/UseCaseSucceedResult';
-import { ErrorToUseCaseResultConverter } from '../services/ErrorToUseCaseResultConverter';
+import { DomainErrorToUseCaseResultConverter } from '../services/DomainErrorToUseCaseResultConverter';
 import { InputService } from '../services/input';
 
 @injectable()
 export class IndexVendorsUseCase implements UseCase {
   private readonly vendorsRepository: VendorsRepository;
-  private readonly errorToUseCaseResultConverter: ErrorToUseCaseResultConverter;
+  private readonly errorToUseCaseResultConverter: DomainErrorToUseCaseResultConverter;
 
   constructor(
     @inject(AppType.VendorsRepository)
-    private readonly vendorsRepositoryInstanceFactory: InstanceFactory<
-      VendorsRepository
-    >,
+    vendorsRepositoryInstanceFactory: InstanceFactory<VendorsRepository>,
 
     @inject(AppType.InputService)
     private readonly inputService: InputService,
   ) {
     this.vendorsRepository = vendorsRepositoryInstanceFactory();
-    this.errorToUseCaseResultConverter = new ErrorToUseCaseResultConverter();
+    this.errorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
   }
   // tslint:disable-next-line: no-empty
   dispose() {}

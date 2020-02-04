@@ -20,13 +20,13 @@ export class CrudTypeormRepository<T extends BaseEntity>
     this.typeormRepository = manager.getRepository(target);
     this.entityType = target.name;
   }
-  async findAll(): Promise<T[]> {
+  public async findAll(): Promise<T[]> {
     return await this.typeormRepository.find();
   }
-  async findById(id: any): Promise<T> {
+  public async findById(id: any): Promise<T> {
     return await this.typeormRepository.findOne(id);
   }
-  async createEntity(entity: T): Promise<T> {
+  public async createEntity(entity: T): Promise<T> {
     const insertResult: InsertResult = await this.typeormRepository.insert(
       entity.toDto(),
     );
@@ -43,7 +43,7 @@ export class CrudTypeormRepository<T extends BaseEntity>
 
     return dbEntity;
   }
-  async updateEntity(id: any, entity: Partial<T>): Promise<BaseDto> {
+  public async updateEntity(id: any, entity: Partial<T>): Promise<BaseDto> {
     const dbEntity: T = await this.findOneOrError(id);
 
     const updateResult: UpdateResult = await this.typeormRepository.update(
@@ -57,7 +57,7 @@ export class CrudTypeormRepository<T extends BaseEntity>
 
     return updateResult.generatedMaps;
   }
-  async removeEntity(entity: T): Promise<void> {
+  public async removeEntity(entity: T): Promise<void> {
     try {
       await this.typeormRepository.remove(entity);
       return Promise.resolve();
@@ -65,7 +65,7 @@ export class CrudTypeormRepository<T extends BaseEntity>
       return Promise.reject(error);
     }
   }
-  async removeById(id: any): Promise<void> {
+  public async removeById(id: any): Promise<void> {
     const entityToRemove: T = await this.findOneOrError(id);
 
     if (!entityToRemove) {

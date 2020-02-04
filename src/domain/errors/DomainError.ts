@@ -1,3 +1,3 @@
 export interface DomainError {
-  readonly type: string;
+  readonly domainErrorType: string;
 }

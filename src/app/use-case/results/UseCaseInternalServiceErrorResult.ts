@@ -4,7 +4,7 @@ import { UseCaseTerminationStatus } from '..';
 export class UseCaseInternalServiceErrorResult implements UseCaseResult {
   public readonly terminationStatus: UseCaseTerminationStatus =
     UseCaseTerminationStatus.InternalError;
-  readonly devNotes?: {
+  public readonly devNotes?: {
     causedBy: Error;
     componentId?: string;
     actionId?: string;

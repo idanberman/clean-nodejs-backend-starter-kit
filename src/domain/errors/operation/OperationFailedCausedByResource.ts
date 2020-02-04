@@ -1,7 +1,7 @@
 import { DomainError } from '../DomainError';
 
 export interface OperationFailedCausedByResource extends DomainError {
-  readonly type: 'OperationFailedCausedByResource';
+  readonly domainErrorType: 'OperationFailedCausedByResource';
   readonly componentId: string;
   readonly actionId: string;
   readonly causedBy: Error;

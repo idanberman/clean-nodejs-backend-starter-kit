@@ -6,7 +6,7 @@ export abstract class UniqueConstraintViolationError
   // For plugin any repository implementation
   extends AbstractInvalidArguments
   implements OperationFailedCausedByUser {
-  public readonly type: 'OperationFailedCausedByUser';
+  public readonly domainErrorType: 'OperationFailedCausedByUser';
   public readonly rule: FailureCode = FailureCode.UniqueConstraintViolation;
   public readonly at: string;
   public readonly fieldsName: string[];

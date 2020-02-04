@@ -5,8 +5,11 @@ import { BaseDto } from 'src/domain/interfaces';
 import { UseCaseResultPresenter } from '../interfaces/UseCaseResultPresenter';
 import { InternalServiceError } from 'src/domain/errors';
 import { UseCaseInternalServiceErrorResult } from '../use-case/results/UseCaseInternalServiceErrorResult';
+import { DomainErrorToUseCaseResultConverter } from './DomainErrorToUseCaseResultConverter';
 
 export class UseCaseDispatcher {
+  private readonly domainErrorConverter: DomainErrorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
+
   public async dispatch(
     useCase: UseCase,
     context: UseCaseContext,
@@ -24,7 +27,11 @@ export class UseCaseDispatcher {
       resultToPresent = resultToPresent;
       return resultToPresent;
     } catch (error) {
-      resultToPresent = this.generateUseCaseResultForUnhandledError(error);
+      try {
+        resultToPresent = this.domainErrorConverter.convert(error);
+      } catch (error) {
+        resultToPresent = this.generateUseCaseResultForUnhandledError(error);
+      }
       this.handleUnhandledError(error);
     } finally {
       if (useCase.dispose) {
@@ -33,6 +40,7 @@ export class UseCaseDispatcher {
       presenter.present(resultToPresent);
     }
   }
+
   private handleUnhandledError(error: Error) {
     // tslint:disable-next-line: no-console
     console.error('Unhandled Error happened', error);
