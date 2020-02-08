@@ -9,18 +9,19 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 
 import { BaseEntityDto } from '../interfaces/BaseEntityDto';
 import { Vendor } from './Vendor';
-import { InputReceivingMode } from 'src/app/services/input';
+import { InputReadingMode } from 'src/app/services/input';
 
 export class VendorDto implements BaseEntityDto, Partial<Vendor> {
   @Exclude()
   public readonly id: number;
 
-  @Length(10, 10, { groups: [InputReceivingMode.Create] })
-  @IsEmpty({ groups: [InputReceivingMode.Update] })
+  @IsEmpty({ groups: [InputReadingMode.Update] })
+  @Length(10, 10, { groups: [InputReadingMode.Create] })
+  @Expose({ groups: [InputReadingMode.Create] })
   public readonly governmentalId: string;
 
   @Length(3, 80, { always: true })

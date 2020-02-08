@@ -1,30 +1,30 @@
 import { ValidationError } from 'class-validator';
-import {
-  InputReceivingResult,
-  InputReceivingFailedResult,
-} from 'src/app/services/input';
-import { ErrorDescription } from 'src/domain/errors/operation/by-user/values/ErrorDescription';
+import { InputReadingResult } from 'src/app/services/input';
+import { UseCaseInputErrorDescription } from 'src/domain/errors/operation/by-user/values/UseCaseInputErrorDescription';
 export class ClassValidationErrorToDomainResultConverter {
   public convert(
-    classValidatorInputReceivingErrors: ValidationError[],
-  ): InputReceivingResult {
-    if (classValidatorInputReceivingErrors.length === 0) {
+    classValidatorInputReadingErrors: ValidationError[],
+    section?: string,
+  ): InputReadingResult {
+    if (classValidatorInputReadingErrors.length === 0) {
       throw Error('No error to convert');
     }
 
-    return InputReceivingFailedResult.create(
-      classValidatorInputReceivingErrors.map(
-        this.convertValidationErrorToErrorDescription,
+    return InputReadingResult.createFailed(
+      classValidatorInputReadingErrors.map(validationError =>
+        this.convertValidationErrorToErrorDescription(validationError, section),
       ),
     );
   }
 
   private convertValidationErrorToErrorDescription(
     validationError: ValidationError,
-  ): ErrorDescription {
-    return new ErrorDescription(
-      validationError.property,
+    section?: string,
+  ): UseCaseInputErrorDescription {
+    return new UseCaseInputErrorDescription(
       Object.values(validationError.constraints),
+      validationError.property,
+      section,
     );
   }
 }

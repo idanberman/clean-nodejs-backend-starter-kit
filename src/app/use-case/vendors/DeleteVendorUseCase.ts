@@ -1,8 +1,8 @@
-import { UseCase } from '../use-case';
-import { UseCaseContext } from '../context';
-import { UseCaseResult } from '../use-case/UseCaseResult';
+import { UseCase } from '..';
+import { UseCaseContext } from '../../context';
+import { UseCaseResult } from '../UseCaseResult';
 
-export class DeleteVendorsUseCase implements UseCase {
+export class DeleteVendorUseCase implements UseCase {
   public run(useCaseContext: UseCaseContext): Promise<UseCaseResult> {
     throw new Error('Method not implemented.');
   }

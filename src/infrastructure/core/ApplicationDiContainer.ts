@@ -1,16 +1,22 @@
-import { ConfigurationProvider } from 'src/app/interfaces';
-import { DotenvConfigurationProvider } from '../configuration/DotenvConfigurationProvider';
-import { AppType } from 'src/app/AppType';
 import { Container, interfaces } from 'inversify';
-import { TypeormAdapter } from '../repositories/TypeormAdapter';
-import { InfrastructureType } from '../InfrastructureType';
-import { VendorsRepository } from 'src/domain/vendors';
-import { DomainType } from 'src/domain/DomainType';
-import { TypeormVendorsReadWriteRepository } from '../repositories/repositories';
+import { AppType } from 'src/app/AppType';
+import { ConfigurationProvider } from 'src/app/interfaces';
 import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
-import { IndexVendorsUseCase, CreateVendorUseCase } from 'src/app/vendors';
-import { ClassTransformerValidatorsInputService } from '../input';
 import { InputService } from 'src/app/services/input';
+import {
+  CreateVendorUseCase,
+  IndexVendorsUseCase,
+  UpdateVendorUseCase,
+  ReadOneVendorUseCase,
+  DeleteVendorUseCase,
+} from 'src/app/use-case/vendors';
+import { VendorsRepository } from 'src/domain/vendors';
+import { DotenvConfigurationProvider } from '../configuration/DotenvConfigurationProvider';
+import { InfrastructureType } from '../InfrastructureType';
+import { ClassTransformerValidatorsInputService } from '../input';
+import { TypeormVendorsReadWriteRepository } from '../repositories/repositories';
+import { TypeormAdapter } from '../repositories/TypeormAdapter';
+import { UseCaseInputReader } from 'src/app/services/input/UseCaseInputReader';
 
 export class ApplicationDiContainer {
   private readonly container: Container;
@@ -21,13 +27,13 @@ export class ApplicationDiContainer {
     this.bindServices();
   }
 
-  bindConfiguration() {
+  public bindConfiguration() {
     this.container
       .bind<ConfigurationProvider>(AppType.ConfigurationProvider)
       .to(DotenvConfigurationProvider);
   }
 
-  async bindRepositories(): Promise<void> {
+  public async bindRepositories(): Promise<void> {
     // Bind connection provider
     this.container
       .bind<TypeormAdapter>(InfrastructureType.TypeormAdapter)
@@ -49,21 +55,34 @@ export class ApplicationDiContainer {
       );
   }
 
-  bindUseCases() {
+  public bindUseCases() {
+    // Vendors use cases
     this.container
       .bind<IndexVendorsUseCase>(AppType.IndexVendorsUseCase)
       .to(IndexVendorsUseCase);
-
+    this.container
+      .bind<ReadOneVendorUseCase>(AppType.ReadOneVendorUseCase)
+      .to(ReadOneVendorUseCase);
     this.container
       .bind<CreateVendorUseCase>(AppType.CreateVendorUseCase)
       .to(CreateVendorUseCase);
+    this.container
+      .bind<UpdateVendorUseCase>(AppType.UpdateVendorUseCase)
+      .to(UpdateVendorUseCase);
+    this.container
+      .bind<DeleteVendorUseCase>(AppType.DeleteVendorUseCase)
+      .to(UpdateVendorUseCase);
   }
 
-  bindServices() {
+  public bindServices() {
     // Application Services
     this.container
       .bind<InputService>(AppType.InputService)
       .to(ClassTransformerValidatorsInputService);
+
+    this.container
+      .bind<UseCaseInputReader>(AppType.UseCaseInputReader)
+      .to(UseCaseInputReader);
   }
 
   // public static async getContainer(): Promise<Container> {

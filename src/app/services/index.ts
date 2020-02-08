@@ -1,1 +1,1 @@
-export { UseCaseDispatcher } from './UseCaseDispatcher';
+export { UseCaseInteractorService } from './UseCaseInteractorService';

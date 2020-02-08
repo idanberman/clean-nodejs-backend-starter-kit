@@ -6,7 +6,7 @@ import { InversifyExpressServer, getRouteInfo } from 'inversify-express-utils';
 import { TypeormVendorsReadWriteRepository } from '../repositories/repositories';
 import express = require('express');
 import * as bodyParser from 'body-parser';
-import 'src/app/vendors';
+import 'src/app/use-case/vendors';
 import { AppType } from 'src/app/AppType';
 import {
   UseCaseResultPresenter,
@@ -23,18 +23,18 @@ import { RepositoryId } from 'src/domain/RepositoryId';
 import { DomainRepository } from 'src/domain/interfaces';
 import { DotenvConfigurationProvider } from '../configuration/DotenvConfigurationProvider';
 import { ApplicationDiContainer } from './ApplicationDiContainer';
-import { UseCaseDispatcher } from 'src/app/services';
+import { UseCaseInteractorService } from 'src/app/services';
 import { Initializable } from 'src/app/interfaces/Initializable';
 import { UseCaseResult } from 'src/app/use-case/UseCaseResult';
 
 export class Application implements ApplicationInterface, Initializable {
   private applicationDiContainer: ApplicationDiContainer;
-  private useCaseDispatcher: UseCaseDispatcher;
+  private useCaseDispatcher: UseCaseInteractorService;
   private applicationGateways: ApplicationGateway[];
 
   constructor() {
     this.applicationDiContainer = new ApplicationDiContainer();
-    this.useCaseDispatcher = new UseCaseDispatcher();
+    this.useCaseDispatcher = new UseCaseInteractorService();
     this.applicationGateways = [];
   }
 

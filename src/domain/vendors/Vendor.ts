@@ -48,7 +48,7 @@ export class Vendor implements BaseEntity {
   public readonly version: number;
 
   public getId() {
-    return this.getId();
+    return this.id;
   }
 
   public toDto(): BaseEntityDto {

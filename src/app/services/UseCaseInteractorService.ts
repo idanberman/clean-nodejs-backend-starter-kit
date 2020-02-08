@@ -7,7 +7,7 @@ import { InternalServiceError } from 'src/domain/errors';
 import { UseCaseInternalServiceErrorResult } from '../use-case/results/UseCaseInternalServiceErrorResult';
 import { DomainErrorToUseCaseResultConverter } from './DomainErrorToUseCaseResultConverter';
 
-export class UseCaseDispatcher {
+export class UseCaseInteractorService {
   private readonly domainErrorConverter: DomainErrorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
 
   public async dispatch(

@@ -1,7 +1,10 @@
 import { IsInt, Min } from 'class-validator';
+import { BaseDto } from 'src/domain/interfaces';
+import { Type } from 'class-transformer';
 
-export class WithIdParametersDto {
+export class WithIdParametersDto implements BaseDto {
+  @Type(() => Number)
   @IsInt({ always: true })
   @Min(1, { always: true })
-  id: number;
+  public readonly id: number;
 }

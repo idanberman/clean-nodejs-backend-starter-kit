@@ -4,17 +4,22 @@ import { AppType } from 'src/app/AppType';
 import { ExpressJsAdapter } from './ExpressJsAdapter';
 import { ExpressRouteGenerator } from './ExpressRouteGenerator';
 
-export class RouterConfigure {
-  public static config(
-    expressApp: express.Application,
-    application: ApplicationInterface,
-  ): void {
+export class RouterFactory {
+  public static create(application: ApplicationInterface): express.Router {
     const expressRouteGenerator: ExpressRouteGenerator = new ExpressRouteGenerator(
       application,
     );
-    expressApp
+
+    const router = express.Router();
+    router
       .route('/vendors/')
       .get(expressRouteGenerator.generate(AppType.IndexVendorsUseCase))
       .post(expressRouteGenerator.generate(AppType.CreateVendorUseCase));
+    router
+      .route('/vendors/:id')
+      .put(expressRouteGenerator.generate(AppType.UpdateVendorUseCase))
+      .get(expressRouteGenerator.generate(AppType.ReadOneVendorUseCase))
+      .delete(expressRouteGenerator.generate(AppType.DeleteVendorUseCase));
+    return router;
   }
 }

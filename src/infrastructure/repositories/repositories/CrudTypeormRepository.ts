@@ -7,9 +7,10 @@ import {
   Repository,
   UpdateResult,
   InsertResult,
+  DeepPartial,
 } from 'typeorm';
 import { ReadResourceNotFoundError } from 'src/domain/errors';
-import { WriteResourceNotFound } from 'src/domain/errors/operation';
+import { WriteResourceNotFoundError } from 'src/domain/errors/operation';
 import { VendorDto } from 'src/domain/vendors';
 
 export class CrudTypeormRepository<T extends BaseEntity>
@@ -43,19 +44,26 @@ export class CrudTypeormRepository<T extends BaseEntity>
 
     return dbEntity;
   }
-  public async updateEntity(id: any, entity: Partial<T>): Promise<BaseDto> {
-    const dbEntity: T = await this.findOneOrError(id);
-
-    const updateResult: UpdateResult = await this.typeormRepository.update(
-      dbEntity.getId(),
-      entity.toDto(),
-    );
-
-    if (updateResult.affected === 0) {
-      throw new WriteResourceNotFound('id', id);
+  public async updateEntity(id: any, entity: Partial<T>): Promise<Partial<T>> {
+    let dbEntity: T;
+    try {
+      dbEntity = await this.findOneOrError(id);
+    } catch (error) {
+      throw new WriteResourceNotFoundError('id', id);
     }
 
-    return updateResult.generatedMaps;
+    const updatedEntity = await this.typeormRepository.save(
+      ({
+        ...dbEntity,
+        ...entity,
+      } as unknown) as DeepPartial<T>,
+      { reload: true },
+    );
+
+    return {
+      ...dbEntity,
+      ...updatedEntity,
+    } as Partial<T>;
   }
   public async removeEntity(entity: T): Promise<void> {
     try {
@@ -69,7 +77,7 @@ export class CrudTypeormRepository<T extends BaseEntity>
     const entityToRemove: T = await this.findOneOrError(id);
 
     if (!entityToRemove) {
-      throw new WriteResourceNotFound('id', id);
+      throw new WriteResourceNotFoundError('id', id);
     }
     await this.removeEntity(entityToRemove);
   }

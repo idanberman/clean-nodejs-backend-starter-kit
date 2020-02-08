@@ -1,4 +1,4 @@
-export enum InputReceivingMode {
+export enum InputReadingMode {
   Create = 'Create',
   Update = 'Update',
 }

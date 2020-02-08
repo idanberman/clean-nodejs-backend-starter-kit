@@ -1,13 +1,16 @@
 import { UseCaseResult } from '../UseCaseResult';
 import { UseCaseTerminationStatus } from '..';
-import { ErrorDescription } from 'src/domain/errors/operation/by-user/values/ErrorDescription';
+import { UseCaseInputErrorDescription } from 'src/domain/errors/operation/by-user/values/UseCaseInputErrorDescription';
 
 export class UseCaseInputSyntaxErrorResult implements UseCaseResult {
-  terminationStatus: UseCaseTerminationStatus =
+  public terminationStatus: UseCaseTerminationStatus =
     UseCaseTerminationStatus.InputSyntaxError;
-  data: ErrorDescription[];
+  public data: UseCaseInputErrorDescription[];
 
-  constructor(public readonly syntaxErrors: ErrorDescription[]) {
+  constructor(public readonly syntaxErrors: UseCaseInputErrorDescription[]) {
+    if (!Array.isArray(syntaxErrors) || syntaxErrors.length === 0) {
+      throw new TypeError('No syntax errors found');
+    }
     this.data = syntaxErrors;
   }
 }

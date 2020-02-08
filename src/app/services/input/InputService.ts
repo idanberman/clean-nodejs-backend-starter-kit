@@ -1,12 +1,13 @@
 import { BaseDto } from 'src/domain/interfaces';
-import { InputReceivingMode, InputReceivingResult } from '.';
+import { InputReadingResult, InputReadingMode } from '.';
 
 export interface InputService {
-  receiveInputFromObject<T extends BaseDto>(
+  validInputFromFreeObject<T extends BaseDto>(
     toClassType: T,
     fromValue: any,
     options?: {
-      inputReceivingMode?: InputReceivingMode;
+      inputReadingMode?: InputReadingMode;
+      inputSection?: string;
     },
-  ): InputReceivingResult;
+  ): InputReadingResult;
 }

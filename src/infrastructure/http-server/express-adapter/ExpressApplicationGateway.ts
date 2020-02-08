@@ -1,7 +1,7 @@
 import { ApplicationGateway, ApplicationInterface } from 'src/app/interfaces';
 import express from 'express';
 import bodyParser from 'body-parser';
-import { RouterConfigure } from './RouterConfigure';
+import { RouterFactory } from './RouterFactory';
 
 export class ExpressApplicationGateway implements ApplicationGateway {
   private expressApp: express.Application;
@@ -23,8 +23,8 @@ export class ExpressApplicationGateway implements ApplicationGateway {
       }),
     );
     app.use(bodyParser.json());
-    RouterConfigure.config(app, this.applicationInterface);
-    this.expressApp = app;
+    const router = RouterFactory.create(this.applicationInterface);
+    this.expressApp = app.use('/api', router);
   }
 
   public start(): void {

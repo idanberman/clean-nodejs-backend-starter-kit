@@ -6,9 +6,8 @@ import {
 } from 'class-transformer-validator';
 import { ClassValidationErrorToDomainResultConverter } from './ClassValidationErrorToDomainResultConverter';
 import {
-  InputReceivingMode,
-  InputReceivingResult,
-  InputReceivingSuccessResult,
+  InputReadingMode,
+  InputReadingResult,
   InputService,
 } from 'src/app/services/input';
 
@@ -19,30 +18,37 @@ export class ClassTransformerValidatorsInputService implements InputService {
     this.classValidationErrorToDomainResultConverter = new ClassValidationErrorToDomainResultConverter();
   }
 
-  public receiveInputFromObject<T extends BaseDto>(
+  public validInputFromFreeObject<T extends BaseDto>(
     toClassType: T,
     fromValue: any,
     options?: {
-      inputReceivingMode?: InputReceivingMode;
+      inputReadingMode?: InputReadingMode;
+      inputSection?: string;
     },
-  ): InputReceivingResult {
+  ): InputReadingResult {
     const validOptions = options || {};
     try {
-      return InputReceivingSuccessResult.create(
-        transformAndValidateSync(
-          (toClassType as unknown) as ClassType<T>,
-          fromValue as object,
-          {
-            validator: {
-              whitelist: true,
-              groups: [validOptions && validOptions.inputReceivingMode],
-              forbidUnknownValues: true,
-            },
+      const groups = [validOptions && validOptions.inputReadingMode];
+      const rawResult = transformAndValidateSync(
+        (toClassType as unknown) as ClassType<T>,
+        fromValue as object,
+        {
+          validator: {
+            whitelist: true,
+            groups,
+            forbidUnknownValues: true,
           },
-        ),
+          transformer: {
+            groups,
+          },
+        },
       );
+      return InputReadingResult.createSucceed(rawResult);
     } catch (errors) {
-      return this.classValidationErrorToDomainResultConverter.convert(errors);
+      return this.classValidationErrorToDomainResultConverter.convert(
+        errors,
+        validOptions.inputSection,
+      );
     }
   }
 }

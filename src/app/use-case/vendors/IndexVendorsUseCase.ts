@@ -1,15 +1,15 @@
-import { UseCase } from '../use-case';
-import { UseCaseContext } from '../context/UseCaseContext';
-import { UseCaseResultPresenter } from '../interfaces/UseCaseResultPresenter';
-import { UseCaseResult } from '../use-case/UseCaseResult';
+import { UseCase } from '..';
+import { UseCaseContext } from '../../context/UseCaseContext';
+import { UseCaseResultPresenter } from '../../interfaces/UseCaseResultPresenter';
+import { UseCaseResult } from '../UseCaseResult';
 import { VendorsRepository, VendorDto, Vendor } from 'src/domain/vendors';
 import { injectable, inject } from 'inversify';
 import { DomainType } from 'src/domain/DomainType';
-import { AppType } from '../AppType';
-import { InstanceFactory } from '../interfaces/InstanceFactory';
-import { UseCaseSucceedResult } from '../use-case/results/UseCaseSucceedResult';
-import { DomainErrorToUseCaseResultConverter } from '../services/DomainErrorToUseCaseResultConverter';
-import { InputService } from '../services/input';
+import { AppType } from '../../AppType';
+import { InstanceFactory } from '../../interfaces/InstanceFactory';
+import { UseCaseSucceedResult } from '../results/UseCaseSucceedResult';
+import { DomainErrorToUseCaseResultConverter } from '../../services/DomainErrorToUseCaseResultConverter';
+import { InputService } from '../../services/input';
 
 @injectable()
 export class IndexVendorsUseCase implements UseCase {
@@ -27,8 +27,8 @@ export class IndexVendorsUseCase implements UseCase {
     this.errorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
   }
   // tslint:disable-next-line: no-empty
-  dispose() {}
-  async run(useCaseContext: UseCaseContext): Promise<UseCaseResult> {
+  public dispose() {}
+  public async run(useCaseContext: UseCaseContext): Promise<UseCaseResult> {
     try {
       const vendorList: Vendor[] = await this.vendorsRepository.findAll();
       const vendorDtoList: VendorDto[] = vendorList.map(
