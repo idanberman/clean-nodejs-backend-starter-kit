@@ -9,6 +9,7 @@ import {
   UpdateVendorUseCase,
   ReadOneVendorUseCase,
   DeleteVendorUseCase,
+  ChangeVendorDisabledUseCase,
 } from 'src/app/use-case/vendors';
 import { VendorsRepository } from 'src/domain/vendors';
 import { DotenvConfigurationProvider } from '../configuration/DotenvConfigurationProvider';
@@ -70,8 +71,11 @@ export class ApplicationDiContainer {
       .bind<UpdateVendorUseCase>(AppType.UpdateVendorUseCase)
       .to(UpdateVendorUseCase);
     this.container
+      .bind<ChangeVendorDisabledUseCase>(AppType.ChangeVendorDeletedUseCase)
+      .to(ChangeVendorDisabledUseCase);
+    this.container
       .bind<DeleteVendorUseCase>(AppType.DeleteVendorUseCase)
-      .to(UpdateVendorUseCase);
+      .to(DeleteVendorUseCase);
   }
 
   public bindServices() {

@@ -12,6 +12,9 @@ export class RouterFactory {
 
     const router = express.Router();
     router
+      .route('/vendors/:id/deleted')
+      .put(expressRouteGenerator.generate(AppType.ChangeVendorDeletedUseCase));
+    router
       .route('/vendors/')
       .get(expressRouteGenerator.generate(AppType.IndexVendorsUseCase))
       .post(expressRouteGenerator.generate(AppType.CreateVendorUseCase));
@@ -20,6 +23,7 @@ export class RouterFactory {
       .put(expressRouteGenerator.generate(AppType.UpdateVendorUseCase))
       .get(expressRouteGenerator.generate(AppType.ReadOneVendorUseCase))
       .delete(expressRouteGenerator.generate(AppType.DeleteVendorUseCase));
+
     return router;
   }
 }

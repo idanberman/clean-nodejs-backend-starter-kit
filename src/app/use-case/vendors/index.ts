@@ -1,5 +1,6 @@
-export { DeleteVendorUseCase } from './DeleteVendorUseCase';
 export { IndexVendorsUseCase } from './IndexVendorsUseCase';
-export { CreateVendorUseCase } from './CreateVendorUseCase';
 export { ReadOneVendorUseCase } from './ReadOneVendorUseCase';
+export { CreateVendorUseCase } from './CreateVendorUseCase';
+export { ChangeVendorDisabledUseCase } from './ChangeVendorDisabledUseCase';
 export { UpdateVendorUseCase } from './UpdateVendorUseCase';
+export { DeleteVendorUseCase } from './DeleteVendorUseCase';

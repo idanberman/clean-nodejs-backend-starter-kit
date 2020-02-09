@@ -1,21 +1,19 @@
-import { BaseDto, BaseEntity } from 'src/domain/interfaces';
+import { BaseEntity } from 'src/domain/interfaces';
 import { BasicReadRepository } from 'src/domain/interfaces/BasicReadRepository';
 import { BasicWriteRepository } from 'src/domain/interfaces/BasicWriteRepository';
 import {
   EntityManager,
   ObjectType,
   Repository,
-  UpdateResult,
   InsertResult,
   DeepPartial,
 } from 'typeorm';
 import { ReadResourceNotFoundError } from 'src/domain/errors';
 import { WriteResourceNotFoundError } from 'src/domain/errors/operation';
-import { VendorDto } from 'src/domain/vendors';
 
 export class CrudTypeormRepository<T extends BaseEntity>
   implements BasicReadRepository<T>, BasicWriteRepository<T> {
-  private readonly typeormRepository: Repository<T>;
+  protected readonly typeormRepository: Repository<T>;
   private readonly entityType: string;
   constructor(private target: ObjectType<T>, manager: EntityManager) {
     this.typeormRepository = manager.getRepository(target);
@@ -35,7 +33,7 @@ export class CrudTypeormRepository<T extends BaseEntity>
     return ({ ...entity, ...insertResult.identifiers[0] } as unknown) as T;
   }
 
-  private async findOneOrError(id: any): Promise<T> {
+  protected async findOneOrError(id: any): Promise<T> {
     const dbEntity: T = await this.typeormRepository.findOne(id);
 
     if (!dbEntity) {
@@ -73,6 +71,7 @@ export class CrudTypeormRepository<T extends BaseEntity>
       return Promise.reject(error);
     }
   }
+
   public async removeById(id: any): Promise<void> {
     const entityToRemove: T = await this.findOneOrError(id);
 

@@ -5,12 +5,7 @@ import { DomainType } from 'src/domain/DomainType';
 import { AppConfiguration } from 'src/domain/value-objects/configuration';
 import { Initializable } from 'src/app/interfaces/Initializable';
 import { TypeormDatabaseConnection } from './TypeormDatabaseConnection';
-import {
-  RepositoryFactoryProvider,
-  RepositoryFactory,
-  ConfigurationProvider,
-} from 'src/app/interfaces';
-import { TypeormRepositoryFactory } from './TypeormRepositoryFactory';
+import { ConfigurationProvider } from 'src/app/interfaces';
 import { AppType } from 'src/app/AppType';
 import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
 @injectable()

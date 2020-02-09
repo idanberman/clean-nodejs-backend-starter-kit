@@ -6,7 +6,7 @@ export class ExpressRouteGenerator {
   private static ExpressAdapter: ExpressJsAdapter = new ExpressJsAdapter();
 
   constructor(private readonly application: ApplicationInterface) {}
-  generate(useCaseId) {
+  public generate(useCaseId) {
     return (request: express.Request, response: express.Response) => {
       const useCase = this.application.getUseCase(useCaseId);
       const context = ExpressRouteGenerator.ExpressAdapter.createUseCaseContextFromRequest(

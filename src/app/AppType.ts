@@ -11,5 +11,6 @@ export const AppType = {
   IndexVendorsUseCase: Symbol.for('IndexVendorsUseCase'),
   ReadOneVendorUseCase: Symbol.for('ReadOneVendorUseCase'),
   UpdateVendorUseCase: Symbol.for('UpdateVendorUseCase'),
+  ChangeVendorDeletedUseCase: Symbol.for('ChangeVendorDeletedUseCase'),
   DeleteVendorUseCase: Symbol.for('DeleteVendorUseCase'),
 };

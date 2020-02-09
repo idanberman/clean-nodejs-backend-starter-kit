@@ -17,6 +17,9 @@ export class Vendor implements BaseEntity {
   @PrimaryGeneratedColumn('increment')
   public readonly id: number;
 
+  @Column('date', { nullable: true, default: null })
+  public readonly deletedAt: Date;
+
   @Column('varchar', { length: 32, unique: true })
   public readonly governmentalId: string;
 

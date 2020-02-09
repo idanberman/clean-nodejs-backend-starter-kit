@@ -1,4 +1,4 @@
-import { IsInt, Min } from 'class-validator';
+import { IsInt, Min, IsNumberString } from 'class-validator';
 import { BaseDto } from 'src/domain/interfaces';
 import { Type } from 'class-transformer';
 

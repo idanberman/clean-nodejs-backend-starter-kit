@@ -5,3 +5,4 @@ export { AbstractInvalidArguments } from './by-user/AbstractInvalidArguments';
 export { ReadResourceNotFoundError } from './by-user/ReadResourceNotFoundError';
 export { WriteResourceNotFoundError } from './by-user/WriteResourceNotFoundError';
 export { UnknownResourceFailure } from './by-resource/UnknownResourceFailure';
+export { InvalidInputError } from './by-user/InvalidInputError';

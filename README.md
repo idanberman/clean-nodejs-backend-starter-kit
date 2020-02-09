@@ -1,3 +1,15 @@
+Status: Can take a idea how project should looks like
+Vision: To become well designed Type-Script backend starter project
+It means:
+
+- Production and integration oriented
+- Clean architecture
+- Clean coded
+- Easy to become a micro-service
+- Highly decoupled from libraries and external maintained code
+- Highly testable
+- Easy to maintain
+
 ### NodeJs Service starter project
 
 This project is built to kick start a JS service quick.

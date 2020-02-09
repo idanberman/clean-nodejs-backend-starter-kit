@@ -3,4 +3,5 @@ export enum FailureCode {
   WriteResourceNotFound,
   UniqueConstraintViolation,
   SyntaxError,
+  InvalidInput,
 }

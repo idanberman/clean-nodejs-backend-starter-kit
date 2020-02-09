@@ -3,6 +3,7 @@ import { UseCaseResult } from 'src/app/use-case/UseCaseResult';
 import {
   WriteResourceNotFoundError,
   ReadResourceNotFoundError,
+  InvalidInputError,
 } from 'src/domain/errors/operation';
 import { InputSyntaxError } from 'src/domain/errors/operation/by-user/InputSyntaxError';
 import { UseCaseTerminationStatus } from '../use-case';
@@ -37,6 +38,9 @@ export class DomainErrorToUseCaseResultConverter {
       );
     }
 
+    if (error instanceof InvalidInputError) {
+      return new UseCaseUnableProcessInputResult(error.errorMessage, error.at);
+    }
     console.log('Unhandled error type:', typeof error, ' Error:', error);
     if (!this.isDomainErrorType(error)) {
       throw new TypeError(

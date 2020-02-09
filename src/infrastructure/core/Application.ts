@@ -3,7 +3,6 @@ import { DomainType } from 'src/domain/DomainType';
 import { VendorsRepository, VendorsService, Vendor } from 'src/domain/vendors';
 import { InfrastructureType } from '../InfrastructureType';
 import { InversifyExpressServer, getRouteInfo } from 'inversify-express-utils';
-import { TypeormVendorsReadWriteRepository } from '../repositories/repositories';
 import express = require('express');
 import * as bodyParser from 'body-parser';
 import 'src/app/use-case/vendors';

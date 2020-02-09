@@ -26,6 +26,7 @@ export class ReadOneVendorUseCase implements UseCase {
     this.vendorsRepository = vendorsRepositoryInstanceFactory();
     this.errorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
   }
+  // tslint:disable-next-line: no-empty
   public dispose() {}
   public async run(useCaseContext: UseCaseContext): Promise<UseCaseResult> {
     try {
