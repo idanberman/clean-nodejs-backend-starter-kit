@@ -1,6 +1,5 @@
 import { Container, interfaces } from 'inversify';
 import { DomainType } from 'src/domain/DomainType';
-import { VendorsRepository, VendorsService, Vendor } from 'src/domain/vendors';
 import { InfrastructureType } from '../InfrastructureType';
 import { InversifyExpressServer, getRouteInfo } from 'inversify-express-utils';
 import express = require('express');
