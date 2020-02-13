@@ -1,7 +1,9 @@
-import { UseCaseResultPresenter } from 'src/app/interfaces';
-import { UseCaseResult } from 'src/app/use-case/UseCaseResult';
+import { UseCaseResult } from 'src/app/use-case/results/UseCaseResult';
 import express from 'express';
-import { UseCaseTerminationStatus } from 'src/app/use-case';
+import {
+  UseCaseTerminationStatus,
+  UseCaseResultPresenter,
+} from 'src/app/use-case/definitions';
 export class ExpressPresenter implements UseCaseResultPresenter {
   constructor(private readonly response: express.Response) {}
   private getHttpCodeForResult(result: UseCaseResult): number {

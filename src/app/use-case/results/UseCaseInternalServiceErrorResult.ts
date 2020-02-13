@@ -1,5 +1,5 @@
-import { UseCaseResult } from '../UseCaseResult';
-import { UseCaseTerminationStatus } from '..';
+import { UseCaseResult } from './UseCaseResult';
+import { UseCaseTerminationStatus } from '../definitions';
 
 export class UseCaseInternalServiceErrorResult implements UseCaseResult {
   public readonly terminationStatus: UseCaseTerminationStatus =

@@ -1,13 +1,16 @@
-import { UseCase, UseCaseTerminationStatus } from 'src/app/use-case';
-import { UseCaseResult } from 'src/app/use-case/UseCaseResult';
-import { UseCaseContext } from '../context/UseCaseContext';
+import { UseCaseResult } from 'src/app/use-case/results/UseCaseResult';
+import { UseCaseContext } from '../use-case/context/UseCaseContext';
 import { BaseDto } from 'src/domain/interfaces';
-import { UseCaseResultPresenter } from '../interfaces/UseCaseResultPresenter';
+import {
+  UseCaseResultPresenter,
+  UseCase,
+  UseCaseTerminationStatus,
+} from '../use-case/definitions';
 import { InternalServiceError } from 'src/domain/errors';
-import { UseCaseInternalServiceErrorResult } from '../use-case/results/UseCaseInternalServiceErrorResult';
-import { DomainErrorToUseCaseResultConverter } from './DomainErrorToUseCaseResultConverter';
+import { UseCaseInternalServiceErrorResult } from '../use-case/results';
+import { DomainErrorToUseCaseResultConverter } from '../use-case/tools';
 
-export class UseCaseInteractorService {
+export class UseCaseDispatcherService {
   private readonly domainErrorConverter: DomainErrorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
 
   public async dispatch(

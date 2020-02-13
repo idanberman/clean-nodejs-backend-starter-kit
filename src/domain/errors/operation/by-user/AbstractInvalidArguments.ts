@@ -1,5 +1,5 @@
-import { OperationFailedCausedByUser } from '..';
 import { FailureCode } from './values/FailureCode';
+import { OperationFailedCausedByUser } from '../OperationFailedCausedByUser';
 
 export abstract class AbstractInvalidArguments
   implements OperationFailedCausedByUser {

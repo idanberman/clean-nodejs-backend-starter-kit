@@ -1,15 +1,14 @@
-import { NoDatabaseConnectionError } from './errors/NoDatabaseConnectionError';
-import { EntityManager, ObjectType } from 'typeorm';
 import { inject, injectable } from 'inversify';
-import { DomainType } from 'src/domain/DomainType';
-import { AppConfiguration } from 'src/domain/value-objects/configuration';
-import { Initializable } from 'src/app/interfaces/Initializable';
-import { TypeormDatabaseConnection } from './TypeormDatabaseConnection';
-import { ConfigurationProvider } from 'src/app/interfaces';
 import { AppType } from 'src/app/AppType';
+import { AsyncInitializable } from 'src/app/interfaces/AsyncInitializable';
 import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
+import { EntityManager, ObjectType } from 'typeorm';
+import { NoDatabaseConnectionError } from './errors/NoDatabaseConnectionError';
+import { TypeormDatabaseConnection } from './TypeormDatabaseConnection';
+import { ConfigurationProvider } from 'src/app/services';
+
 @injectable()
-export class TypeormAdapter implements Initializable {
+export class TypeormAdapter implements AsyncInitializable {
   private readonly connection: TypeormDatabaseConnection;
   constructor(
     @inject(AppType.ConfigurationProvider)
@@ -20,12 +19,14 @@ export class TypeormAdapter implements Initializable {
     );
   }
 
-  getRepositoryFactory<T>(customRepository: ObjectType<T>): InstanceFactory<T> {
+  public getRepositoryFactory<T>(
+    customRepository: ObjectType<T>,
+  ): InstanceFactory<T> {
     return () => this.getManager().getCustomRepository(customRepository);
   }
 
-  async init(): Promise<void> {
-    await this.connection.init();
+  public async asyncInit(): Promise<void> {
+    await this.connection.asyncInit();
   }
 
   private getManager(): EntityManager {

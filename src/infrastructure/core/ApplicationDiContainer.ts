@@ -1,6 +1,5 @@
 import { Container, interfaces } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { ConfigurationProvider } from 'src/app/interfaces';
 import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
 import { InputService } from 'src/app/services/input';
 import {
@@ -17,7 +16,8 @@ import { InfrastructureType } from '../InfrastructureType';
 import { ClassTransformerValidatorsInputService } from '../input';
 import { TypeormVendorsReadWriteRepository } from '../repositories/repositories';
 import { TypeormAdapter } from '../repositories/TypeormAdapter';
-import { UseCaseInputReader } from 'src/app/services/input/UseCaseInputReader';
+import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
+import { ConfigurationProvider } from 'src/app/services';
 
 export class ApplicationDiContainer {
   private readonly container: Container;
@@ -44,7 +44,7 @@ export class ApplicationDiContainer {
     const dbService: TypeormAdapter = this.container.get<TypeormAdapter>(
       InfrastructureType.TypeormAdapter,
     );
-    await dbService.init();
+    await dbService.asyncInit();
 
     // Bind repositories
     this.container

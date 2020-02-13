@@ -1,6 +1,6 @@
-import { UseCaseResult } from '../UseCaseResult';
-import { UseCaseTerminationStatus } from '..';
+import { UseCaseResult } from './UseCaseResult';
 import { UseCaseInternalServiceErrorResult } from './UseCaseInternalServiceErrorResult';
+import { UseCaseTerminationStatus } from '../definitions';
 
 export class UseCaseUnknownInternalServiceErrorResult
   extends UseCaseInternalServiceErrorResult

@@ -1,9 +1,8 @@
-import { UseCaseInput } from 'src/app/use-case';
-import { InputReadingResult } from './InputReadingResult';
 import { InputSyntaxError } from 'src/domain/errors/operation/by-user/InputSyntaxError';
-import { InputService } from '.';
+import { InputService, InputReadingResult } from '../../services/input';
 import { injectable, inject } from 'inversify';
 import { AppType } from 'src/app/AppType';
+import { UseCaseInput } from '../input';
 
 type inputRead = (
   input: UseCaseInput,
@@ -23,8 +22,10 @@ export class UseCaseInputReader {
     const results = readInputRegister.map(inputReadCallback =>
       inputReadCallback(input, this.inputService),
     );
+    return this.treatResults(results);
+  }
+  private treatResults(results: InputReadingResult[]): any[] {
     const failedResults = results.filter(result => !result.isSucceed());
-    // failedResults[0];
     if (failedResults.length === 0) {
       return results.map(result => result.getValue());
     } else {

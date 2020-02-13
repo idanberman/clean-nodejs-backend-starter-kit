@@ -14,15 +14,15 @@ import {
   EntitySchema,
   EntityManager,
 } from 'typeorm';
-import { Initializable } from 'src/app/interfaces/Initializable';
+import { AsyncInitializable } from 'src/app/interfaces/AsyncInitializable';
 import { Entities } from './consts/Entities';
 
-export class TypeormDatabaseConnection implements Initializable {
+export class TypeormDatabaseConnection implements AsyncInitializable {
   constructor(private readonly databaseConfiguration: DatabaseConfiguration) {}
 
   private connection: Connection;
 
-  public async init(): Promise<void> {
+  public async asyncInit(): Promise<void> {
     this.connection = await createConnection({
       ...this.databaseConfiguration,
       entities: Entities,

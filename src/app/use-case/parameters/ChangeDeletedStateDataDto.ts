@@ -5,6 +5,5 @@ import { Type } from 'class-transformer';
 export class ChangeDeletedStateDataDto implements BaseDto {
   @IsDefined({ always: true })
   @Type(() => Boolean)
-  @IsBoolean({ always: true })
   public readonly deleted: boolean;
 }

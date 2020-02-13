@@ -1,1 +1,2 @@
-export { UseCaseInteractorService } from './UseCaseInteractorService';
+export { UseCaseDispatcherService } from './UseCaseDispatcherService';
+export { ConfigurationProvider } from './integration/ConfigurationProvider';

@@ -1,6 +1,6 @@
-import { UseCaseResult } from '../UseCaseResult';
-import { UseCaseTerminationStatus } from '..';
+import { UseCaseResult } from './UseCaseResult';
 import { UseCaseInputErrorDescription } from 'src/domain/errors/operation/by-user/values/UseCaseInputErrorDescription';
+import { UseCaseTerminationStatus } from '../definitions';
 
 export class UseCaseInputSyntaxErrorResult implements UseCaseResult {
   public terminationStatus: UseCaseTerminationStatus =

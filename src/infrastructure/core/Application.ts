@@ -1,38 +1,29 @@
-import { Container, interfaces } from 'inversify';
-import { DomainType } from 'src/domain/DomainType';
-import { InfrastructureType } from '../InfrastructureType';
-import { InversifyExpressServer, getRouteInfo } from 'inversify-express-utils';
-import express = require('express');
-import * as bodyParser from 'body-parser';
-import 'src/app/use-case/vendors';
 import { AppType } from 'src/app/AppType';
-import {
-  UseCaseResultPresenter,
-  ConfigurationProvider,
-} from 'src/app/interfaces';
+import { SecurityContext } from 'src/app/use-case/context';
+import { UseCaseContext } from 'src/app/use-case/context/UseCaseContext';
 import { ApplicationGateway } from 'src/app/interfaces';
-import { RepositoryFactoryProvider } from 'src/app/interfaces';
-import { AppConfiguration } from 'src/domain/value-objects/configuration';
 import { ApplicationInterface } from 'src/app/interfaces/ApplicationInterface';
-import { UseCaseInput, UseCase } from 'src/app/use-case';
-import { UseCaseContext } from 'src/app/context/UseCaseContext';
-import { SecurityContext } from 'src/app/context';
-import { RepositoryId } from 'src/domain/RepositoryId';
-import { DomainRepository } from 'src/domain/interfaces';
-import { DotenvConfigurationProvider } from '../configuration/DotenvConfigurationProvider';
+import { AsyncInitializable } from 'src/app/interfaces/AsyncInitializable';
+import {
+  ConfigurationProvider,
+  UseCaseDispatcherService,
+} from 'src/app/services';
+import { UseCaseResult } from 'src/app/use-case/results/UseCaseResult';
+import 'src/app/use-case/vendors';
+import { AppConfiguration } from 'src/domain/value-objects/configuration';
 import { ApplicationDiContainer } from './ApplicationDiContainer';
-import { UseCaseInteractorService } from 'src/app/services';
-import { Initializable } from 'src/app/interfaces/Initializable';
-import { UseCaseResult } from 'src/app/use-case/UseCaseResult';
+import express = require('express');
+import { UseCaseInput } from 'src/app/use-case/input';
+import { UseCase, UseCaseResultPresenter } from 'src/app/use-case/definitions';
 
-export class Application implements ApplicationInterface, Initializable {
+export class Application implements ApplicationInterface, AsyncInitializable {
   private applicationDiContainer: ApplicationDiContainer;
-  private useCaseDispatcher: UseCaseInteractorService;
+  private useCaseDispatcher: UseCaseDispatcherService;
   private applicationGateways: ApplicationGateway[];
 
   constructor() {
     this.applicationDiContainer = new ApplicationDiContainer();
-    this.useCaseDispatcher = new UseCaseInteractorService();
+    this.useCaseDispatcher = new UseCaseDispatcherService();
     this.applicationGateways = [];
   }
 
@@ -73,7 +64,7 @@ export class Application implements ApplicationInterface, Initializable {
     return this.useCaseDispatcher.dispatch(useCase, context, presenter);
   }
 
-  async init(): Promise<void> {
+  public async asyncInit(): Promise<void> {
     await this.applicationDiContainer.bindRepositories();
     this.applicationGateways.forEach(gateway => {
       gateway.start();

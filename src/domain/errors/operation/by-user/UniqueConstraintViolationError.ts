@@ -1,6 +1,6 @@
 import { OperationFailedCausedByUser } from '../OperationFailedCausedByUser';
 import { FailureCode } from './values/FailureCode';
-import { AbstractInvalidArguments } from '..';
+import { AbstractInvalidArguments } from './AbstractInvalidArguments';
 
 export class UniqueConstraintViolationError
   // For plugin any repository implementation

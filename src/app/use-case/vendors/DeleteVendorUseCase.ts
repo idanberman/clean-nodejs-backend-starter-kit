@@ -1,12 +1,12 @@
-import { UseCase } from '..';
-import { UseCaseContext } from '../../context';
-import { UseCaseResult } from '../UseCaseResult';
+import { UseCase } from '../definitions';
+import { UseCaseContext } from '../context';
+import { UseCaseResult } from '../results/UseCaseResult';
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
 import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
 import { VendorsRepository, Vendor, VendorDto } from 'src/domain/vendors';
-import { UseCaseInputReader } from 'src/app/services/input/UseCaseInputReader';
-import { DomainErrorToUseCaseResultConverter } from 'src/app/services/DomainErrorToUseCaseResultConverter';
+import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
+import { DomainErrorToUseCaseResultConverter } from 'src/app/use-case/tools/DomainErrorToUseCaseResultConverter';
 import { WithIdParametersDto } from '../parameters/WithIdParametersDto';
 import { InputReadingMode } from 'src/app/services/input';
 import { UseCaseSucceedResult } from '../results/UseCaseSucceedResult';

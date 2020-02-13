@@ -1,5 +1,4 @@
-import { UseCase, UseCaseInput } from '..';
-import { UseCaseContext } from 'src/app/context';
+import { UseCaseContext } from 'src/app/use-case/context';
 import {
   InputReadingResult,
   InputService,
@@ -9,12 +8,13 @@ import { VendorDto, VendorsRepository, Vendor } from 'src/domain/vendors';
 import { AppType } from 'src/app/AppType';
 import { inject, injectable } from 'inversify';
 import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
-import { DomainErrorToUseCaseResultConverter } from 'src/app/services/DomainErrorToUseCaseResultConverter';
+import { DomainErrorToUseCaseResultConverter } from 'src/app/use-case/tools/DomainErrorToUseCaseResultConverter';
 import { InputSyntaxError } from 'src/domain/errors/operation/by-user/InputSyntaxError';
-import { UseCaseResult } from '../UseCaseResult';
+import { UseCaseResult } from '../results/UseCaseResult';
 import { UseCaseSucceedResult } from '../results/UseCaseSucceedResult';
 import { WithIdParametersDto } from '../parameters/WithIdParametersDto';
-import { UseCaseInputReader } from 'src/app/services/input/UseCaseInputReader';
+import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
+import { UseCase } from '../definitions';
 
 @injectable()
 export class UpdateVendorUseCase implements UseCase {

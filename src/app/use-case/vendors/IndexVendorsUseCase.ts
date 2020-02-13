@@ -1,14 +1,14 @@
-import { UseCase } from '..';
-import { UseCaseContext } from '../../context/UseCaseContext';
-import { UseCaseResultPresenter } from '../../interfaces/UseCaseResultPresenter';
-import { UseCaseResult } from '../UseCaseResult';
+import { UseCase } from '../definitions';
+import { UseCaseContext } from '../context/UseCaseContext';
+import { UseCaseResultPresenter } from '../definitions/UseCaseResultPresenter';
+import { UseCaseResult } from '../results/UseCaseResult';
 import { VendorsRepository, VendorDto, Vendor } from 'src/domain/vendors';
 import { injectable, inject } from 'inversify';
 import { DomainType } from 'src/domain/DomainType';
 import { AppType } from '../../AppType';
 import { InstanceFactory } from '../../interfaces/InstanceFactory';
 import { UseCaseSucceedResult } from '../results/UseCaseSucceedResult';
-import { DomainErrorToUseCaseResultConverter } from '../../services/DomainErrorToUseCaseResultConverter';
+import { DomainErrorToUseCaseResultConverter } from '../tools/DomainErrorToUseCaseResultConverter';
 import { InputService } from '../../services/input';
 
 @injectable()

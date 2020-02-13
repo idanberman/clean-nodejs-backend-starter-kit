@@ -1,15 +1,15 @@
-import { UseCase } from '..';
-import { DomainErrorToUseCaseResultConverter } from 'src/app/services/DomainErrorToUseCaseResultConverter';
+import { DomainErrorToUseCaseResultConverter } from 'src/app/use-case/tools/DomainErrorToUseCaseResultConverter';
 import { VendorsRepository, VendorDto, Vendor } from 'src/domain/vendors';
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { UseCaseInputReader } from 'src/app/services/input/UseCaseInputReader';
+import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
 import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
-import { UseCaseContext } from 'src/app/context';
-import { UseCaseResult } from '../UseCaseResult';
+import { UseCaseContext } from 'src/app/use-case/context';
+import { UseCaseResult } from '../results/UseCaseResult';
 import { WithIdParametersDto } from '../parameters/WithIdParametersDto';
 import { UseCaseSucceedResult } from '../results/UseCaseSucceedResult';
 import { ChangeDeletedStateDataDto } from '../parameters/ChangeDeletedStateDataDto';
+import { UseCase } from '../definitions';
 
 @injectable()
 export class ChangeVendorDisabledUseCase implements UseCase {

@@ -1,5 +1,5 @@
 import { SecurityContext } from './SecurityContext';
-import { UseCaseInput } from '../use-case/input/UseCaseInput';
+import { UseCaseInput } from '../input/UseCaseInput';
 
 export class UseCaseContext {
   constructor(

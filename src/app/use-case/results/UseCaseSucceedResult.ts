@@ -1,8 +1,8 @@
-import { UseCaseResult } from '../UseCaseResult';
-import { UseCaseTerminationStatus } from '../UseCaseTerminationStatus';
+import { UseCaseResult } from './UseCaseResult';
+import { UseCaseTerminationStatus } from '../definitions/UseCaseTerminationStatus';
 
 export class UseCaseSucceedResult implements UseCaseResult {
-  readonly terminationStatus: UseCaseTerminationStatus =
+  public readonly terminationStatus: UseCaseTerminationStatus =
     UseCaseTerminationStatus.Succeed;
   constructor(public readonly data?: any, public readonly metaData?: any) {}
 }

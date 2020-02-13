@@ -1,7 +1,7 @@
-import { OperationFailedCausedByUser } from '..';
 import { FailureCode } from './values/FailureCode';
 import { UseCaseInputErrorDescription } from './values/UseCaseInputErrorDescription';
 import { DomainError } from '../../DomainError';
+import { OperationFailedCausedByUser } from '../OperationFailedCausedByUser';
 
 export class InputSyntaxError
   implements OperationFailedCausedByUser, DomainError {

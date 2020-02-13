@@ -1,3 +1,3 @@
-export { InputReadingResult } from './InputReadingResult';
-export { InputReadingMode } from './InputReadingMode';
+export { InputReadingResult } from './values/InputReadingResult';
+export { InputReadingMode } from './values/InputReadingMode';
 export { InputService } from './InputService';

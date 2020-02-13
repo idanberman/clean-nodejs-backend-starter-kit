@@ -1,15 +1,14 @@
 import { UseCaseInputSyntaxErrorResult } from 'src/app/use-case/results/UseCaseInputSyntaxErrorResult';
-import { UseCaseResult } from 'src/app/use-case/UseCaseResult';
+import { UseCaseResult } from 'src/app/use-case/results/UseCaseResult';
 import {
   WriteResourceNotFoundError,
   ReadResourceNotFoundError,
   InvalidInputError,
 } from 'src/domain/errors/operation';
 import { InputSyntaxError } from 'src/domain/errors/operation/by-user/InputSyntaxError';
-import { UseCaseTerminationStatus } from '../use-case';
-import { UseCaseUnableProcessInputResult } from '../use-case/results/UseCaseUnableProcessInputResult';
+import { UseCaseUnableProcessInputResult } from '../results/UseCaseUnableProcessInputResult';
 import { DomainError } from 'src/domain/errors/DomainError';
-import { UseCaseNotFoundResult } from '../use-case/results/UseCaseNotFoundResult';
+import { UseCaseNotFoundResult } from '../results/UseCaseNotFoundResult';
 
 export class DomainErrorToUseCaseResultConverter {
   private isDomainErrorType(

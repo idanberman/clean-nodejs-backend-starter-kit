@@ -5,8 +5,8 @@ import {
   WebServerConfiguration,
 } from 'src/domain/value-objects/configuration/AppConfiguration';
 import dotenv = require('dotenv');
-import { ConfigurationProvider } from 'src/app/interfaces';
 import { injectable } from 'inversify';
+import { ConfigurationProvider } from 'src/app/services';
 dotenv.config();
 
 @injectable()

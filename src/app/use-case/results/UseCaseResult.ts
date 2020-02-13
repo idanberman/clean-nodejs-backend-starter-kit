@@ -1,4 +1,4 @@
-import { UseCaseTerminationStatus } from './UseCaseTerminationStatus';
+import { UseCaseTerminationStatus } from '../definitions/UseCaseTerminationStatus';
 
 export interface UseCaseResult {
   readonly terminationStatus: UseCaseTerminationStatus;
