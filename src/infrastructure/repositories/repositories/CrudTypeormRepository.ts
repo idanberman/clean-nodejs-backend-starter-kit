@@ -8,8 +8,10 @@ import {
   InsertResult,
   DeepPartial,
 } from 'typeorm';
-import { ReadResourceNotFoundError } from 'src/domain/errors';
-import { WriteResourceNotFoundError } from 'src/domain/errors/operation';
+import {
+  WriteResourceNotFoundError,
+  ReadResourceNotFoundError,
+} from 'src/domain/errors/operation';
 
 export class CrudTypeormRepository<T extends BaseEntity>
   implements BasicReadRepository<T>, BasicWriteRepository<T> {

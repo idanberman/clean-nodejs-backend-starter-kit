@@ -1,1 +1,1 @@
-export class LoggerFactory {}
+export interface LoggerFactory {}

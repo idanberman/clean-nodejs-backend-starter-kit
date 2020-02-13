@@ -3,4 +3,4 @@ export { UseCaseInternalServiceErrorResult } from './UseCaseInternalServiceError
 export { UseCaseNotFoundResult } from './UseCaseNotFoundResult';
 export { UseCaseSucceedResult } from './UseCaseSucceedResult';
 export { UseCaseUnableProcessInputResult } from './UseCaseUnableProcessInputResult';
-export { UseCaseUnknownInternalServiceErrorResult } from './UseCaseUnknownInternalServiceErrorResult';
+export { UseCaseResult } from './UseCaseResult';

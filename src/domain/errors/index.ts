@@ -1,3 +1,2 @@
-export { ReadResourceNotFoundError } from './operation/by-user/ReadResourceNotFoundError';
-export { InternalServiceError } from './InternalServiceError';
-export { OperationFailedCausedByResource } from './operation/OperationFailedCausedByResource';
+export { OperationFailedCausedBySystem } from './operation/OperationFailedCausedBySystem';
+export { DomainError } from './DomainError';

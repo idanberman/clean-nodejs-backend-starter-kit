@@ -1,14 +1,14 @@
 import { UseCaseResult } from 'src/app/use-case/results/UseCaseResult';
-import { UseCaseContext } from '../use-case/context/UseCaseContext';
-import { BaseDto } from 'src/domain/interfaces';
+import { UseCaseContext } from '../use-case/context';
 import {
   UseCaseResultPresenter,
   UseCase,
   UseCaseTerminationStatus,
 } from '../use-case/definitions';
-import { InternalServiceError } from 'src/domain/errors';
 import { UseCaseInternalServiceErrorResult } from '../use-case/results';
 import { DomainErrorToUseCaseResultConverter } from '../use-case/tools';
+import { InternalServiceError } from 'src/domain/errors/operation/by-system/InternalServiceError';
+import { UnknownSystemFailure } from 'src/domain/errors/operation';
 
 export class UseCaseDispatcherService {
   private readonly domainErrorConverter: DomainErrorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
@@ -30,11 +30,7 @@ export class UseCaseDispatcherService {
       resultToPresent = resultToPresent;
       return resultToPresent;
     } catch (error) {
-      try {
-        resultToPresent = this.domainErrorConverter.convert(error);
-      } catch (error) {
-        resultToPresent = this.generateUseCaseResultForUnhandledError(error);
-      }
+      resultToPresent = this.getErrorResult(resultToPresent, error);
       this.handleUnhandledError(error);
     } finally {
       if (useCase.dispose) {
@@ -42,6 +38,15 @@ export class UseCaseDispatcherService {
       }
       presenter.present(resultToPresent);
     }
+  }
+
+  private getErrorResult(resultToPresent: UseCaseResult, error: any) {
+    try {
+      resultToPresent = this.domainErrorConverter.convert(error);
+    } catch (irrelevant) {
+      resultToPresent = this.generateUseCaseResultForUnhandledError(error);
+    }
+    return resultToPresent;
   }
 
   private handleUnhandledError(error: Error) {
@@ -57,7 +62,7 @@ export class UseCaseDispatcherService {
     error: Error,
   ): UseCaseInternalServiceErrorResult {
     return new UseCaseInternalServiceErrorResult(
-      new InternalServiceError('Unhandled Error', error),
+      new UnknownSystemFailure(error),
     );
   }
 }

@@ -1,15 +1,16 @@
 import { UseCase } from '../definitions';
 import { UseCaseContext } from '../context';
-import { UseCaseResult } from '../results/UseCaseResult';
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
+import { InstanceFactory } from 'src/app/interfaces';
 import { VendorsRepository, Vendor, VendorDto } from 'src/domain/vendors';
-import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
-import { DomainErrorToUseCaseResultConverter } from 'src/app/use-case/tools/DomainErrorToUseCaseResultConverter';
-import { WithIdParametersDto } from '../parameters/WithIdParametersDto';
+import {
+  UseCaseInputReader,
+  DomainErrorToUseCaseResultConverter,
+} from 'src/app/use-case/tools';
+import { WithIdParametersDto } from '../parameters';
 import { InputReadingMode } from 'src/app/services/input';
-import { UseCaseSucceedResult } from '../results/UseCaseSucceedResult';
+import { UseCaseSucceedResult, UseCaseResult } from '../results';
 import { WriteResourceNotFoundError } from 'src/domain/errors/operation';
 @injectable()
 export class DeleteVendorUseCase implements UseCase {

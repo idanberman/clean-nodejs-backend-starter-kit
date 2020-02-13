@@ -1,8 +1,9 @@
 export { UseCaseInputErrorDescription } from './by-user/values/UseCaseInputErrorDescription';
-export { OperationFailedCausedByResource } from './OperationFailedCausedByResource';
+export { OperationFailedCausedBySystem } from './OperationFailedCausedBySystem';
 export { OperationFailedCausedByUser } from './OperationFailedCausedByUser';
 export { AbstractInvalidArguments } from './by-user/AbstractInvalidArguments';
 export { ReadResourceNotFoundError } from './by-user/ReadResourceNotFoundError';
 export { WriteResourceNotFoundError } from './by-user/WriteResourceNotFoundError';
-export { UnknownResourceFailure } from './by-resource/UnknownResourceFailure';
+export { UnknownSystemFailure } from './by-system/UnknownSystemFailure';
 export { InvalidInputError } from './by-user/InvalidInputError';
+export { InputSyntaxError } from './by-user//InputSyntaxError';

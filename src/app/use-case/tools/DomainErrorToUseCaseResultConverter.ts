@@ -1,14 +1,16 @@
-import { UseCaseInputSyntaxErrorResult } from 'src/app/use-case/results/UseCaseInputSyntaxErrorResult';
-import { UseCaseResult } from 'src/app/use-case/results/UseCaseResult';
 import {
   WriteResourceNotFoundError,
   ReadResourceNotFoundError,
   InvalidInputError,
+  InputSyntaxError,
 } from 'src/domain/errors/operation';
-import { InputSyntaxError } from 'src/domain/errors/operation/by-user/InputSyntaxError';
-import { UseCaseUnableProcessInputResult } from '../results/UseCaseUnableProcessInputResult';
-import { DomainError } from 'src/domain/errors/DomainError';
-import { UseCaseNotFoundResult } from '../results/UseCaseNotFoundResult';
+import { DomainError } from 'src/domain/errors';
+import {
+  UseCaseResult,
+  UseCaseInputSyntaxErrorResult,
+  UseCaseUnableProcessInputResult,
+  UseCaseNotFoundResult,
+} from '../results';
 
 export class DomainErrorToUseCaseResultConverter {
   private isDomainErrorType(
@@ -16,7 +18,6 @@ export class DomainErrorToUseCaseResultConverter {
   ): toBeDetermined is DomainError {
     return toBeDetermined.domainErrorType;
   }
-  private throwTypeError() {}
   public convert(error: DomainError): UseCaseResult {
     // instanceof UseCaseResult
 

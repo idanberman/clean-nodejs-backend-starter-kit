@@ -1,5 +1,5 @@
 import { UseCaseResult } from './UseCaseResult';
-import { UseCaseInputErrorDescription } from 'src/domain/errors/operation/by-user/values/UseCaseInputErrorDescription';
+import { UseCaseInputErrorDescription } from 'src/domain/errors/operation';
 import { UseCaseTerminationStatus } from '../definitions';
 
 export class UseCaseInputSyntaxErrorResult implements UseCaseResult {

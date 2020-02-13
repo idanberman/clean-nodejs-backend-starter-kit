@@ -7,14 +7,14 @@ import {
 import { VendorDto, VendorsRepository, Vendor } from 'src/domain/vendors';
 import { AppType } from 'src/app/AppType';
 import { inject, injectable } from 'inversify';
-import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
-import { DomainErrorToUseCaseResultConverter } from 'src/app/use-case/tools/DomainErrorToUseCaseResultConverter';
-import { InputSyntaxError } from 'src/domain/errors/operation/by-user/InputSyntaxError';
-import { UseCaseResult } from '../results/UseCaseResult';
-import { UseCaseSucceedResult } from '../results/UseCaseSucceedResult';
-import { WithIdParametersDto } from '../parameters/WithIdParametersDto';
-import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
 import { UseCase } from '../definitions';
+import {
+  DomainErrorToUseCaseResultConverter,
+  UseCaseInputReader,
+} from '../tools';
+import { InstanceFactory } from 'src/app/interfaces';
+import { UseCaseResult, UseCaseSucceedResult } from '../results';
+import { WithIdParametersDto } from '../parameters';
 
 @injectable()
 export class UpdateVendorUseCase implements UseCase {

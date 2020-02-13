@@ -1,8 +1,8 @@
-import { InputSyntaxError } from 'src/domain/errors/operation/by-user/InputSyntaxError';
-import { InputService, InputReadingResult } from '../../services/input';
+import { InputSyntaxError } from 'src/domain/errors/operation';
 import { injectable, inject } from 'inversify';
 import { AppType } from 'src/app/AppType';
 import { UseCaseInput } from '../input';
+import { InputService, InputReadingResult } from 'src/app/services/input';
 
 type inputRead = (
   input: UseCaseInput,

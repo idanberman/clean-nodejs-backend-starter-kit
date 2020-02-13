@@ -1,15 +1,16 @@
 import { UseCaseContext } from 'src/app/use-case/context';
-import { UseCaseResult } from '../results/UseCaseResult';
+import { UseCaseResult, UseCaseSucceedResult } from '../results';
 import { Vendor, VendorDto, VendorsRepository } from 'src/domain/vendors';
-import { UseCaseSucceedResult } from '../results/UseCaseSucceedResult';
-import { DomainErrorToUseCaseResultConverter } from 'src/app/use-case/tools/DomainErrorToUseCaseResultConverter';
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
 import { InputService, InputReadingMode } from 'src/app/services/input';
-import { WithIdParametersDto } from '../parameters/WithIdParametersDto';
-import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
 import { UseCase } from '../definitions';
+import {
+  DomainErrorToUseCaseResultConverter,
+  UseCaseInputReader,
+} from '../tools';
+import { InstanceFactory } from 'src/app/interfaces';
+import { WithIdParametersDto } from '../parameters';
 
 @injectable()
 export class ReadOneVendorUseCase implements UseCase {

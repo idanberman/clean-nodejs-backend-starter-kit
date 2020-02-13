@@ -1,18 +1,18 @@
 import { inject, injectable } from 'inversify';
-import { UseCaseSucceedResult } from 'src/app/use-case/results/UseCaseSucceedResult';
-import { UseCaseResult } from 'src/app/use-case/results/UseCaseResult';
-import { InputSyntaxError } from 'src/domain/errors/operation/by-user/InputSyntaxError';
+import { UseCaseSucceedResult } from 'src/app/use-case/results';
+import { UseCaseResult } from 'src/app/use-case/results';
+import { InputSyntaxError } from 'src/domain/errors/operation';
 import { Vendor, VendorDto, VendorsRepository } from 'src/domain/vendors';
-import { AppType } from '../../AppType';
-import { UseCaseContext } from '../context/UseCaseContext';
-import { InstanceFactory } from '../../interfaces/InstanceFactory';
-import { DomainErrorToUseCaseResultConverter } from '../tools/DomainErrorToUseCaseResultConverter';
 import {
   InputService,
   InputReadingResult,
   InputReadingMode,
 } from 'src/app/services/input';
 import { UseCase } from '../definitions';
+import { AppType } from 'src/app/AppType';
+import { DomainErrorToUseCaseResultConverter } from '../tools';
+import { InstanceFactory } from 'src/app/interfaces';
+import { UseCaseContext } from '../context';
 
 @injectable()
 export class CreateVendorUseCase implements UseCase {

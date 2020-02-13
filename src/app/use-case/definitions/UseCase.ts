@@ -1,5 +1,5 @@
-import { UseCaseContext } from '../context/UseCaseContext';
-import { UseCaseResult } from '../results/UseCaseResult';
+import { UseCaseContext } from '../context';
+import { UseCaseResult } from '../results';
 
 export interface UseCase {
   run(useCaseContext: UseCaseContext): Promise<UseCaseResult>;

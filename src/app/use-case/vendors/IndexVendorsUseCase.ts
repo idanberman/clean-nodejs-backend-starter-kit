@@ -1,15 +1,12 @@
 import { UseCase } from '../definitions';
-import { UseCaseContext } from '../context/UseCaseContext';
-import { UseCaseResultPresenter } from '../definitions/UseCaseResultPresenter';
-import { UseCaseResult } from '../results/UseCaseResult';
+import { UseCaseContext } from '../context';
 import { VendorsRepository, VendorDto, Vendor } from 'src/domain/vendors';
 import { injectable, inject } from 'inversify';
-import { DomainType } from 'src/domain/DomainType';
-import { AppType } from '../../AppType';
-import { InstanceFactory } from '../../interfaces/InstanceFactory';
-import { UseCaseSucceedResult } from '../results/UseCaseSucceedResult';
-import { DomainErrorToUseCaseResultConverter } from '../tools/DomainErrorToUseCaseResultConverter';
-import { InputService } from '../../services/input';
+import { DomainErrorToUseCaseResultConverter } from '../tools';
+import { InstanceFactory } from 'src/app/interfaces';
+import { InputService } from 'src/app/services/input';
+import { AppType } from 'src/app/AppType';
+import { UseCaseResult, UseCaseSucceedResult } from '../results';
 
 @injectable()
 export class IndexVendorsUseCase implements UseCase {

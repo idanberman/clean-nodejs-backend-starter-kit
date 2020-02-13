@@ -1,14 +1,12 @@
-import { DomainErrorToUseCaseResultConverter } from 'src/app/use-case/tools/DomainErrorToUseCaseResultConverter';
-import { VendorsRepository, VendorDto, Vendor } from 'src/domain/vendors';
+import { DomainErrorToUseCaseResultConverter } from 'src/app/use-case/tools';
+import { VendorsRepository } from 'src/domain/vendors';
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
-import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
+import { UseCaseInputReader } from 'src/app/use-case/tools';
+import { InstanceFactory } from 'src/app/interfaces';
 import { UseCaseContext } from 'src/app/use-case/context';
-import { UseCaseResult } from '../results/UseCaseResult';
-import { WithIdParametersDto } from '../parameters/WithIdParametersDto';
-import { UseCaseSucceedResult } from '../results/UseCaseSucceedResult';
-import { ChangeDeletedStateDataDto } from '../parameters/ChangeDeletedStateDataDto';
+import { UseCaseSucceedResult, UseCaseResult } from '../results';
+import { ChangeDeletedStateDataDto, WithIdParametersDto } from '../parameters';
 import { UseCase } from '../definitions';
 
 @injectable()
