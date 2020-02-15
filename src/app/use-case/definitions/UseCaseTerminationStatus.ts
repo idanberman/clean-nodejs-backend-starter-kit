@@ -8,7 +8,7 @@ export enum UseCaseTerminationStatus {
   UnableProcessInput = 'UnableProcessInput',
 
   // For Read Operation
-  NotFound = 'NotFound',
+  RequestedDataNotFound = 'RequestedDataNotFound',
 
   // Operation failed caused by the service and not by the user
   InternalError = 'InternalError',

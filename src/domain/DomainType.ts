@@ -1,3 +1,1 @@
-export const DomainType = {
-  VendorsService: Symbol.for('VendorsService'),
-};
+export const DomainType = {};

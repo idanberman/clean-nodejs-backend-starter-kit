@@ -5,12 +5,7 @@ import {
   InputSyntaxError,
 } from 'src/domain/errors/operation';
 import { DomainError } from 'src/domain/errors';
-import {
-  UseCaseResult,
-  UseCaseInputSyntaxErrorResult,
-  UseCaseUnableProcessInputResult,
-  UseCaseNotFoundResult,
-} from '../results';
+import { UseCaseResult } from '../results';
 
 export class DomainErrorToUseCaseResultConverter {
   private isDomainErrorType(
@@ -23,23 +18,25 @@ export class DomainErrorToUseCaseResultConverter {
 
     if (error instanceof InputSyntaxError) {
       const syntaxError: InputSyntaxError = error as InputSyntaxError;
-      return new UseCaseInputSyntaxErrorResult(syntaxError.errors);
+      return UseCaseResult.syntaxError(syntaxError.errors);
     }
 
     if (error instanceof WriteResourceNotFoundError) {
-      return new UseCaseUnableProcessInputResult(
+      UseCaseResult.unableProcessInput(
         'Can not find entity by provided parameters',
+        error.at,
       );
     }
 
     if (error instanceof ReadResourceNotFoundError) {
-      return new UseCaseNotFoundResult(
-        'Can not find entity by provided parameters',
+      UseCaseResult.requestedDataNotFound(
+        'Can not find requested resource',
+        error.at,
       );
     }
 
     if (error instanceof InvalidInputError) {
-      return new UseCaseUnableProcessInputResult(error.errorMessage, error.at);
+      return UseCaseResult.unableProcessInput(error.errorMessage, error.at);
     }
     console.log('Unhandled error type:', typeof error, ' Error:', error);
     if (!this.isDomainErrorType(error)) {

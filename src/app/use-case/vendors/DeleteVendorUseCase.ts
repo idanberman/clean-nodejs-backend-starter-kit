@@ -10,7 +10,7 @@ import {
 } from 'src/app/use-case/tools';
 import { WithIdParametersDto } from '../parameters';
 import { InputReadingMode } from 'src/app/services/input';
-import { UseCaseSucceedResult, UseCaseResult } from '../results';
+import { UseCaseResult } from '../results';
 import { WriteResourceNotFoundError } from 'src/domain/errors/operation';
 @injectable()
 export class DeleteVendorUseCase implements UseCase {
@@ -53,7 +53,7 @@ export class DeleteVendorUseCase implements UseCase {
 
       await this.vendorsRepository.removeById(parameters.id);
 
-      return new UseCaseSucceedResult(null);
+      return UseCaseResult.success();
     } catch (error) {
       return this.errorToUseCaseResultConverter.convert(error);
     }

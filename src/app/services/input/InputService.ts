@@ -1,4 +1,4 @@
-import { BaseDto } from 'src/domain/interfaces';
+import { BaseDto } from 'src/domain/definitions';
 import { InputReadingResult, InputReadingMode } from '.';
 
 export interface InputService {

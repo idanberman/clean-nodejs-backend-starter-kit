@@ -1,14 +1,8 @@
 import { CrudTypeormRepository } from './CrudTypeormRepository';
-import {
-  SoftDeletedRepository,
-  HasSoftDeleteAbilityEntity,
-  BaseEntity,
-} from 'src/domain/interfaces';
-import {
-  WriteResourceNotFoundError,
-  InvalidInputError,
-} from 'src/domain/errors/operation';
+import { SoftDeletedRepository } from 'src/domain/interfaces';
+import { WriteResourceNotFoundError } from 'src/domain/errors/operation';
 import { DeepPartial, ObjectType, EntityManager } from 'typeorm';
+import { HasSoftDeleteAbilityEntity, BaseEntity } from 'src/domain/definitions';
 
 // tslint:disable-next-line: no-empty-interface
 interface BaseEntityAndHasSoftDeleteAbilityEntity
@@ -29,9 +23,6 @@ export class CrudWithSoftDeleteAbilityTypeormRepository<
       throw new WriteResourceNotFoundError('id', String(id));
     }
 
-    // if (!!dbEntity.deletedAt === deleted) {
-    //   throw new InvalidInputError('Entity already in desire state');
-    // }
     await this.typeormRepository.save(
       ({
         ...dbEntity,

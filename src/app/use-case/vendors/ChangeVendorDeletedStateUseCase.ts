@@ -5,12 +5,12 @@ import { AppType } from 'src/app/AppType';
 import { UseCaseInputReader } from 'src/app/use-case/tools';
 import { InstanceFactory } from 'src/app/interfaces';
 import { UseCaseContext } from 'src/app/use-case/context';
-import { UseCaseSucceedResult, UseCaseResult } from '../results';
+import { UseCaseResult } from '../results';
 import { ChangeDeletedStateDataDto, WithIdParametersDto } from '../parameters';
 import { UseCase } from '../definitions';
 
 @injectable()
-export class ChangeVendorDisabledUseCase implements UseCase {
+export class ChangeVendorDeletedStateUseCase implements UseCase {
   private readonly errorToUseCaseResultConverter: DomainErrorToUseCaseResultConverter;
   private readonly vendorsRepository: VendorsRepository;
   constructor(
@@ -47,14 +47,13 @@ export class ChangeVendorDisabledUseCase implements UseCase {
         ],
       );
 
-      // const updateVendorEntity: Vendor = this.getEntity(context.input.data);
       await this.vendorsRepository.setSoftDeleted(
         ((parameters as unknown) as WithIdParametersDto).id,
         ((disabledRequestedState as unknown) as ChangeDeletedStateDataDto)
           .deleted,
       );
 
-      return new UseCaseSucceedResult(null);
+      return UseCaseResult.success();
     } catch (error) {
       return this.errorToUseCaseResultConverter.convert(error);
     }

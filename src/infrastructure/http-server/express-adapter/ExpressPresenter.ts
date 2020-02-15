@@ -24,7 +24,7 @@ export class ExpressPresenter implements UseCaseResultPresenter {
       case UseCaseTerminationStatus.UnableProcessInput:
         return 422;
 
-      case UseCaseTerminationStatus.NotFound:
+      case UseCaseTerminationStatus.RequestedDataNotFound:
         return 404;
 
       case UseCaseTerminationStatus.InternalError:

@@ -1,5 +1,5 @@
 import { IsInt, Min, IsNumberString } from 'class-validator';
-import { BaseDto } from 'src/domain/interfaces';
+import { BaseDto } from 'src/domain/definitions';
 import { Type } from 'class-transformer';
 
 export class WithIdParametersDto implements BaseDto {

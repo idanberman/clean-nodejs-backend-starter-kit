@@ -6,7 +6,7 @@ import { DomainErrorToUseCaseResultConverter } from '../tools';
 import { InstanceFactory } from 'src/app/interfaces';
 import { InputService } from 'src/app/services/input';
 import { AppType } from 'src/app/AppType';
-import { UseCaseResult, UseCaseSucceedResult } from '../results';
+import { UseCaseResult } from '../results';
 
 @injectable()
 export class IndexVendorsUseCase implements UseCase {
@@ -32,7 +32,7 @@ export class IndexVendorsUseCase implements UseCase {
         vendor => vendor.toDto() as VendorDto,
       );
 
-      return new UseCaseSucceedResult(vendorDtoList);
+      return UseCaseResult.success(vendorDtoList);
     } catch (error) {
       return this.errorToUseCaseResultConverter.convert(error);
     }

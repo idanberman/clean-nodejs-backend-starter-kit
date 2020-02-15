@@ -8,14 +8,14 @@ import {
   UpdateVendorUseCase,
   ReadOneVendorUseCase,
   DeleteVendorUseCase,
-  ChangeVendorDisabledUseCase,
+  ChangeVendorDeletedStateUseCase,
 } from 'src/app/use-case/vendors';
 import { VendorsRepository } from 'src/domain/vendors';
 import { DotenvConfigurationProvider } from '../configuration/DotenvConfigurationProvider';
 import { InfrastructureType } from '../InfrastructureType';
 import { ClassTransformerValidatorsInputService } from '../input';
 import { TypeormVendorsReadWriteRepository } from '../repositories/repositories';
-import { TypeormAdapter } from '../repositories/TypeormAdapter';
+import { TypeormAdapter } from '../repositories/TypeormRepositoryFactory';
 import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
 import { ConfigurationProvider } from 'src/app/services';
 
@@ -37,12 +37,12 @@ export class ApplicationDiContainer {
   public async bindRepositories(): Promise<void> {
     // Bind connection provider
     this.container
-      .bind<TypeormAdapter>(InfrastructureType.TypeormAdapter)
+      .bind<TypeormAdapter>(InfrastructureType.TypeormRepositoryFactory)
       .to(TypeormAdapter)
       .inSingletonScope();
 
     const dbService: TypeormAdapter = this.container.get<TypeormAdapter>(
-      InfrastructureType.TypeormAdapter,
+      InfrastructureType.TypeormRepositoryFactory,
     );
     await dbService.asyncInit();
 
@@ -51,7 +51,7 @@ export class ApplicationDiContainer {
       .bind<InstanceFactory<VendorsRepository>>(AppType.VendorsRepository)
       .toFactory((ctx: interfaces.Context) =>
         ctx.container
-          .get<TypeormAdapter>(InfrastructureType.TypeormAdapter)
+          .get<TypeormAdapter>(InfrastructureType.TypeormRepositoryFactory)
           .getRepositoryFactory(TypeormVendorsReadWriteRepository),
       );
   }
@@ -71,8 +71,10 @@ export class ApplicationDiContainer {
       .bind<UpdateVendorUseCase>(AppType.UpdateVendorUseCase)
       .to(UpdateVendorUseCase);
     this.container
-      .bind<ChangeVendorDisabledUseCase>(AppType.ChangeVendorDeletedUseCase)
-      .to(ChangeVendorDisabledUseCase);
+      .bind<ChangeVendorDeletedStateUseCase>(
+        AppType.ChangeVendorDeletedStateUseCase,
+      )
+      .to(ChangeVendorDeletedStateUseCase);
     this.container
       .bind<DeleteVendorUseCase>(AppType.DeleteVendorUseCase)
       .to(DeleteVendorUseCase);

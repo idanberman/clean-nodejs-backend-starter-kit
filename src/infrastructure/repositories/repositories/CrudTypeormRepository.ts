@@ -1,4 +1,3 @@
-import { BaseEntity } from 'src/domain/interfaces';
 import { BasicReadRepository } from 'src/domain/interfaces/BasicReadRepository';
 import { BasicWriteRepository } from 'src/domain/interfaces/BasicWriteRepository';
 import {
@@ -12,6 +11,7 @@ import {
   WriteResourceNotFoundError,
   ReadResourceNotFoundError,
 } from 'src/domain/errors/operation';
+import { BaseEntity } from 'src/domain/definitions';
 
 export class CrudTypeormRepository<T extends BaseEntity>
   implements BasicReadRepository<T>, BasicWriteRepository<T> {

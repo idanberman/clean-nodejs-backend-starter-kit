@@ -5,10 +5,7 @@ import {
   UseCase,
   UseCaseTerminationStatus,
 } from '../use-case/definitions';
-import { UseCaseInternalServiceErrorResult } from '../use-case/results';
 import { DomainErrorToUseCaseResultConverter } from '../use-case/tools';
-import { InternalServiceError } from 'src/domain/errors/operation/by-system/InternalServiceError';
-import { UnknownSystemFailure } from 'src/domain/errors/operation';
 
 export class UseCaseDispatcherService {
   private readonly domainErrorConverter: DomainErrorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
@@ -44,7 +41,7 @@ export class UseCaseDispatcherService {
     try {
       resultToPresent = this.domainErrorConverter.convert(error);
     } catch (irrelevant) {
-      resultToPresent = this.generateUseCaseResultForUnhandledError(error);
+      resultToPresent = UseCaseResult.fromUnknownError(error);
     }
     return resultToPresent;
   }
@@ -55,14 +52,9 @@ export class UseCaseDispatcherService {
   }
 
   private useCaseFailedHandler(result: UseCaseResult): void {
-    // tslint:disable-next-line: no-console
-    console.log('UseCaseResultFailed', result);
-  }
-  private generateUseCaseResultForUnhandledError(
-    error: Error,
-  ): UseCaseInternalServiceErrorResult {
-    return new UseCaseInternalServiceErrorResult(
-      new UnknownSystemFailure(error),
-    );
+    if (result.terminationStatus === UseCaseTerminationStatus.InternalError) {
+      // tslint:disable-next-line: no-console
+      console.log('UseCaseResultFailed', result);
+    }
   }
 }

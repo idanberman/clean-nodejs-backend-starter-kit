@@ -1,4 +1,3 @@
-import { BaseDto } from 'src/domain/interfaces/';
 import { injectable, inject } from 'inversify';
 import {
   transformAndValidateSync,
@@ -10,6 +9,7 @@ import {
   InputReadingResult,
   InputService,
 } from 'src/app/services/input';
+import { BaseDto } from 'src/domain/definitions';
 
 @injectable()
 export class ClassTransformerValidatorsInputService implements InputService {

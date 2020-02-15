@@ -5,9 +5,9 @@ import {
   PrimaryGeneratedColumn,
   VersionColumn,
 } from 'typeorm';
-import { BaseEntity } from '../interfaces';
-import { BaseEntityDto } from '../interfaces/BaseEntityDto';
 import { VendorDto } from './VendorDto';
+import { BaseEntityDto } from '../definitions/BaseEntityDto';
+import { BaseEntity } from '../definitions';
 
 @Entity()
 export class Vendor implements BaseEntity {

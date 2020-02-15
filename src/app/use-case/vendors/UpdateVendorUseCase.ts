@@ -13,7 +13,7 @@ import {
   UseCaseInputReader,
 } from '../tools';
 import { InstanceFactory } from 'src/app/interfaces';
-import { UseCaseResult, UseCaseSucceedResult } from '../results';
+import { UseCaseResult } from '../results';
 import { WithIdParametersDto } from '../parameters';
 
 @injectable()
@@ -55,7 +55,7 @@ export class UpdateVendorUseCase implements UseCase {
       );
       const actualVendor = Vendor.build(vendorData);
 
-      return new UseCaseSucceedResult(actualVendor.toDto());
+      return UseCaseResult.success(actualVendor.toDto());
     } catch (error) {
       return this.errorToUseCaseResultConverter.convert(error);
     }

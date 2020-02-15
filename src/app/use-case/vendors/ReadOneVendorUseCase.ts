@@ -1,5 +1,5 @@
 import { UseCaseContext } from 'src/app/use-case/context';
-import { UseCaseResult, UseCaseSucceedResult } from '../results';
+import { UseCaseResult } from '../results';
 import { Vendor, VendorDto, VendorsRepository } from 'src/domain/vendors';
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
@@ -48,7 +48,7 @@ export class ReadOneVendorUseCase implements UseCase {
       );
       const vendorDto: VendorDto = vendor.toDto() as VendorDto;
 
-      return new UseCaseSucceedResult(vendorDto);
+      return UseCaseResult.success(vendorDto);
     } catch (error) {
       return this.errorToUseCaseResultConverter.convert(error);
     }

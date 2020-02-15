@@ -1,3 +1,5 @@
 export interface DomainError {
-  readonly domainErrorType: string;
+  readonly domainErrorType:
+    | 'OperationFailedCausedByUser'
+    | 'OperationFailedCausedBySystem';
 }

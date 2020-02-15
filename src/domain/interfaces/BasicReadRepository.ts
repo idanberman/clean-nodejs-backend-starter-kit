@@ -1,4 +1,4 @@
-import { BaseEntity } from 'src/domain/interfaces/BaseEntity';
+import { BaseEntity } from 'src/domain/definitions';
 import { DomainRepository } from './DomainRepository';
 
 export interface BasicReadRepository<T extends BaseEntity>

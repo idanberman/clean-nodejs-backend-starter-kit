@@ -1,6 +1,5 @@
 import { injectable, inject } from 'inversify';
 import { DomainType } from 'src/domain/DomainType';
-import { BaseEntity } from 'src/domain/interfaces/BaseEntity';
 import {
   AppConfiguration,
   DatabaseConfiguration,

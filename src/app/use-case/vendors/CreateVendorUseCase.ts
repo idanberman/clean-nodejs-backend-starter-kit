@@ -1,5 +1,4 @@
 import { inject, injectable } from 'inversify';
-import { UseCaseSucceedResult } from 'src/app/use-case/results';
 import { UseCaseResult } from 'src/app/use-case/results';
 import { InputSyntaxError } from 'src/domain/errors/operation';
 import { Vendor, VendorDto, VendorsRepository } from 'src/domain/vendors';
@@ -50,7 +49,7 @@ export class CreateVendorUseCase implements UseCase {
       const actualVendorDto: VendorDto = await this.vendorsRepository.createEntity(
         createVendorEntity,
       );
-      return new UseCaseSucceedResult(actualVendorDto);
+      return UseCaseResult.success(actualVendorDto);
     } catch (error) {
       return this.errorToUseCaseResultConverter.convert(error);
     }

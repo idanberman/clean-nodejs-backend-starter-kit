@@ -11,9 +11,9 @@ import {
 } from 'class-validator';
 import { Exclude, Expose } from 'class-transformer';
 
-import { BaseEntityDto } from '../interfaces/BaseEntityDto';
 import { Vendor } from './Vendor';
 import { InputReadingMode } from 'src/app/services/input';
+import { BaseEntityDto } from '../definitions';
 
 export class VendorDto implements BaseEntityDto, Partial<Vendor> {
   @Exclude()

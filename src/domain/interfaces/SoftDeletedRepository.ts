@@ -1,8 +1,5 @@
-import {
-  BasicWriteRepository,
-  BaseEntity,
-  HasSoftDeleteAbilityEntity,
-} from '.';
+import { BasicWriteRepository } from '.';
+import { HasSoftDeleteAbilityEntity, BaseEntity } from '../definitions';
 
 export interface SoftDeletedRepository<
   T extends HasSoftDeleteAbilityEntity & BaseEntity

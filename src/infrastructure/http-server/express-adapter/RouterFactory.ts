@@ -13,7 +13,9 @@ export class RouterFactory {
     const router = express.Router();
     router
       .route('/vendors/:id/deleted')
-      .put(expressRouteGenerator.generate(AppType.ChangeVendorDeletedUseCase));
+      .put(
+        expressRouteGenerator.generate(AppType.ChangeVendorDeletedStateUseCase),
+      );
     router
       .route('/vendors/')
       .get(expressRouteGenerator.generate(AppType.IndexVendorsUseCase))
