@@ -13,7 +13,7 @@ import {
   EntitySchema,
   EntityManager,
 } from 'typeorm';
-import { AsyncInitializable } from 'src/app/interfaces/AsyncInitializable';
+import { AsyncInitializable } from 'src/app/core/interfaces/AsyncInitializable';
 import { Entities } from './consts/Entities';
 
 export class TypeormDatabaseConnection implements AsyncInitializable {

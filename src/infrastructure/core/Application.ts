@@ -1,9 +1,14 @@
 import { AppType } from 'src/app/AppType';
 import { SecurityContext } from 'src/app/use-case/context';
 import { UseCaseContext } from 'src/app/use-case/context/UseCaseContext';
-import { ApplicationGateway } from 'src/app/interfaces';
-import { ApplicationInterface } from 'src/app/interfaces/ApplicationInterface';
-import { AsyncInitializable } from 'src/app/interfaces/AsyncInitializable';
+import {
+  ApplicationGateway,
+  ApplicationEventListener,
+  ApplicationUnderlyingResource,
+  ApplicationInterface,
+  AsyncInitializable,
+  ApplicationUnderlyingResource,
+} from 'src/app/core/interfaces';
 import {
   ConfigurationProvider,
   UseCaseDispatcherService,
@@ -15,15 +20,23 @@ import { ApplicationDiContainer } from './ApplicationDiContainer';
 import express = require('express');
 import { UseCaseInput } from 'src/app/use-case/input';
 import { UseCase, UseCaseResultPresenter } from 'src/app/use-case/definitions';
+import { ApplicationEventEmitterImpl } from './ApplicationEventEmitterImpl';
+import { UnderlyingResourceManager } from './underlying-resource-manager';
 
 export class Application implements ApplicationInterface, AsyncInitializable {
   private applicationDiContainer: ApplicationDiContainer;
   private useCaseDispatcher: UseCaseDispatcherService;
+  private applicationEventListener: ApplicationEventListener;
+  private underlyingResourceManager: UnderlyingResourceManager;
   private applicationGateways: ApplicationGateway[];
 
   constructor() {
     this.applicationDiContainer = new ApplicationDiContainer();
     this.useCaseDispatcher = new UseCaseDispatcherService();
+    this.applicationEventListener = new ApplicationEventEmitterImpl();
+    this.underlyingResourceManager = new UnderlyingResourceManager(
+      this.applicationEventListener,
+    );
     this.applicationGateways = [];
   }
 
@@ -54,6 +67,10 @@ export class Application implements ApplicationInterface, AsyncInitializable {
   public loadGateway(gateway: ApplicationGateway) {
     gateway.load(this as Application);
     this.applicationGateways.push(gateway);
+  }
+
+  public loadUnderlyingResource(resource: ApplicationUnderlyingResource) {
+    this.underlyingResourceManager.loadUnderlyingResource(resource);
   }
 
   public dispatchUseCase(

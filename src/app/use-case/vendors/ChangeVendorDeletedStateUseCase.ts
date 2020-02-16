@@ -3,7 +3,7 @@ import { VendorsRepository } from 'src/domain/vendors';
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
 import { UseCaseInputReader } from 'src/app/use-case/tools';
-import { InstanceFactory } from 'src/app/interfaces';
+import { InstanceFactory } from 'src/app/core/interfaces';
 import { UseCaseContext } from 'src/app/use-case/context';
 import { UseCaseResult } from '../results';
 import { ChangeDeletedStateDataDto, WithIdParametersDto } from '../parameters';

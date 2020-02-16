@@ -3,7 +3,7 @@ import { UseCaseContext } from '../context';
 import { VendorsRepository, VendorDto, Vendor } from 'src/domain/vendors';
 import { injectable, inject } from 'inversify';
 import { DomainErrorToUseCaseResultConverter } from '../tools';
-import { InstanceFactory } from 'src/app/interfaces';
+import { InstanceFactory } from 'src/app/core/interfaces';
 import { InputService } from 'src/app/services/input';
 import { AppType } from 'src/app/AppType';
 import { UseCaseResult } from '../results';

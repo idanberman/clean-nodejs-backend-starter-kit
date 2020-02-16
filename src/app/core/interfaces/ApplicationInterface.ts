@@ -1,7 +1,7 @@
-import { UseCaseContext, SecurityContext } from '../use-case/context';
+import { UseCaseContext, SecurityContext } from '../../use-case/context';
 import { AppConfiguration } from 'src/domain/value-objects/configuration';
-import { UseCaseInput } from '../use-case/input';
-import { UseCase, UseCaseResultPresenter } from '../use-case/definitions';
+import { UseCaseInput } from '../../use-case/input';
+import { UseCase, UseCaseResultPresenter } from '../../use-case/definitions';
 
 export interface ApplicationInterface {
   createUseCaseContext(

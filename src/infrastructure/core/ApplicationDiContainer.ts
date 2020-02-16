@@ -1,6 +1,6 @@
 import { Container, interfaces } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
+import { InstanceFactory } from 'src/app/core/interfaces/InstanceFactory';
 import { InputService } from 'src/app/services/input';
 import {
   CreateVendorUseCase,
@@ -14,8 +14,8 @@ import { VendorsRepository } from 'src/domain/vendors';
 import { DotenvConfigurationProvider } from '../configuration/DotenvConfigurationProvider';
 import { InfrastructureType } from '../InfrastructureType';
 import { ClassTransformerValidatorsInputService } from '../input';
-import { TypeormVendorsReadWriteRepository } from '../repositories/repositories';
-import { TypeormAdapter } from '../repositories/TypeormRepositoryFactory';
+import { TypeormVendorsReadWriteRepository } from '../persistence/typeorm-adapter/repositories';
+import { TypeormRepositoryFactoryGateWay } from '../persistence/typeorm-adapter/TypeormRepositoryFactoryGateWay';
 import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
 import { ConfigurationProvider } from 'src/app/services';
 
@@ -37,13 +37,15 @@ export class ApplicationDiContainer {
   public async bindRepositories(): Promise<void> {
     // Bind connection provider
     this.container
-      .bind<TypeormAdapter>(InfrastructureType.TypeormRepositoryFactory)
-      .to(TypeormAdapter)
+      .bind<TypeormRepositoryFactoryGateWay>(
+        InfrastructureType.TypeormRepositoryFactoryGateway,
+      )
+      .to(TypeormRepositoryFactoryGateWay)
       .inSingletonScope();
 
-    const dbService: TypeormAdapter = this.container.get<TypeormAdapter>(
-      InfrastructureType.TypeormRepositoryFactory,
-    );
+    const dbService: TypeormRepositoryFactoryGateWay = this.container.get<
+      TypeormRepositoryFactoryGateWay
+    >(InfrastructureType.TypeormRepositoryFactoryGateway);
     await dbService.asyncInit();
 
     // Bind repositories
@@ -51,7 +53,9 @@ export class ApplicationDiContainer {
       .bind<InstanceFactory<VendorsRepository>>(AppType.VendorsRepository)
       .toFactory((ctx: interfaces.Context) =>
         ctx.container
-          .get<TypeormAdapter>(InfrastructureType.TypeormRepositoryFactory)
+          .get<TypeormRepositoryFactoryGateWay>(
+            InfrastructureType.TypeormRepositoryFactoryGateway,
+          )
           .getRepositoryFactory(TypeormVendorsReadWriteRepository),
       );
   }

@@ -9,7 +9,7 @@ import {
   DomainErrorToUseCaseResultConverter,
   UseCaseInputReader,
 } from '../tools';
-import { InstanceFactory } from 'src/app/interfaces';
+import { InstanceFactory } from 'src/app/core/interfaces';
 import { WithIdParametersDto } from '../parameters';
 
 @injectable()

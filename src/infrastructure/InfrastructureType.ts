@@ -1,3 +1,3 @@
 export const InfrastructureType = {
-  TypeormRepositoryFactory: 'TypeormRepositoryFactory',
+  TypeormRepositoryFactoryGateway: 'TypeormRepositoryFactory',
 };

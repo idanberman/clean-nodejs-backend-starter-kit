@@ -1,14 +1,14 @@
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { AsyncInitializable } from 'src/app/interfaces/AsyncInitializable';
-import { InstanceFactory } from 'src/app/interfaces/InstanceFactory';
+import { AsyncInitializable } from 'src/app/core/interfaces/AsyncInitializable';
+import { InstanceFactory } from 'src/app/core/interfaces/InstanceFactory';
 import { EntityManager, ObjectType } from 'typeorm';
 import { NoDatabaseConnectionError } from './errors/NoDatabaseConnectionError';
 import { TypeormDatabaseConnection } from './TypeormDatabaseConnection';
 import { ConfigurationProvider } from 'src/app/services';
 
 @injectable()
-export class TypeormAdapter implements AsyncInitializable {
+export class TypeormRepositoryFactoryGateWay implements AsyncInitializable {
   private readonly connection: TypeormDatabaseConnection;
   constructor(
     @inject(AppType.ConfigurationProvider)

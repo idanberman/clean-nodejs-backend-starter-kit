@@ -10,6 +10,11 @@ It means:
 - Highly testable
 - Easy to maintain
 
+Integration oriented features:
+
+- Service Resiliency
+- Fast adapt to external services such remote logging (or tracing)
+
 ### NodeJs Service starter project
 
 This project is built to kick start a JS service quick.
