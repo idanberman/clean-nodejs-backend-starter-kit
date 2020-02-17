@@ -3,11 +3,10 @@ import { SecurityContext } from 'src/app/use-case/context';
 import { UseCaseContext } from 'src/app/use-case/context/UseCaseContext';
 import {
   ApplicationGateway,
-  ApplicationEventListener,
-  ApplicationUnderlyingResource,
   ApplicationInterface,
   AsyncInitializable,
   ApplicationUnderlyingResource,
+  ApplicationEventEmitter,
 } from 'src/app/core/interfaces';
 import {
   ConfigurationProvider,
@@ -26,7 +25,7 @@ import { UnderlyingResourceManager } from './underlying-resource-manager';
 export class Application implements ApplicationInterface, AsyncInitializable {
   private applicationDiContainer: ApplicationDiContainer;
   private useCaseDispatcher: UseCaseDispatcherService;
-  private applicationEventListener: ApplicationEventListener;
+  private applicationEventListener: ApplicationEventEmitter;
   private underlyingResourceManager: UnderlyingResourceManager;
   private applicationGateways: ApplicationGateway[];
 
@@ -67,10 +66,6 @@ export class Application implements ApplicationInterface, AsyncInitializable {
   public loadGateway(gateway: ApplicationGateway) {
     gateway.load(this as Application);
     this.applicationGateways.push(gateway);
-  }
-
-  public loadUnderlyingResource(resource: ApplicationUnderlyingResource) {
-    this.underlyingResourceManager.loadUnderlyingResource(resource);
   }
 
   public dispatchUseCase(

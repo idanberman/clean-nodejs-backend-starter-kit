@@ -15,9 +15,9 @@ import { DotenvConfigurationProvider } from '../configuration/DotenvConfiguratio
 import { InfrastructureType } from '../InfrastructureType';
 import { ClassTransformerValidatorsInputService } from '../input';
 import { TypeormVendorsReadWriteRepository } from '../persistence/typeorm-adapter/repositories';
-import { TypeormRepositoryFactoryGateWay } from '../persistence/typeorm-adapter/TypeormRepositoryFactoryGateWay';
 import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
 import { ConfigurationProvider } from 'src/app/services';
+import { TypeormRepositoryFactoryService } from '../persistence/typeorm-adapter/TypeormRepositoryFactoryService';
 
 export class ApplicationDiContainer {
   private readonly container: Container;
@@ -37,15 +37,15 @@ export class ApplicationDiContainer {
   public async bindRepositories(): Promise<void> {
     // Bind connection provider
     this.container
-      .bind<TypeormRepositoryFactoryGateWay>(
-        InfrastructureType.TypeormRepositoryFactoryGateway,
+      .bind<TypeormRepositoryFactoryService>(
+        InfrastructureType.TypeormRepositoryFactoryService,
       )
-      .to(TypeormRepositoryFactoryGateWay)
+      .to(TypeormRepositoryFactoryService)
       .inSingletonScope();
 
-    const dbService: TypeormRepositoryFactoryGateWay = this.container.get<
-      TypeormRepositoryFactoryGateWay
-    >(InfrastructureType.TypeormRepositoryFactoryGateway);
+    const dbService: TypeormRepositoryFactoryService = this.container.get<
+      TypeormRepositoryFactoryService
+    >(InfrastructureType.TypeormRepositoryFactoryService);
     await dbService.asyncInit();
 
     // Bind repositories
@@ -53,8 +53,8 @@ export class ApplicationDiContainer {
       .bind<InstanceFactory<VendorsRepository>>(AppType.VendorsRepository)
       .toFactory((ctx: interfaces.Context) =>
         ctx.container
-          .get<TypeormRepositoryFactoryGateWay>(
-            InfrastructureType.TypeormRepositoryFactoryGateway,
+          .get<TypeormRepositoryFactoryService>(
+            InfrastructureType.TypeormRepositoryFactoryService,
           )
           .getRepositoryFactory(TypeormVendorsReadWriteRepository),
       );
@@ -94,31 +94,6 @@ export class ApplicationDiContainer {
       .bind<UseCaseInputReader>(AppType.UseCaseInputReader)
       .to(UseCaseInputReader);
   }
-
-  // public static async getContainer(): Promise<Container> {
-  //   const container: Container = new Container({ autoBindInjectable: true });
-  //   // Micro-service infrastructure
-  //   container;
-
-  //   // Domain Services
-  //   container
-  //     .bind<VendorsService>(DomainType.VendorsService)
-  //     .toService(VendorsService);
-
-  //   // Domain Entities
-  //   container.bind<Vendor>(Vendor).toSelf();
-
-  //   // init external services
-
-  //   // Db will be abele to be bind as needed after this issue will be resolved
-  //   // https://github.com/inversify/InversifyJS/pull/1132
-  //   const dbService = container.get<TypeormRepositoryFactoryProvider>(
-  //     InfrastructureType.DatabaseService,
-  //   );
-  //   await dbService.init();
-
-  //   return container;
-  // }
 
   public get<T>(constructorFunction: interfaces.ServiceIdentifier<T>): T {
     return this.container.get(constructorFunction);

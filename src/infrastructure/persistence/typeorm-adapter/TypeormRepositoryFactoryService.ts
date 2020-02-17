@@ -6,16 +6,22 @@ import { EntityManager, ObjectType } from 'typeorm';
 import { NoDatabaseConnectionError } from './errors/NoDatabaseConnectionError';
 import { TypeormDatabaseConnection } from './TypeormDatabaseConnection';
 import { ConfigurationProvider } from 'src/app/services';
+import { AppConfiguration } from 'src/domain/value-objects/configuration';
+import {
+  ApplicationUnderlyingResource,
+  UnderlyingResourceStateReporter,
+} from 'src/app/core/interfaces';
+import { InfrastructureType } from 'src/infrastructure/InfrastructureType';
 
-@injectable()
-export class TypeormRepositoryFactoryGateWay implements AsyncInitializable {
+export class TypeormRepositoryFactoryService
+  implements ApplicationUnderlyingResource {
+  public resourceId = 'TypeormRepositoryFactoryService';
+  private underlyingResourceStateReporter: UnderlyingResourceStateReporter;
+
   private readonly connection: TypeormDatabaseConnection;
-  constructor(
-    @inject(AppType.ConfigurationProvider)
-    private readonly configurationProvider: ConfigurationProvider,
-  ) {
+  constructor(private readonly applicationConfiguration: AppConfiguration) {
     this.connection = new TypeormDatabaseConnection(
-      this.configurationProvider.provide().database,
+      this.applicationConfiguration.database,
     );
   }
 
@@ -34,5 +40,14 @@ export class TypeormRepositoryFactoryGateWay implements AsyncInitializable {
       throw new NoDatabaseConnectionError();
     }
     return this.connection.getManager();
+  }
+
+  public register(
+    underlyingResourceStateReporter: UnderlyingResourceStateReporter,
+  ): void {
+    this.underlyingResourceStateReporter = underlyingResourceStateReporter;
+  }
+  public getSingletonInjectionToken?(): string | symbol {
+    return InfrastructureType.TypeormRepositoryFactoryService;
   }
 }
