@@ -67,8 +67,16 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
-    "testRegex": ".spec.ts$",
+    "rootDir": "./",
+    "roots": [
+      "<rootDir>",
+      "<rootDir>/src"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "."
+    ],
+    "testRegex": ".test.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },

@@ -7,7 +7,7 @@ export class InputReadingResult {
   ) {}
 
   public isSucceed(): boolean {
-    return this.fieldSyntaxErrors.length === 0;
+    return this.fieldSyntaxErrors === undefined;
   }
 
   public getValue<T>(): T {
@@ -15,19 +15,19 @@ export class InputReadingResult {
   }
 
   public static createSucceed(value: any): InputReadingResult {
-    return InputReadingResult.create([], value);
+    return InputReadingResult.create(undefined, value ? value : null);
   }
 
   public static createFailed(
     fieldSyntaxErrors?: UseCaseInputErrorDescription[],
   ) {
-    return new InputReadingResult(fieldSyntaxErrors, null);
+    return InputReadingResult.create(fieldSyntaxErrors || [], undefined);
   }
 
   private static create(
     fieldSyntaxErrors: UseCaseInputErrorDescription[],
     value: any,
   ): InputReadingResult {
-    return new InputReadingResult(fieldSyntaxErrors || [], value);
+    return new InputReadingResult(fieldSyntaxErrors, value);
   }
 }
