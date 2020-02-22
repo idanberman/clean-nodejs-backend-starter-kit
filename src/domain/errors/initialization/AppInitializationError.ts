@@ -1,13 +1,27 @@
+import { DomainError } from '..';
+import { OperationFailedCausedBySystem } from '../operation';
+
 export enum InitializationErrorComponent {
   Config,
   Persistence,
 }
 
-export class AppInitializationError extends Error {
+export class AppInitializationError implements OperationFailedCausedBySystem {
+  public readonly domainErrorType: 'OperationFailedCausedBySystem';
+  public readonly componentId: string;
+  public readonly actionId: string = 'Initialization';
+  public readonly causedBy: Error;
+
   constructor(
-    message: string,
-    public readonly component: InitializationErrorComponent,
+    component: InitializationErrorComponent,
+    error: Error | string,
+    public readonly parameters: object = {},
   ) {
-    super(message);
+    this.causedBy =
+      error && error instanceof Error
+        ? error
+        : new Error(`Initialize error: '${error}'`);
+
+    this.componentId = component.toString();
   }
 }
