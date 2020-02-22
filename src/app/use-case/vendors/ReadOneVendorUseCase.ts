@@ -6,16 +6,16 @@ import { AppType } from 'src/app/AppType';
 import { InputService, InputReadingMode } from 'src/app/services/input';
 import { UseCase } from '../definitions';
 import {
-  DomainErrorToUseCaseResultConverter,
+  DomainErrorToUseCaseResultMapper,
   UseCaseInputReader,
-} from '../tools';
+} from '../services';
 import { InstanceFactory } from 'src/app/core/interfaces';
 import { WithIdParametersDto } from '../parameters';
 
 @injectable()
 export class ReadOneVendorUseCase implements UseCase {
   private readonly vendorsRepository: VendorsRepository;
-  private readonly errorToUseCaseResultConverter: DomainErrorToUseCaseResultConverter;
+  private readonly errorToUseCaseResultMapper: DomainErrorToUseCaseResultMapper;
 
   constructor(
     @inject(AppType.VendorsRepository)
@@ -25,7 +25,7 @@ export class ReadOneVendorUseCase implements UseCase {
     private readonly inputReader: UseCaseInputReader,
   ) {
     this.vendorsRepository = vendorsRepositoryInstanceFactory();
-    this.errorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
+    this.errorToUseCaseResultMapper = new DomainErrorToUseCaseResultMapper();
   }
   // tslint:disable-next-line: no-empty
   public dispose() {}
@@ -50,7 +50,7 @@ export class ReadOneVendorUseCase implements UseCase {
 
       return UseCaseResult.success(vendorDto);
     } catch (error) {
-      return this.errorToUseCaseResultConverter.convert(error);
+      return this.errorToUseCaseResultMapper.map(error);
     }
   }
 }

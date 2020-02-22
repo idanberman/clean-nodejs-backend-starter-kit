@@ -8,6 +8,7 @@ describe('InputReadingResult.class', () => {
       const instance = InputReadingResult.createSucceed([]);
       expect(instance).toBeInstanceOf(InputReadingResult);
       expect(instance.isSucceed()).toBeTruthy();
+      expect(instance.fieldSyntaxErrors).toBeUndefined();
     });
   });
 
@@ -17,12 +18,14 @@ describe('InputReadingResult.class', () => {
       expect(instance).toBeInstanceOf(InputReadingResult);
       expect(instance.getValue()).toEqual('test');
       expect(instance.isSucceed()).toBeTruthy();
+      expect(instance.fieldSyntaxErrors).toBeUndefined();
     });
 
     it('should return a a value for succeed results without value', () => {
       const instance = InputReadingResult.createSucceed(undefined);
       expect(instance).toBeInstanceOf(InputReadingResult);
       expect(instance.isSucceed()).toBeTruthy();
+      expect(instance.fieldSyntaxErrors).toBeUndefined();
       expect(instance.getValue()).toBeNull();
     });
   });
@@ -32,6 +35,7 @@ describe('InputReadingResult.class', () => {
       const instance = InputReadingResult.createFailed();
       expect(instance).toBeInstanceOf(InputReadingResult);
       expect(instance.isSucceed()).toBeFalsy();
+      expect(instance.getValue()).toBeUndefined();
     });
   });
   describe('createFailed.method', () => {
@@ -42,6 +46,7 @@ describe('InputReadingResult.class', () => {
       const instance = InputReadingResult.createFailed(errors);
       expect(instance).toBeInstanceOf(InputReadingResult);
       expect(instance.isSucceed()).toBeFalsy();
+      expect(instance.getValue()).toBeUndefined();
       expect(instance.fieldSyntaxErrors).toBe(errors);
     });
   });

@@ -5,10 +5,10 @@ import {
   UseCase,
   UseCaseTerminationStatus,
 } from '../use-case/definitions';
-import { DomainErrorToUseCaseResultConverter } from '../use-case/tools';
+import { DomainErrorToUseCaseResultMapper } from '../use-case/services';
 
 export class UseCaseDispatcherService {
-  private readonly domainErrorConverter: DomainErrorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
+  private readonly domainErrorMapper: DomainErrorToUseCaseResultMapper = new DomainErrorToUseCaseResultMapper();
 
   public async dispatch(
     useCase: UseCase,
@@ -39,7 +39,7 @@ export class UseCaseDispatcherService {
 
   private getErrorResult(resultToPresent: UseCaseResult, error: any) {
     try {
-      resultToPresent = this.domainErrorConverter.convert(error);
+      resultToPresent = this.domainErrorMapper.map(error);
     } catch (irrelevant) {
       resultToPresent = UseCaseResult.fromUnknownError(error);
     }

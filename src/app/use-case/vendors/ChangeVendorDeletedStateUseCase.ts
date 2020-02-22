@@ -1,8 +1,8 @@
-import { DomainErrorToUseCaseResultConverter } from 'src/app/use-case/tools';
+import { DomainErrorToUseCaseResultMapper } from 'src/app/use-case/services';
 import { VendorsRepository } from 'src/domain/vendors';
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { UseCaseInputReader } from 'src/app/use-case/tools';
+import { UseCaseInputReader } from 'src/app/use-case/services';
 import { InstanceFactory } from 'src/app/core/interfaces';
 import { UseCaseContext } from 'src/app/use-case/context';
 import { UseCaseResult } from '../results';
@@ -11,7 +11,7 @@ import { UseCase } from '../definitions';
 
 @injectable()
 export class ChangeVendorDeletedStateUseCase implements UseCase {
-  private readonly errorToUseCaseResultConverter: DomainErrorToUseCaseResultConverter;
+  private readonly errorToUseCaseResultMapper: DomainErrorToUseCaseResultMapper;
   private readonly vendorsRepository: VendorsRepository;
   constructor(
     @inject(AppType.UseCaseInputReader)
@@ -19,7 +19,7 @@ export class ChangeVendorDeletedStateUseCase implements UseCase {
     @inject(AppType.VendorsRepository)
     readonly vendorsRepositoryFactory: InstanceFactory<VendorsRepository>,
   ) {
-    this.errorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
+    this.errorToUseCaseResultMapper = new DomainErrorToUseCaseResultMapper();
     this.vendorsRepository = vendorsRepositoryFactory();
   }
 
@@ -55,7 +55,7 @@ export class ChangeVendorDeletedStateUseCase implements UseCase {
 
       return UseCaseResult.success();
     } catch (error) {
-      return this.errorToUseCaseResultConverter.convert(error);
+      return this.errorToUseCaseResultMapper.map(error);
     }
   }
   // tslint:disable-next-line: no-empty

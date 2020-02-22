@@ -9,16 +9,16 @@ import { AppType } from 'src/app/AppType';
 import { inject, injectable } from 'inversify';
 import { UseCase } from '../definitions';
 import {
-  DomainErrorToUseCaseResultConverter,
+  DomainErrorToUseCaseResultMapper,
   UseCaseInputReader,
-} from '../tools';
+} from '../services';
 import { InstanceFactory } from 'src/app/core/interfaces';
 import { UseCaseResult } from '../results';
 import { WithIdParametersDto } from '../parameters';
 
 @injectable()
 export class UpdateVendorUseCase implements UseCase {
-  private readonly errorToUseCaseResultConverter: DomainErrorToUseCaseResultConverter;
+  private readonly errorToUseCaseResultMapper: DomainErrorToUseCaseResultMapper;
   private readonly vendorsRepository: VendorsRepository;
   constructor(
     @inject(AppType.UseCaseInputReader)
@@ -26,7 +26,7 @@ export class UpdateVendorUseCase implements UseCase {
     @inject(AppType.VendorsRepository)
     readonly vendorsRepositoryFactory: InstanceFactory<VendorsRepository>,
   ) {
-    this.errorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
+    this.errorToUseCaseResultMapper = new DomainErrorToUseCaseResultMapper();
     this.vendorsRepository = vendorsRepositoryFactory();
   }
 
@@ -57,7 +57,7 @@ export class UpdateVendorUseCase implements UseCase {
 
       return UseCaseResult.success(actualVendor.toDto());
     } catch (error) {
-      return this.errorToUseCaseResultConverter.convert(error);
+      return this.errorToUseCaseResultMapper.map(error);
     }
   }
   public dispose() {}

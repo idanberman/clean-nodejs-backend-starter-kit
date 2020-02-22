@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { Application } from './Application';
 import { ExpressApplicationGateway } from '../http-server/express-adapter';
 

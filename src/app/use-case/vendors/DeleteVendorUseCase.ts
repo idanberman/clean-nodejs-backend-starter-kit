@@ -6,8 +6,8 @@ import { InstanceFactory } from 'src/app/core/interfaces';
 import { VendorsRepository, Vendor, VendorDto } from 'src/domain/vendors';
 import {
   UseCaseInputReader,
-  DomainErrorToUseCaseResultConverter,
-} from 'src/app/use-case/tools';
+  DomainErrorToUseCaseResultMapper,
+} from 'src/app/use-case/services';
 import { WithIdParametersDto } from '../parameters';
 import { InputReadingMode } from 'src/app/services/input';
 import { UseCaseResult } from '../results';
@@ -15,7 +15,7 @@ import { WriteResourceNotFoundError } from 'src/domain/errors/operation';
 @injectable()
 export class DeleteVendorUseCase implements UseCase {
   private readonly vendorsRepository: VendorsRepository;
-  private readonly errorToUseCaseResultConverter: DomainErrorToUseCaseResultConverter;
+  private readonly errorToUseCaseResultMapper: DomainErrorToUseCaseResultMapper;
 
   constructor(
     @inject(AppType.VendorsRepository)
@@ -25,7 +25,7 @@ export class DeleteVendorUseCase implements UseCase {
     private readonly inputReader: UseCaseInputReader,
   ) {
     this.vendorsRepository = vendorsRepositoryInstanceFactory();
-    this.errorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
+    this.errorToUseCaseResultMapper = new DomainErrorToUseCaseResultMapper();
   }
   // tslint:disable-next-line: no-empty
   public dispose() {}
@@ -55,7 +55,7 @@ export class DeleteVendorUseCase implements UseCase {
 
       return UseCaseResult.success();
     } catch (error) {
-      return this.errorToUseCaseResultConverter.convert(error);
+      return this.errorToUseCaseResultMapper.map(error);
     }
   }
 }

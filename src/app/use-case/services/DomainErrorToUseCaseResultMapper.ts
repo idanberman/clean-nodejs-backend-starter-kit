@@ -7,29 +7,28 @@ import {
 import { DomainError } from 'src/domain/errors';
 import { UseCaseResult } from '../results';
 
-export class DomainErrorToUseCaseResultConverter {
+export class DomainErrorToUseCaseResultMapper {
   private isDomainErrorType(
     toBeDetermined: any,
   ): toBeDetermined is DomainError {
     return toBeDetermined.domainErrorType;
   }
-  public convert(error: DomainError): UseCaseResult {
-    // instanceof UseCaseResult
 
+  private doMap(error: DomainError | Error): UseCaseResult {
     if (error instanceof InputSyntaxError) {
       const syntaxError: InputSyntaxError = error as InputSyntaxError;
       return UseCaseResult.syntaxError(syntaxError.errors);
     }
 
     if (error instanceof WriteResourceNotFoundError) {
-      UseCaseResult.unableProcessInput(
+      return UseCaseResult.unableProcessInput(
         'Can not find entity by provided parameters',
         error.at,
       );
     }
 
     if (error instanceof ReadResourceNotFoundError) {
-      UseCaseResult.requestedDataNotFound(
+      return UseCaseResult.requestedDataNotFound(
         'Can not find requested resource',
         error.at,
       );
@@ -38,13 +37,25 @@ export class DomainErrorToUseCaseResultConverter {
     if (error instanceof InvalidInputError) {
       return UseCaseResult.unableProcessInput(error.errorMessage, error.at);
     }
-    console.log('Unhandled error type:', typeof error, ' Error:', error);
-    if (!this.isDomainErrorType(error)) {
-      throw new TypeError(
-        `Error (type of ${typeof error}) is not a domain error, can not convert`,
-      );
+
+    if (this.isDomainErrorType(error)) {
+      return UseCaseResult.fromDomainError(error);
     }
 
-    throw new TypeError(`Unhandled domain error  (type of ${typeof error})`);
+    if (error instanceof Error) {
+      return UseCaseResult.fromUnknownError(error);
+    }
+    return UseCaseResult.fromUnknownError(
+      new TypeError(`Unhandled domain error  (type of ${typeof error})`),
+    );
+  }
+  public map(error: DomainError | Error): UseCaseResult {
+    // This method mustn't throw an error. UseCaseResult must being return, so any presenter will react well.
+    // Nothing designed to throw an Error, so if it has been thrown, probably it's a mapping error.
+    try {
+      return this.doMap(error);
+    } catch (error) {
+      return UseCaseResult.fromUnknownError(error);
+    }
   }
 }

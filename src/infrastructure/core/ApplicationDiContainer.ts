@@ -15,7 +15,7 @@ import { DotenvConfigurationProvider } from '../configuration/DotenvConfiguratio
 import { InfrastructureType } from '../InfrastructureType';
 import { ClassTransformerValidatorsInputService } from '../input';
 import { TypeormVendorsReadWriteRepository } from '../persistence/typeorm-adapter/repositories';
-import { UseCaseInputReader } from 'src/app/use-case/tools/UseCaseInputReader';
+import { UseCaseInputReader } from 'src/app/use-case/services/UseCaseInputReader';
 import { ConfigurationProvider } from 'src/app/services';
 import { TypeormRepositoryFactoryService } from '../persistence/typeorm-adapter/TypeormRepositoryFactoryService';
 

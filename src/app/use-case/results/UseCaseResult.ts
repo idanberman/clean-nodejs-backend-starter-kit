@@ -5,11 +5,13 @@ import {
   OperationFailedCausedByUser,
   UnknownSystemFailure,
 } from 'src/domain/errors/operation';
+import e = require('express');
 
 interface DevNotes {
-  causedBy?: OperationFailedCausedBySystem;
+  causedByDomainError?: OperationFailedCausedBySystem;
   componentId?: string;
   actionId?: string;
+  note?: string;
   parameters?: object;
 }
 
@@ -37,7 +39,11 @@ export class UseCaseResult {
   public static syntaxError(
     syntaxErrors: UseCaseInputErrorDescription[],
   ): UseCaseResult {
-    if (!Array.isArray(syntaxErrors) || syntaxErrors.length === 0) {
+    if (
+      !syntaxErrors ||
+      !Array.isArray(syntaxErrors) ||
+      syntaxErrors.length === 0
+    ) {
       throw new TypeError('No syntax errors found');
     }
     return new UseCaseResult(
@@ -48,14 +54,14 @@ export class UseCaseResult {
 
   public static requestedDataNotFound(errorMessage: string, at?: string) {
     return new UseCaseResult(UseCaseTerminationStatus.RequestedDataNotFound, {
-      errorMessage,
+      errorMessage: errorMessage ?? null,
       at,
     });
   }
 
   public static unableProcessInput(errorMessage: string, at?: string) {
     return new UseCaseResult(UseCaseTerminationStatus.UnableProcessInput, {
-      errorMessage,
+      errorMessage: errorMessage ?? null,
       at,
     });
   }
@@ -78,30 +84,31 @@ export class UseCaseResult {
     return toBeDetermined.domainErrorType === 'OperationFailedCausedBySystem';
   }
 
-  public fromDomainError(error: DomainError) {
-    if (!UseCaseResult.isDomainError(error)) {
-      throw TypeError(`'error' is not instance of DomainError`);
-    } else if (UseCaseResult.isErrorCausedByUser(error)) {
-      UseCaseResult.fromErrorCausedByUser(error);
-    } else if (UseCaseResult.isErrorCausedBySystem(error)) {
-      UseCaseResult.fromErrorCausedBySystem(error);
-    } else {
-      throw Error(`Not implemented`);
+  public static fromDomainError(error: DomainError): UseCaseResult {
+    try {
+      if (UseCaseResult.isErrorCausedByUser(error)) {
+        return UseCaseResult.fromErrorCausedByUser(error);
+      } else if (UseCaseResult.isErrorCausedBySystem(error)) {
+        return UseCaseResult.fromErrorCausedBySystem(error);
+      } else {
+        throw Error(`Error to result mapper Error: unknown Domain error`);
+      }
+    } catch (e) {
+      return UseCaseResult.fromUnknownError(e);
     }
   }
   public static fromErrorCausedByUser(error: OperationFailedCausedByUser) {
-    if (!this.isErrorCausedByUser(error)) {
-      throw TypeError(`'error' is not instance of OperationFailedCausedByUser`);
-    }
-
-    // TODO:
-    // Check type of error, and create result
-
     return new UseCaseResult(
-      UseCaseTerminationStatus.InternalError,
+      UseCaseTerminationStatus.UnableProcessInput,
+      'Unable to process request, please validate all fields are filled correctly.',
       undefined,
-      undefined,
-      {},
+      {
+        note:
+          'Unimplemented handler to domain error from type OperationFailedCausedByUser',
+        componentId: 'UseCaseResult',
+        actionId: 'fromErrorCausedByUser',
+        parameters: { error },
+      },
     );
   }
 
@@ -113,9 +120,12 @@ export class UseCaseResult {
     }
     return new UseCaseResult(
       UseCaseTerminationStatus.InternalError,
+      'Sorry, we can not fulfill your request right now. please try again later.',
       undefined,
-      undefined,
-      { causedBy: error },
+      {
+        note: 'OperationFailedCausedBySystem error',
+        causedByDomainError: error,
+      },
     );
   }
 
@@ -124,7 +134,7 @@ export class UseCaseResult {
       UseCaseTerminationStatus.InternalError,
       undefined,
       undefined,
-      { causedBy: new UnknownSystemFailure(error) },
+      { causedByDomainError: new UnknownSystemFailure(error) },
     );
   }
 }

@@ -9,13 +9,13 @@ import {
 } from 'src/app/services/input';
 import { UseCase } from '../definitions';
 import { AppType } from 'src/app/AppType';
-import { DomainErrorToUseCaseResultConverter } from '../tools';
+import { DomainErrorToUseCaseResultMapper } from '../services';
 import { InstanceFactory } from 'src/app/core/interfaces';
 import { UseCaseContext } from '../context';
 
 @injectable()
 export class CreateVendorUseCase implements UseCase {
-  private readonly errorToUseCaseResultConverter: DomainErrorToUseCaseResultConverter;
+  private readonly errorToUseCaseResultMapper: DomainErrorToUseCaseResultMapper;
   private readonly vendorsRepository: VendorsRepository;
   constructor(
     @inject(AppType.InputService)
@@ -23,7 +23,7 @@ export class CreateVendorUseCase implements UseCase {
     @inject(AppType.VendorsRepository)
     readonly vendorsRepositoryFactory: InstanceFactory<VendorsRepository>,
   ) {
-    this.errorToUseCaseResultConverter = new DomainErrorToUseCaseResultConverter();
+    this.errorToUseCaseResultMapper = new DomainErrorToUseCaseResultMapper();
     this.vendorsRepository = vendorsRepositoryFactory();
   }
   // tslint:disable-next-line: no-empty
@@ -51,7 +51,7 @@ export class CreateVendorUseCase implements UseCase {
       );
       return UseCaseResult.success(actualVendorDto);
     } catch (error) {
-      return this.errorToUseCaseResultConverter.convert(error);
+      return this.errorToUseCaseResultMapper.map(error);
     }
   }
 }
