@@ -13,7 +13,7 @@ export class UseCaseInputErrorDescription {
       eachError.at !== this.at || eachError.section !== this.section
         ? eachError
         : new UseCaseInputErrorDescription(
-            errorToAdd.errors.concat(eachError.errors),
+            Array.from(new Set([...errorToAdd.errors, ...eachError.errors])),
             errorToAdd.at,
             errorToAdd.section,
           ),
@@ -37,6 +37,4 @@ export class UseCaseInputErrorDescription {
       ? this.addErrorToExistCoordinates(this, errorDescriptionList)
       : errorDescriptionList.concat([this]);
   }
-
-  private isSameLocation;
 }

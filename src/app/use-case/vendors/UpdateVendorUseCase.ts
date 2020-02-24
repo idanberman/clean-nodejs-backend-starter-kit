@@ -34,7 +34,7 @@ export class UpdateVendorUseCase implements UseCase {
     try {
       const [parameters, vendorDto] = this.inputReader.read(context.input, [
         (useCaseInput, inputService) =>
-          inputService.validInputFromFreeObject(
+          inputService.validInputFromFreeShapeObject(
             WithIdParametersDto,
             useCaseInput.parameters,
             {
@@ -43,10 +43,14 @@ export class UpdateVendorUseCase implements UseCase {
             },
           ),
         (useCaseInput, inputService) =>
-          inputService.validInputFromFreeObject(VendorDto, useCaseInput.data, {
-            inputReadingMode: InputReadingMode.Update,
-            inputSection: 'data',
-          }),
+          inputService.validInputFromFreeShapeObject(
+            VendorDto,
+            useCaseInput.data,
+            {
+              inputReadingMode: InputReadingMode.Update,
+              inputSection: 'data',
+            },
+          ),
       ]);
       // const updateVendorEntity: Vendor = this.getEntity(context.input.data);
       const vendorData: Partial<Vendor> = await this.vendorsRepository.updateEntity(

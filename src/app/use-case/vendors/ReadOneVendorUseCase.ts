@@ -33,7 +33,7 @@ export class ReadOneVendorUseCase implements UseCase {
     try {
       const [parameters] = this.inputReader.read(useCaseContext.input, [
         (useCaseInput, inputService) =>
-          inputService.validInputFromFreeObject(
+          inputService.validInputFromFreeShapeObject(
             WithIdParametersDto,
             useCaseInput.parameters,
             {

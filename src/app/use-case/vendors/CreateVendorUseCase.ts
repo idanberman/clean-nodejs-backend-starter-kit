@@ -30,7 +30,7 @@ export class CreateVendorUseCase implements UseCase {
   public dispose() {}
 
   private getEntity(entityParameters: any): Vendor {
-    const inputReadingResult: InputReadingResult = this.inputService.validInputFromFreeObject(
+    const inputReadingResult: InputReadingResult = this.inputService.validInputFromFreeShapeObject(
       VendorDto,
       entityParameters,
       { inputReadingMode: InputReadingMode.Create, inputSection: 'data' },

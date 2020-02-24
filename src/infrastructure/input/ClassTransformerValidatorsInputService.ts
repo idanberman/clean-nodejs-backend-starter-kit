@@ -18,7 +18,7 @@ export class ClassTransformerValidatorsInputService implements InputService {
     this.classValidationErrorToDomainResultConverter = new ClassValidationErrorToDomainResultConverter();
   }
 
-  public validInputFromFreeObject<T extends BaseDto>(
+  public validInputFromFreeShapeObject<T extends BaseDto>(
     toClassType: T,
     fromValue: any,
     options?: {

@@ -29,7 +29,7 @@ export class ChangeVendorDeletedStateUseCase implements UseCase {
         context.input,
         [
           (useCaseInput, inputService) =>
-            inputService.validInputFromFreeObject(
+            inputService.validInputFromFreeShapeObject(
               WithIdParametersDto,
               useCaseInput.parameters,
               {
@@ -37,7 +37,7 @@ export class ChangeVendorDeletedStateUseCase implements UseCase {
               },
             ),
           (useCaseInput, inputService) =>
-            inputService.validInputFromFreeObject(
+            inputService.validInputFromFreeShapeObject(
               ChangeDeletedStateDataDto,
               useCaseInput.data,
               {
