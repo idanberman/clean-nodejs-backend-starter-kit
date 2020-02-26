@@ -18,6 +18,7 @@ import { TypeormVendorsReadWriteRepository } from '../persistence/typeorm-adapte
 import { UseCaseInputReader } from 'src/app/use-case/services/UseCaseInputReader';
 import { ConfigurationProvider } from 'src/app/services';
 import { TypeormRepositoryFactoryService } from '../persistence/typeorm-adapter/TypeormRepositoryFactoryService';
+import { UseCaseInputReaderImpl } from 'src/app/use-case/services';
 
 export class ApplicationDiContainer {
   private readonly container: Container;
@@ -92,7 +93,7 @@ export class ApplicationDiContainer {
 
     this.container
       .bind<UseCaseInputReader>(AppType.UseCaseInputReader)
-      .to(UseCaseInputReader);
+      .to(UseCaseInputReaderImpl);
   }
 
   public get<T>(constructorFunction: interfaces.ServiceIdentifier<T>): T {
