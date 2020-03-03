@@ -30,7 +30,7 @@ export class ExpressApplicationGateway implements ApplicationGateway {
     this.expressApp = app.use('/api', router);
   }
 
-  public start(): void {
+  public async start(): Promise<void> {
     const { httpPort } = this.applicationInterface.getConfiguration().webServer;
     this.expressApp.listen(httpPort);
   }

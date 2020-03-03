@@ -1,4 +1,4 @@
-import { Container, interfaces } from 'inversify';
+import { Container, interfaces, injectable, decorate } from 'inversify';
 import { AppType } from 'src/app/AppType';
 import { InstanceFactory } from 'src/app/core/interfaces/InstanceFactory';
 import { InputService } from 'src/app/services/input';
@@ -19,38 +19,78 @@ import { UseCaseInputReader } from 'src/app/use-case/services/UseCaseInputReader
 import { ConfigurationProvider } from 'src/app/services';
 import { TypeormRepositoryFactoryService } from '../persistence/typeorm-adapter/TypeormRepositoryFactoryService';
 import { UseCaseInputReaderImpl } from 'src/app/use-case/services';
+import { ApplicationUnderlyingResource } from 'src/app/core/interfaces';
+import { UnderlyingResourceManager } from './underlying-resource-manager';
 
-export class ApplicationDiContainer {
-  private readonly container: Container;
-  constructor() {
-    this.container = new Container({ autoBindInjectable: true });
+export class ApplicationContainer {
+  private readonly diContainer: Container;
+  private isBounded: boolean;
+  constructor(private underlyingResourceManager: UnderlyingResourceManager) {
+    this.diContainer = new Container({ autoBindInjectable: true });
     this.bindConfiguration();
-    this.bindUseCases();
-    this.bindServices();
+    this.isBounded = false;
   }
 
-  public bindConfiguration() {
-    this.container
+  public bindApplicationContainer(): void {
+    if (this.isBounded) {
+      throw new Error('DI container already Bounded');
+    }
+
+    this.bindUnderlyingResources();
+    this.bindRepositories();
+    this.bindUseCases();
+    this.bindServices();
+
+    this.isBounded = true;
+  }
+
+  private bindConfiguration() {
+    this.diContainer
       .bind<ConfigurationProvider>(AppType.ConfigurationProvider)
       .to(DotenvConfigurationProvider);
   }
 
-  public async bindRepositories(): Promise<void> {
-    // Bind connection provider
-    this.container
-      .bind<TypeormRepositoryFactoryService>(
-        InfrastructureType.TypeormRepositoryFactoryService,
-      )
-      .to(TypeormRepositoryFactoryService)
-      .inSingletonScope();
+  private bindOneUnderlyingResource<T extends ApplicationUnderlyingResource>(
+    injectionId: string | symbol,
+    resourceClassConstructor: new (...args: any[]) => T,
+  ) {
+    // If it already bounded, don't change implementation
+    // Useful for testing when we want to inject resource before binding
 
-    const dbService: TypeormRepositoryFactoryService = this.container.get<
-      TypeormRepositoryFactoryService
-    >(InfrastructureType.TypeormRepositoryFactoryService);
-    await dbService.asyncInit();
+    if (!this.diContainer.isBound(injectionId)) {
+      this.diContainer
+        .bind(injectionId)
+        .to(resourceClassConstructor)
+        .inSingletonScope();
+    }
+
+    this.underlyingResourceManager.loadUnderlyingResource(
+      this.diContainer.get(injectionId),
+    );
+  }
+  private bindUnderlyingResources() {
+    this.bindOneUnderlyingResource(
+      InfrastructureType.TypeormRepositoryFactoryService,
+      TypeormRepositoryFactoryService,
+    );
+  }
+
+  private bindRepositories(): void {
+    // // Bind connection provider
+    // this.diContainer
+    //   .bind<TypeormRepositoryFactoryService>(
+    //     InfrastructureType.TypeormRepositoryFactoryService,
+    //   )
+    //   .to(TypeormRepositoryFactoryService)
+    //   .inSingletonScope();
+
+    // const dbService: TypeormRepositoryFactoryService = this.diContainer.get<
+    //   TypeormRepositoryFactoryService
+    // >(InfrastructureType.TypeormRepositoryFactoryService);
+    // await dbService.asyncInit();
 
     // Bind repositories
-    this.container
+    this.diContainer
       .bind<InstanceFactory<VendorsRepository>>(AppType.VendorsRepository)
       .toFactory((ctx: interfaces.Context) =>
         ctx.container
@@ -61,46 +101,52 @@ export class ApplicationDiContainer {
       );
   }
 
-  public bindUseCases() {
+  private bindUseCases() {
     // Vendors use cases
-    this.container
+    this.diContainer
       .bind<IndexVendorsUseCase>(AppType.IndexVendorsUseCase)
       .to(IndexVendorsUseCase);
-    this.container
+    this.diContainer
       .bind<ReadOneVendorUseCase>(AppType.ReadOneVendorUseCase)
       .to(ReadOneVendorUseCase);
-    this.container
+    this.diContainer
       .bind<CreateVendorUseCase>(AppType.CreateVendorUseCase)
       .to(CreateVendorUseCase);
-    this.container
+    this.diContainer
       .bind<UpdateVendorUseCase>(AppType.UpdateVendorUseCase)
       .to(UpdateVendorUseCase);
-    this.container
+    this.diContainer
       .bind<ChangeVendorDeletedStateUseCase>(
         AppType.ChangeVendorDeletedStateUseCase,
       )
       .to(ChangeVendorDeletedStateUseCase);
-    this.container
+    this.diContainer
       .bind<DeleteVendorUseCase>(AppType.DeleteVendorUseCase)
       .to(DeleteVendorUseCase);
   }
 
-  public bindServices() {
+  private bindServices() {
     // Application Services
-    this.container
+    this.diContainer
       .bind<InputService>(AppType.InputService)
       .to(ClassTransformerValidatorsInputService);
 
-    this.container
+    this.diContainer
       .bind<UseCaseInputReader>(AppType.UseCaseInputReader)
       .to(UseCaseInputReaderImpl);
   }
 
   public get<T>(constructorFunction: interfaces.ServiceIdentifier<T>): T {
-    return this.container.get(constructorFunction);
+    return this.diContainer.get(constructorFunction);
   }
 
-  public injectMock<T>(injectionId, value: new (...args: any[]) => T): void {
-    this.container.rebind<T>(injectionId).to(value);
+  public injectMock<T>(injectionId, value: any): void {
+    // decorate(injectable, value);
+
+    if (this.diContainer.isBound(injectionId)) {
+      this.diContainer.rebind<T>(injectionId).toConstantValue(value);
+    } else {
+      this.diContainer.bind<T>(injectionId).toConstantValue(value);
+    }
   }
 }

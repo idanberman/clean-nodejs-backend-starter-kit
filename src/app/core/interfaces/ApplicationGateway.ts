@@ -1,7 +1,7 @@
 import { ApplicationInterface } from '.';
 
 export interface ApplicationGateway {
-  start(): void;
+  start(): Promise<void>;
   stop(): void;
   load(applicationInterface: ApplicationInterface);
 }

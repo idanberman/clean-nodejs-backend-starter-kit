@@ -21,9 +21,9 @@ describe('InputSyntaxError.class', () => {
       );
       expect(syntaxError.at).toBeUndefined();
       expect(syntaxError.rule).toEqual(FailureCode.SyntaxError);
+      expect(syntaxError.errors).toBe(errorDescriptionsList);
     });
-  });
-  describe('ctor.method', () => {
+
     it('should throw error type on empty list or no list of errors', () => {
       expect(() => new InputSyntaxError(null)).toThrowError(TypeError);
       expect(() => new InputSyntaxError(undefined)).toThrowError(TypeError);

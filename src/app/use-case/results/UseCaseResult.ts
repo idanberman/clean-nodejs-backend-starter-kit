@@ -133,7 +133,7 @@ export class UseCaseResult {
     return new UseCaseResult(
       UseCaseTerminationStatus.InternalError,
       undefined,
-      undefined,
+      { caughtUnknownError: error },
       { causedByDomainError: new UnknownSystemFailure(error) },
     );
   }

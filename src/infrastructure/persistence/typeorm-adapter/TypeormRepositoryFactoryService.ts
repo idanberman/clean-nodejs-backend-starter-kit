@@ -13,13 +13,17 @@ import {
 } from 'src/app/core/interfaces';
 import { InfrastructureType } from 'src/infrastructure/InfrastructureType';
 
+@injectable()
 export class TypeormRepositoryFactoryService
   implements ApplicationUnderlyingResource {
   public resourceId = 'TypeormRepositoryFactoryService';
   private underlyingResourceStateReporter: UnderlyingResourceStateReporter;
 
   private readonly connection: TypeormDatabaseConnection;
-  constructor(private readonly applicationConfiguration: AppConfiguration) {
+  constructor(
+    @inject(AppType.ConfigurationProvider)
+    private readonly applicationConfiguration: AppConfiguration,
+  ) {
     this.connection = new TypeormDatabaseConnection(
       this.applicationConfiguration.database,
     );

@@ -4,5 +4,6 @@
         "Unprocessable",
         "initializable",
         "varchar"
-    ]
+    ],
+    "jest.autoEnable": false
 }

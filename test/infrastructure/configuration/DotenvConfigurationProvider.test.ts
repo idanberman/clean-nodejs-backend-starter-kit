@@ -8,8 +8,8 @@ describe('DotenvConfigurationProvider.class', () => {
       process.env.DATABASE_DB_NAME = 'dbname';
       process.env.DATABASE_USERNAME = 'dbuser';
       process.env.DATABASE_PASSWORD = 'dbpassword';
-      const configuration = application.getConfiguration();
 
+      const configuration = application.getConfiguration();
       expect(configuration.database.database).toEqual('dbname');
       expect(configuration.database.username).toEqual('dbuser');
       expect(configuration.database.password).toEqual('dbpassword');

@@ -16,6 +16,14 @@ export class UnderlyingResourceManager {
     this.resources = new Map<ResourceId, ApplicationUnderlyingResource>();
     this.resourcesState = new UnderlyingResourcesState();
   }
+
+  public async asyncInit(): Promise<void> {
+    await Promise.all(
+      Array.from(this.resources.values()).map(eachResource =>
+        eachResource.asyncInit(),
+      ),
+    );
+  }
   public loadUnderlyingResource(resource: ApplicationUnderlyingResource) {
     const { resourceId } = resource;
     this.resources.set(resourceId, resource);

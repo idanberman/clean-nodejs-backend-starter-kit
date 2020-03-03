@@ -6,6 +6,7 @@ import {
   UseCaseTerminationStatus,
 } from '../use-case/definitions';
 import { DomainErrorToUseCaseResultMapper } from '../use-case/services';
+import { UnknownSystemFailure } from 'src/domain/errors/operation';
 
 export class UseCaseDispatcherService {
   private readonly domainErrorMapper: DomainErrorToUseCaseResultMapper = new DomainErrorToUseCaseResultMapper();
@@ -14,47 +15,50 @@ export class UseCaseDispatcherService {
     useCase: UseCase,
     context: UseCaseContext,
     presenter: UseCaseResultPresenter,
-  ): Promise<UseCaseResult> {
-    let resultToPresent: UseCaseResult;
+  ): Promise<void> {
+    let result: UseCaseResult;
     try {
-      resultToPresent = await useCase.run(context);
+      result = await this.runUseCase(useCase, context);
 
-      if (
-        resultToPresent.terminationStatus !== UseCaseTerminationStatus.Succeed
-      ) {
-        this.useCaseFailedHandler(resultToPresent);
+      if (result.terminationStatus !== UseCaseTerminationStatus.Succeed) {
+        this.applicationGlobalErrorHandler(result);
       }
-      resultToPresent = resultToPresent;
-      return resultToPresent;
     } catch (error) {
-      resultToPresent = this.getErrorResult(resultToPresent, error);
-      this.handleUnhandledError(error);
+      result = this.domainErrorMapper.map(error);
+      this.applicationGlobalErrorHandler(result);
+    }
+    presenter.present(result);
+  }
+
+  private async runUseCase(
+    useCase: UseCase,
+    context: UseCaseContext,
+  ): Promise<UseCaseResult> {
+    try {
+      return await useCase.run(context);
     } finally {
       if (useCase.dispose) {
         useCase.dispose();
       }
-      presenter.present(resultToPresent);
     }
   }
 
-  private getErrorResult(resultToPresent: UseCaseResult, error: any) {
-    try {
-      resultToPresent = this.domainErrorMapper.map(error);
-    } catch (irrelevant) {
-      resultToPresent = UseCaseResult.fromUnknownError(error);
-    }
-    return resultToPresent;
-  }
-
-  private handleUnhandledError(error: Error) {
+  private handleUnknownError(error: Error) {
     // tslint:disable-next-line: no-console
-    console.error('Unhandled Error happened', error);
+    console.error('Unknown Error happened', error);
   }
 
-  private useCaseFailedHandler(result: UseCaseResult): void {
-    if (result.terminationStatus === UseCaseTerminationStatus.InternalError) {
+  private applicationGlobalErrorHandler(result: UseCaseResult): void {
+    if (
+      result.terminationStatus === UseCaseTerminationStatus.InternalError &&
+      result.metaData?.caughtUnknownError instanceof UnknownSystemFailure
+    ) {
+      this.handleUnknownError(result.metaData.caughtUnknownError);
+    } else if (
+      result.terminationStatus === UseCaseTerminationStatus.InternalError
+    ) {
       // tslint:disable-next-line: no-console
-      console.log('UseCaseResultFailed', result);
+      console.log('Use case failed by the system', result);
     }
   }
 }
