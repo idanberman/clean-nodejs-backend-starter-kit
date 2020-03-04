@@ -73,23 +73,11 @@ export class ApplicationContainer {
       InfrastructureType.TypeormRepositoryFactoryService,
       TypeormRepositoryFactoryService,
     );
+
+    // ... more resources
   }
 
   private bindRepositories(): void {
-    // // Bind connection provider
-    // this.diContainer
-    //   .bind<TypeormRepositoryFactoryService>(
-    //     InfrastructureType.TypeormRepositoryFactoryService,
-    //   )
-    //   .to(TypeormRepositoryFactoryService)
-    //   .inSingletonScope();
-
-    // const dbService: TypeormRepositoryFactoryService = this.diContainer.get<
-    //   TypeormRepositoryFactoryService
-    // >(InfrastructureType.TypeormRepositoryFactoryService);
-    // await dbService.asyncInit();
-
-    // Bind repositories
     this.diContainer
       .bind<InstanceFactory<VendorsRepository>>(AppType.VendorsRepository)
       .toFactory((ctx: interfaces.Context) =>

@@ -18,12 +18,14 @@ export class TypeormRepositoryFactoryService
   implements ApplicationUnderlyingResource {
   public resourceId = 'TypeormRepositoryFactoryService';
   private underlyingResourceStateReporter: UnderlyingResourceStateReporter;
+  private readonly applicationConfiguration: AppConfiguration;
 
   private readonly connection: TypeormDatabaseConnection;
   constructor(
     @inject(AppType.ConfigurationProvider)
-    private readonly applicationConfiguration: AppConfiguration,
+    configurationProvider: ConfigurationProvider,
   ) {
+    this.applicationConfiguration = configurationProvider.provide();
     this.connection = new TypeormDatabaseConnection(
       this.applicationConfiguration.database,
     );

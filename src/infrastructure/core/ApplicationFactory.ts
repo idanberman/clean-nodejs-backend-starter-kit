@@ -10,9 +10,9 @@ export class ApplicationFactory {
     return app;
   }
   public static async productionApp(): Promise<Readonly<Application>> {
-    // const app = await this.withPersistenceLayerAndConfigured();
     const app = ApplicationFactory.uninitializedApp();
     await app.asyncInit();
+    await app.startApp();
     return app;
   }
 }

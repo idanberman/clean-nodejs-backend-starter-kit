@@ -1,0 +1,26 @@
+version: '2'
+services:
+  project-runner-backend-integration-test:
+    build: ../../
+    command: yarn run test:integration:run
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mariadb
+    environment:
+      DATABASE_DB_NAME: projectrunner
+      DATABASE_USERNAME: projectrunnerdbuser
+      DATABASE_PASSWORD: projectrunnerpassword
+  mariadb:
+    image: mariadb
+    volumes:
+      - ./dev/mariadb.cnf:/etc/mysql/my.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: projectrunner
+      MYSQL_USER: projectrunnerdbuser
+      MYSQL_PASSWORD: projectrunnerpassword
+    network_mode: host

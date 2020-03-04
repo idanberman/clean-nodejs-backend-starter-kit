@@ -34,6 +34,7 @@ export class Application implements ApplicationInterface, AsyncInitializable {
   constructor() {
     this.appInitialized = false;
     this.appStarted = false;
+
     this.useCaseDispatcher = new UseCaseDispatcherService();
     this.applicationEventListener = new ApplicationEventEmitterImpl();
     this.underlyingResourceManager = new UnderlyingResourceManager(
