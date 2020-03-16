@@ -1,4 +1,4 @@
-version: '2'
+version: '2.2'
 services:
   # project-runner-backend:
   #   build: .
@@ -16,11 +16,53 @@ services:
   #     DATABASE_PASSWORD: projectrunnerpassword
   mariadb:
     image: mariadb
-    volumes:
-      - ./dev/mariadb.cnf:/etc/mysql/my.cnf
+
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: projectrunner
       MYSQL_USER: projectrunnerdbuser
       MYSQL_PASSWORD: projectrunnerpassword
-    network_mode: host
+    volumes:
+      - ./test/narrow-integration-test-config/configuration/:/etc/mysql/
+
+    networks:
+      integration-testing-netword:
+        ipv4_address: 172.16.238.10
+    ports:
+      - '3306:3306'
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'mysqladmin ping -h localhost -u $${MYSQL_USER} --password=$${MYSQL_PASSWORD} --execute "SHOW DATABASES;"',
+        ]
+      interval: 2s
+      timeout: 10s
+      retries: 10
+  service-narrow-integration-test:
+    build:
+      context: .
+      dockerfile: ./test/narrow-integration-test-config/narrow.integration.Dockerfile
+    command: yarn run test:integration:run
+    ports:
+      - '3000:3000'
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+      DATABASE_HOST: '172.16.238.10'
+      DATABASE_DB_NAME: projectrunner
+      DATABASE_USERNAME: projectrunnerdbuser
+      DATABASE_PASSWORD: projectrunnerpassword
+    networks:
+      integration-testing-netword:
+        ipv4_address: 172.16.238.11
+
+networks:
+  integration-testing-netword:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
+          gateway: 172.16.238.1

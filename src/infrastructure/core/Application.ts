@@ -22,6 +22,11 @@ import { UseCase, UseCaseResultPresenter } from 'src/app/use-case/definitions';
 import { ApplicationEventEmitterImpl } from './ApplicationEventEmitterImpl';
 import { UnderlyingResourceManager } from './underlying-resource-manager';
 
+const NOT_INITIALIZED_ERROR_MESSAGE = 'Application did not initialized yet';
+const ALREADY_INITIALIZED_ERROR_MESSAGE = 'Application did not initialized yet';
+const NOT_STARTED_ERROR_MESSAGE = 'Application did not STARTED yet';
+const ALREADY_STARTED_ERROR_MESSAGE = 'Application did not STARTED yet';
+
 export class Application implements ApplicationInterface, AsyncInitializable {
   private appInitialized: boolean;
   private appStarted: boolean;
@@ -34,6 +39,7 @@ export class Application implements ApplicationInterface, AsyncInitializable {
   constructor() {
     this.appInitialized = false;
     this.appStarted = false;
+
     this.useCaseDispatcher = new UseCaseDispatcherService();
     this.applicationEventListener = new ApplicationEventEmitterImpl();
     this.underlyingResourceManager = new UnderlyingResourceManager(
@@ -68,7 +74,7 @@ export class Application implements ApplicationInterface, AsyncInitializable {
 
   public getUseCase(useCaseId): UseCase {
     if (!this.appInitialized) {
-      throw Error('Application did not initialized yet');
+      throw Error(NOT_INITIALIZED_ERROR_MESSAGE);
     }
 
     return this.applicationDiContainer.get<UseCase>(useCaseId) as UseCase;
@@ -100,11 +106,11 @@ export class Application implements ApplicationInterface, AsyncInitializable {
 
   public async startApp(): Promise<void> {
     if (!this.appInitialized) {
-      throw new Error('Application did not initialized yet');
+      throw new Error(NOT_INITIALIZED_ERROR_MESSAGE);
     }
 
     if (this.appStarted) {
-      throw new Error('Application already started');
+      throw new Error(ALREADY_STARTED_ERROR_MESSAGE);
     }
 
     await Promise.all(
@@ -115,14 +121,28 @@ export class Application implements ApplicationInterface, AsyncInitializable {
     this.appStarted = true;
   }
 
-  public async asyncInit(): Promise<void> {
+  private async doAsyncInit(): Promise<void> {
     if (this.appInitialized) {
-      throw Error('Application already initialized');
+      throw Error(ALREADY_INITIALIZED_ERROR_MESSAGE);
     }
 
     this.applicationDiContainer.bindApplicationContainer();
     await this.underlyingResourceManager.asyncInit();
 
     this.appInitialized = true;
+  }
+  public async asyncInit(): Promise<void> {
+    try {
+      await this.doAsyncInit();
+    } catch (error) {
+      // tslint:disable-next-line: no-console
+      console.error(
+        'Can not initialize the application due to the following error:',
+        error.message,
+      );
+      // tslint:disable-next-line: no-console
+      console.error(error.stack);
+      process.exit(-1);
+    }
   }
 }
