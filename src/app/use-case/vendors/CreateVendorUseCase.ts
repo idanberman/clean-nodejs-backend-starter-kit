@@ -10,7 +10,7 @@ import {
 import { UseCase } from '../definitions';
 import { AppType } from 'src/app/AppType';
 import { DomainErrorToUseCaseResultMapper } from '../services';
-import { InstanceFactory } from 'src/app/core/interfaces';
+import { InstanceFactory } from 'src/infrastructure/core/interfaces';
 import { UseCaseContext } from '../context';
 
 @injectable()

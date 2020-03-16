@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { AsyncInitializable } from 'src/app/core/interfaces/AsyncInitializable';
-import { InstanceFactory } from 'src/app/core/interfaces/InstanceFactory';
+import { AsyncInitializable } from 'src/infrastructure/core/interfaces/AsyncInitializable';
+import { InstanceFactory } from 'src/infrastructure/core/interfaces/InstanceFactory';
 import { EntityManager, ObjectType } from 'typeorm';
 import { NoDatabaseConnectionError } from './errors/NoDatabaseConnectionError';
 import { TypeormDatabaseConnection } from './TypeormDatabaseConnection';
@@ -10,7 +10,7 @@ import { AppConfiguration } from 'src/domain/value-objects/configuration';
 import {
   ApplicationUnderlyingResource,
   UnderlyingResourceStateReporter,
-} from 'src/app/core/interfaces';
+} from 'src/infrastructure/core/interfaces';
 import { InfrastructureType } from 'src/infrastructure/InfrastructureType';
 
 @injectable()

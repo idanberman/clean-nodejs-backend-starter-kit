@@ -1,4 +1,4 @@
-import { ApplicationInterface } from 'src/app/core/interfaces';
+import { ApplicationInterface } from 'src/infrastructure/core/interfaces';
 import express from 'express';
 import { ExpressJsAdapter } from './ExpressJsAdapter';
 

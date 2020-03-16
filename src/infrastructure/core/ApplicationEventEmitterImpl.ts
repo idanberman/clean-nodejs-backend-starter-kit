@@ -1,13 +1,10 @@
-import { ApplicationEventType } from 'src/app/core/definitions/ApplicationEventType';
+import { ApplicationEventType } from 'src/infrastructure/core/definitions/ApplicationEventType';
 import {
-  ResourceId,
-  UnderlyingResourceEventArguments,
-  UnderlyingResourceEventHandler,
   EventArguments,
   ApplicationEventHandler,
-} from 'src/app/core/definitions/types';
+} from 'src/infrastructure/core/definitions/types';
 import { EventEmitter } from 'events';
-import { ApplicationEventEmitter } from 'src/app/core/interfaces';
+import { ApplicationEventEmitter } from 'src/infrastructure/core/interfaces';
 
 export class ApplicationEventEmitterImpl implements ApplicationEventEmitter {
   private readonly eventEmitter;

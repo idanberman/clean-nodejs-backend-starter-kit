@@ -1,6 +1,6 @@
 import express from 'express';
 import { SecurityContext } from 'src/app/use-case/context/SecurityContext';
-import { ApplicationInterface } from 'src/app/core/interfaces';
+import { ApplicationInterface } from 'src/infrastructure/core/interfaces';
 import { UseCaseContext } from 'src/app/use-case/context';
 import { UseCaseResult } from 'src/app/use-case/results/UseCaseResult';
 import { ExpressPresenter } from './ExpressPresenter';

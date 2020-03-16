@@ -1,8 +1,8 @@
 import {
   ApplicationUnderlyingResource,
   ApplicationEventEmitter,
-} from 'src/app/core/interfaces';
-import { ResourceId } from 'src/app/core/definitions/types';
+} from 'src/infrastructure/core/interfaces';
+import { ResourceId } from 'src/infrastructure/core/definitions/types';
 import { UnderlyingResourcesState } from './UnderlyingResourcesState';
 import { UnderlyingResourceStateReporterImpl } from './UnderlyingResourceStateReporterImpl';
 

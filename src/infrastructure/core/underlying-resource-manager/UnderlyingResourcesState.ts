@@ -1,9 +1,9 @@
-import { ResourceStatus } from 'src/app/core/definitions/ResourceStatus';
+import { ResourceStatus } from 'src/infrastructure/core/definitions/ResourceStatus';
 import {
   ResourceId,
   UnderlyingResourceEventArguments,
-} from 'src/app/core/definitions/types';
-import { ApplicationEventType } from 'src/app/core/definitions/ApplicationEventType';
+} from 'src/infrastructure/core/definitions/types';
+import { ApplicationEventType } from 'src/infrastructure/core/definitions/ApplicationEventType';
 
 export class UnderlyingResourcesState {
   private underlyingResourcesState: Map<ResourceId, ResourceStatus>;

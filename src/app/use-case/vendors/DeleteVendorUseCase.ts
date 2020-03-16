@@ -2,7 +2,7 @@ import { UseCase } from '../definitions';
 import { UseCaseContext } from '../context';
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { InstanceFactory } from 'src/app/core/interfaces';
+import { InstanceFactory } from 'src/infrastructure/core/interfaces';
 import { VendorsRepository, Vendor, VendorDto } from 'src/domain/vendors';
 import {
   UseCaseInputReader,

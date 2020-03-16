@@ -12,7 +12,7 @@ import {
   DomainErrorToUseCaseResultMapper,
   UseCaseInputReader,
 } from '../services';
-import { InstanceFactory } from 'src/app/core/interfaces';
+import { InstanceFactory } from 'src/infrastructure/core/interfaces';
 import { UseCaseResult } from '../results';
 import { WithIdParametersDto } from '../parameters';
 

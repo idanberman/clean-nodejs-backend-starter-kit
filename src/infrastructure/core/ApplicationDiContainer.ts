@@ -1,6 +1,6 @@
 import { Container, interfaces, injectable, decorate } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { InstanceFactory } from 'src/app/core/interfaces/InstanceFactory';
+import { InstanceFactory } from 'src/infrastructure/core/interfaces/InstanceFactory';
 import { InputService } from 'src/app/services/input';
 import {
   CreateVendorUseCase,
@@ -19,7 +19,7 @@ import { UseCaseInputReader } from 'src/app/use-case/services/UseCaseInputReader
 import { ConfigurationProvider } from 'src/app/services';
 import { TypeormRepositoryFactoryService } from '../persistence/typeorm-adapter/TypeormRepositoryFactoryService';
 import { UseCaseInputReaderImpl } from 'src/app/use-case/services';
-import { ApplicationUnderlyingResource } from 'src/app/core/interfaces';
+import { ApplicationUnderlyingResource } from 'src/infrastructure/core/interfaces';
 import { UnderlyingResourceManager } from './underlying-resource-manager';
 
 export class ApplicationContainer {

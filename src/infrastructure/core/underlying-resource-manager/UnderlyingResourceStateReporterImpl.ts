@@ -1,8 +1,8 @@
-import { UnderlyingResourceStateReporter } from '../../../app/core/interfaces/UnderlyingResourceStateReporter';
-import { ApplicationEventType } from 'src/app/core/definitions/ApplicationEventType';
-import { ResourceId } from 'src/app/core/definitions/types';
-import { ResourceStatus } from 'src/app/core/definitions/ResourceStatus';
-import { ApplicationEventEmitter } from 'src/app/core/interfaces';
+import { UnderlyingResourceStateReporter } from '../interfaces/UnderlyingResourceStateReporter';
+import { ApplicationEventType } from 'src/infrastructure/core/definitions/ApplicationEventType';
+import { ResourceId } from 'src/infrastructure/core/definitions/types';
+import { ResourceStatus } from 'src/infrastructure/core/definitions/ResourceStatus';
+import { ApplicationEventEmitter } from 'src/infrastructure/core/interfaces';
 
 export class UnderlyingResourceStateReporterImpl
   implements UnderlyingResourceStateReporter {

@@ -5,9 +5,8 @@ import {
   ApplicationGateway,
   ApplicationInterface,
   AsyncInitializable,
-  ApplicationUnderlyingResource,
   ApplicationEventEmitter,
-} from 'src/app/core/interfaces';
+} from 'src/infrastructure/core/interfaces';
 import {
   ConfigurationProvider,
   UseCaseDispatcherService,
