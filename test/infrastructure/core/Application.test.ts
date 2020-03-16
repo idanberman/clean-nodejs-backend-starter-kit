@@ -62,8 +62,8 @@ describe('Application.class', () => {
           register: jest.fn(),
           asyncInit: jest.fn().mockResolvedValue(undefined),
         }));
-
-      const application = await ApplicationFactory.uninitializedApp();
+      const factory = new ApplicationFactory();
+      const application = await factory.uninitializedApp();
       application.injectMock(
         InfrastructureType.TypeormRepositoryFactoryService,
         typeormRepositoryFactoryServiceMock(),

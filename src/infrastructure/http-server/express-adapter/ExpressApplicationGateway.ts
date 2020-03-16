@@ -33,6 +33,7 @@ export class ExpressApplicationGateway implements ApplicationGateway {
   public async start(): Promise<void> {
     const { httpPort } = this.applicationInterface.getConfiguration().webServer;
     this.expressApp.listen(httpPort);
+    console.log('Listening to HTTP requests on port:', httpPort);
   }
 
   public stop(): void {

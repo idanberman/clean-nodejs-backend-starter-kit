@@ -3,10 +3,10 @@ const globalJestConfig = JSON.parse(fs.readFileSync('./package.json')).jest;
 
 module.exports = {
   ...globalJestConfig,
-  rootDir: '..',
+  rootDir: '../..',
   setupFiles: [
     ...globalJestConfig.setupFiles,
-    './test/integration-setup-file.ts',
+    './test/narrow-integration-test-config/integration-setup-file.ts',
   ],
   testRegex: '.test.integration.ts$',
 };

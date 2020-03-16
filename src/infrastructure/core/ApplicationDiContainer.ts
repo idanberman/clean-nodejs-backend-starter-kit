@@ -124,7 +124,7 @@ export class ApplicationContainer {
       .to(UseCaseInputReaderImpl);
   }
 
-  public get<T>(constructorFunction: interfaces.ServiceIdentifier<T>): T {
+  public get<T>(constructorFunction: string | symbol): T {
     return this.diContainer.get(constructorFunction);
   }
 

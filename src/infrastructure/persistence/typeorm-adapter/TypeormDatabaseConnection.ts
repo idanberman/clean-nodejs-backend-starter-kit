@@ -22,10 +22,17 @@ export class TypeormDatabaseConnection implements AsyncInitializable {
   private connection: Connection;
 
   public async asyncInit(): Promise<void> {
+    console.log(
+      'connecting to ',
+      this.databaseConfiguration.database,
+      ' user: ',
+      this.databaseConfiguration.username,
+    );
     this.connection = await createConnection({
       ...this.databaseConfiguration,
       entities: Entities,
     });
+    console.log('connection succeed');
   }
 
   public isConnected() {

@@ -1,3 +1,3 @@
-export const InfrastructureType = {
-  TypeormRepositoryFactoryService: 'TypeormRepositoryFactory',
-};
+export enum InfrastructureType {
+  TypeormRepositoryFactoryService = 'TypeormRepositoryFactory',
+}

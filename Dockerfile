@@ -7,6 +7,6 @@ COPY package.json /app
 COPY yarn.lock /app
 RUN yarn install 
 COPY . /app 
-CMD yarn run build
+RUN yarn run build
 
-# RUN yarn run start:dev
+ENTRYPOINT [ "yarn run start:prod" ]
