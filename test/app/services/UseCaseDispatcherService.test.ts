@@ -1,13 +1,9 @@
-import {
-  UseCase,
-  UseCaseResultPresenter,
-  UseCaseTerminationStatus,
-} from 'src/app/use-case/definitions';
-
-import { UseCaseContext, SecurityContext } from 'src/app/use-case/context';
-import { UseCaseInput } from 'src/app/use-case/input';
-import { UseCaseDispatcherService } from 'src/app/services';
-import { UseCaseResult } from 'src/app/use-case/results';
+import { UseCase } from 'src/domain/kernel/ddd/UseCase';
+import { UseCaseContext } from 'src/domain/kernel/use-case/UseCaseContext';
+import { UseCaseResult } from 'src/domain/kernel/use-case/UseCaseResult';
+import { UseCaseTerminationStatus } from 'src/domain/kernel/use-case/UseCaseTerminationStatus';
+import { UseCaseResultPresenter } from 'src/domain/interfaces';
+import { UseCaseDispatcher } from 'src/app/use-cases/common/use-case-dispatcher';
 
 console = {
   ...console,
@@ -20,7 +16,7 @@ console = {
 };
 
 describe('UseCaseDispatcherService.class', () => {
-  const dispatcher: UseCaseDispatcherService = new UseCaseDispatcherService();
+  const dispatcher: UseCaseDispatcher = new UseCaseDispatcher();
 
   describe('dispatch.method', () => {
     const presentMethodMock: jest.Mock = jest.fn();

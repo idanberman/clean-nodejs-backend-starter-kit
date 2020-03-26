@@ -1,5 +1,5 @@
 import express from 'express';
-import { ApplicationInterface } from 'src/infrastructure/core/interfaces';
+import { ApplicationInterface } from 'src/infrastructure/application-container/interfaces';
 import { AppType } from 'src/app/AppType';
 import { ExpressJsAdapter } from './ExpressJsAdapter';
 import { ExpressRouteGenerator } from './ExpressRouteGenerator';

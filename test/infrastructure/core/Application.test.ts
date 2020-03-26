@@ -1,7 +1,9 @@
-import { UseCaseContext } from 'src/app/use-case/context';
-import { Application, ApplicationFactory } from 'src/infrastructure/core';
 import { AppType } from 'src/app/AppType';
 import { InfrastructureType } from 'src/infrastructure/InfrastructureType';
+import {
+  Application,
+  ApplicationFactory,
+} from 'src/infrastructure/application-container';
 
 describe('Application.class', () => {
   describe('createUseCaseContext.method', () => {

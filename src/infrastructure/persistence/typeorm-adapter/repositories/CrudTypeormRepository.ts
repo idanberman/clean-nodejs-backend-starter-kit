@@ -10,8 +10,8 @@ import {
 import {
   WriteResourceNotFoundError,
   ReadResourceNotFoundError,
-} from 'src/domain/errors/operation';
-import { BaseEntity } from 'src/domain/definitions';
+} from 'src/domain/kernel/errors/operation';
+import { BaseEntity } from 'src/domain/kernel/ddd';
 
 export class CrudTypeormRepository<T extends BaseEntity>
   implements BasicReadRepository<T>, BasicWriteRepository<T> {

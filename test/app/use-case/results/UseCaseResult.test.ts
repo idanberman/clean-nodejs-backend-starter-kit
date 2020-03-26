@@ -1,7 +1,9 @@
-import { UseCaseResult } from 'src/app/use-case/results';
-import { UseCaseInputErrorDescription } from 'src/domain/errors/operation';
-import { UseCaseTerminationStatus } from 'src/app/use-case/definitions';
-import { ApplicationFactory } from 'src/infrastructure/core/ApplicationFactory';
+import { UseCaseInputErrorDescription } from 'src/domain/kernel/errors/operation';
+import { ApplicationFactory } from 'src/infrastructure/application-container/ApplicationFactory';
+import {
+  UseCaseResult,
+  UseCaseTerminationStatus,
+} from 'src/domain/kernel/use-case';
 
 describe('UseCaseResult.class', () => {
   describe('success.method', () => {

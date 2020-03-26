@@ -1,17 +1,17 @@
 import { inject, injectable } from 'inversify';
 import { AppType } from 'src/app/AppType';
-import { AsyncInitializable } from 'src/infrastructure/core/interfaces/AsyncInitializable';
-import { InstanceFactory } from 'src/infrastructure/core/interfaces/InstanceFactory';
+import { AsyncInitializable } from 'src/infrastructure/application-container/interfaces/AsyncInitializable';
+import { InstanceFactory } from 'src/infrastructure/application-container/interfaces/InstanceFactory';
 import { EntityManager, ObjectType } from 'typeorm';
 import { NoDatabaseConnectionError } from './errors/NoDatabaseConnectionError';
 import { TypeormDatabaseConnection } from './TypeormDatabaseConnection';
-import { ConfigurationProvider } from 'src/app/services';
-import { AppConfiguration } from 'src/domain/value-objects/configuration';
+import { AppConfiguration } from 'src/domain/kernel/configuration';
 import {
   ApplicationUnderlyingResource,
   UnderlyingResourceStateReporter,
-} from 'src/infrastructure/core/interfaces';
+} from 'src/infrastructure/application-container/interfaces';
 import { InfrastructureType } from 'src/infrastructure/InfrastructureType';
+import { ConfigurationProvider } from 'src/app/services/chassis/ConfigurationProvider';
 
 @injectable()
 export class TypeormRepositoryFactoryService

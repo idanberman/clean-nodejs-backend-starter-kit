@@ -1,7 +1,7 @@
 export const AppType = {
-  InputService: Symbol.for('InputService'),
+  IoFormattingService: Symbol.for('IoFormattingService'),
   ConfigurationProvider: Symbol.for('ConfigurationProvider'),
-  UseCaseInputReader: Symbol.for('UseCaseInputReader'),
+  MultiInputReader: Symbol.for('MultiInputReader'),
   VendorsRepository: Symbol.for('VendorsRepository'),
 
   // * Use Cases

@@ -1,8 +1,8 @@
 import {
   InputSyntaxError,
   UseCaseInputErrorDescription,
-} from 'src/domain/errors/operation';
-import { FailureCode } from 'src/domain/errors/operation/by-user/values/FailureCode';
+} from 'src/domain/kernel/errors/operation';
+import { FailureCode } from 'src/domain/kernel/errors/operation/by-user/values/FailureCode';
 
 describe('InputSyntaxError.class', () => {
   describe('ctor.method', () => {

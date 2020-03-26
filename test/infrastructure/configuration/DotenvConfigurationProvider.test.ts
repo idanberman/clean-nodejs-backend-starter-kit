@@ -1,5 +1,5 @@
 import dotenv = require('dotenv');
-import { ApplicationFactory } from 'src/infrastructure/core/ApplicationFactory';
+import { ApplicationFactory } from 'src/infrastructure/application-container/ApplicationFactory';
 
 describe('DotenvConfigurationProvider.class', () => {
   describe('provide().method', () => {

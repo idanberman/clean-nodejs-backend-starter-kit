@@ -1,4 +1,4 @@
-import { ApplicationFactory } from 'src/infrastructure/core';
+import { ApplicationFactory } from 'src/infrastructure/application-container';
 
 describe('ApplicationFactory.class', () => {
   describe('productionApp.method', () => {

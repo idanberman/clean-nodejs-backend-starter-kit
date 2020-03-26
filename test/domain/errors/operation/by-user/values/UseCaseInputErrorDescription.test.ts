@@ -1,4 +1,4 @@
-import { UseCaseInputErrorDescription } from 'src/domain/errors/operation';
+import { UseCaseInputErrorDescription } from 'src/domain/kernel/errors/operation';
 
 describe('UseCaseInputErrorDescription.class', () => {
   describe('withSection.method', () => {

@@ -1,34 +1,39 @@
-import { InputService, InputReadingResult } from 'src/app/services/input';
-import { UseCaseInputReader } from 'src/app/use-case/services';
-import { UseCaseInput } from 'src/app/use-case/input';
-import { UseCaseInputReaderImpl } from 'src/app/use-case/services';
+import {
+  IoFormattingService,
+  IoFormattingResult,
+} from 'src/app/services/io-formatting-service';
 import {
   UseCaseInputErrorDescription,
   InputSyntaxError,
-} from 'src/domain/errors/operation';
+} from 'src/domain/kernel/errors/operation';
+import {
+  MultiInputReaderImpl,
+  MultiInputReader,
+} from 'src/app/services/multi-input-reader';
+import { UseCaseInput } from 'src/domain/kernel/use-case';
 
-describe('UseCaseInputReader.class', () => {
+describe('MultiInputReader.class', () => {
   describe('read.method', () => {
     const validInputFromFreeObjectMock = jest
       .fn()
       .mockImplementation((toValue, input: UseCaseInput) =>
-        InputReadingResult.createSucceed({
+        IoFormattingResult.createSucceed({
           expectedShape: input,
         }),
       );
 
-    const InputServiceMock: jest.Mock<InputService> = jest
+    const IoFormattingServiceMock: jest.Mock<IoFormattingService> = jest
       .fn()
       .mockImplementation(() => {
         return {
           validInputFromFreeShapeObject: validInputFromFreeObjectMock,
         };
       });
-    let inputReader: UseCaseInputReader;
+    let multiInputReader: MultiInputReader;
 
     beforeEach(() => {
-      InputServiceMock.mockClear();
-      inputReader = new UseCaseInputReaderImpl(InputServiceMock());
+      IoFormattingServiceMock.mockClear();
+      multiInputReader = new MultiInputReaderImpl(IoFormattingServiceMock());
     });
 
     it('The callbacks should be called with the correct UseCaseInput', () => {
@@ -37,12 +42,9 @@ describe('UseCaseInputReader.class', () => {
         parameters: 'tested params',
       };
 
-      const [readValue] = inputReader.read(input, [
-        (input: UseCaseInput, inputService: InputService) => {
-          return inputService.validInputFromFreeShapeObject(
-            'expectedShapeValue',
-            input,
-          );
+      const [readValue] = multiInputReader.read(input, [
+        (input: UseCaseInput, ioFormattingService: IoFormattingService) => {
+          return ioFormattingService.formatObject('expectedShapeValue', input);
         },
       ]);
       expect(readValue).toEqual({ expectedShape: input });
@@ -53,11 +55,11 @@ describe('UseCaseInputReader.class', () => {
         data: 'tested data',
         parameters: 'tested params',
       };
-      const inputReadingResult: InputReadingResult = InputReadingResult.createSucceed(
+      const inputReadingResult: IoFormattingResult = IoFormattingResult.createSucceed(
         String('mocked succeed result'),
       );
       const inputCallBack = jest.fn().mockReturnValue(inputReadingResult);
-      const results = inputReader.read(input, [inputCallBack]);
+      const results = multiInputReader.read(input, [inputCallBack]);
       expect(results).toBeInstanceOf(Array);
 
       expect(results[0]).toEqual(String('mocked succeed result'));
@@ -68,16 +70,19 @@ describe('UseCaseInputReader.class', () => {
         data: 'tested data',
         parameters: 'tested params',
       };
-      const inputReadingResult: InputReadingResult = InputReadingResult.createSucceed(
+      const inputReadingResult: IoFormattingResult = IoFormattingResult.createSucceed(
         String('mocked succeed result'),
       );
       const inputCallBack = jest.fn().mockReturnValue(inputReadingResult);
 
-      const inputReadingResult2: InputReadingResult = InputReadingResult.createSucceed(
+      const inputReadingResult2: IoFormattingResult = IoFormattingResult.createSucceed(
         String('mocked succeed result2'),
       );
       const inputCallBack2 = jest.fn().mockReturnValue(inputReadingResult2);
-      const results = inputReader.read(input, [inputCallBack, inputCallBack2]);
+      const results = multiInputReader.read(input, [
+        inputCallBack,
+        inputCallBack2,
+      ]);
       expect(results).toBeInstanceOf(Array);
 
       expect(results[0]).toEqual(String('mocked succeed result'));
@@ -96,13 +101,13 @@ describe('UseCaseInputReader.class', () => {
           'userDetails',
         ),
       ];
-      const inputReadingResult: InputReadingResult = InputReadingResult.createFailed(
+      const inputReadingResult: IoFormattingResult = IoFormattingResult.createFailed(
         errorDescriptionsArray,
       );
       const inputCallBack = jest.fn().mockReturnValue(inputReadingResult);
       expect(() => {
         try {
-          inputReader.read(input, [inputCallBack]);
+          multiInputReader.read(input, [inputCallBack]);
           throw new Error('test failed - error should be thrown');
         } catch (receivedError) {
           expect(receivedError).toBeInstanceOf(InputSyntaxError);
@@ -123,7 +128,7 @@ describe('UseCaseInputReader.class', () => {
           'userDetails',
         ),
       ];
-      const inputReadingResult: InputReadingResult = InputReadingResult.createFailed(
+      const inputReadingResult: IoFormattingResult = IoFormattingResult.createFailed(
         errorDescriptionsArray,
       );
       const inputCallBack = jest.fn().mockReturnValue(inputReadingResult);
@@ -135,12 +140,12 @@ describe('UseCaseInputReader.class', () => {
           'userAuthentication',
         ),
       ];
-      const inputReadingResult2: InputReadingResult = InputReadingResult.createFailed(
+      const inputReadingResult2: IoFormattingResult = IoFormattingResult.createFailed(
         errorDescriptionsArray2,
       );
       const inputCallBack2 = jest.fn().mockReturnValue(inputReadingResult2);
 
-      const succeedInputReadingResult: InputReadingResult = InputReadingResult.createSucceed(
+      const succeedInputReadingResult: IoFormattingResult = IoFormattingResult.createSucceed(
         String('mocked succeed result'),
       );
       const succeedInputCallBack = jest
@@ -149,7 +154,7 @@ describe('UseCaseInputReader.class', () => {
 
       expect(() => {
         try {
-          inputReader.read(input, [
+          multiInputReader.read(input, [
             inputCallBack,
             succeedInputCallBack,
             inputCallBack2,
@@ -176,7 +181,7 @@ describe('UseCaseInputReader.class', () => {
           'userDetails',
         ),
       ];
-      const inputReadingResult: InputReadingResult = InputReadingResult.createFailed(
+      const inputReadingResult: IoFormattingResult = IoFormattingResult.createFailed(
         errorDescriptionsArray,
       );
       const inputCallBack = jest.fn().mockReturnValue(inputReadingResult);
@@ -188,13 +193,13 @@ describe('UseCaseInputReader.class', () => {
           'userAuthentication',
         ),
       ];
-      const inputReadingResult2: InputReadingResult = InputReadingResult.createFailed(
+      const inputReadingResult2: IoFormattingResult = IoFormattingResult.createFailed(
         errorDescriptionsArray2,
       );
       const inputCallBack2 = jest.fn().mockReturnValue(inputReadingResult2);
       expect(() => {
         try {
-          inputReader.read(input, [inputCallBack, inputCallBack2]);
+          multiInputReader.read(input, [inputCallBack, inputCallBack2]);
           throw new Error(
             'test failed - error should be thrown when read performed',
           );

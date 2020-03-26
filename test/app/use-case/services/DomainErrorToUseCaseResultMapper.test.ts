@@ -1,14 +1,14 @@
-import { DomainErrorToUseCaseResultMapper } from 'src/app/use-case/services';
 import {
   InputSyntaxError,
   UseCaseInputErrorDescription,
   WriteResourceNotFoundError,
   ReadResourceNotFoundError,
   InvalidInputError,
-} from 'src/domain/errors/operation';
-import { UseCaseResult } from 'src/app/use-case/results';
-import { UseCaseTerminationStatus } from 'src/app/use-case/definitions';
-import { DomainError } from 'src/domain/errors';
+} from 'src/domain/kernel/errors/operation';
+import { DomainError } from 'src/domain/kernel/errors';
+import { DomainErrorToUseCaseResultMapper } from 'src/app/use-cases/common/domain-error-mapper';
+import { UseCaseResult } from 'src/domain/kernel/use-case/UseCaseResult';
+import { UseCaseTerminationStatus } from 'src/domain/kernel/use-case/UseCaseTerminationStatus';
 
 describe('DomainErrorToUseCaseResultConverter.class', () => {
   let mapper: DomainErrorToUseCaseResultMapper;

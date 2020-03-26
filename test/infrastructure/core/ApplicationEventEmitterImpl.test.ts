@@ -1,5 +1,5 @@
-import { ApplicationEventEmitterImpl } from 'src/infrastructure/core/ApplicationEventEmitterImpl';
-import { ApplicationEventType } from 'src/infrastructure/core/definitions';
+import { ApplicationEventEmitterImpl } from 'src/infrastructure/application-container/services/application-event-emitter/ApplicationEventEmitterImpl';
+import { ApplicationEventType } from 'src/infrastructure/application-container/definitions';
 
 describe('ApplicationEventEmitterImpl.class', () => {
   describe('subscribe and emit', () => {

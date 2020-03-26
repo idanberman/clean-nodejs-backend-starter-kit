@@ -1,11 +1,13 @@
 import express from 'express';
-import { SecurityContext } from 'src/app/use-case/context/SecurityContext';
-import { ApplicationInterface } from 'src/infrastructure/core/interfaces';
-import { UseCaseContext } from 'src/app/use-case/context';
-import { UseCaseResult } from 'src/app/use-case/results/UseCaseResult';
+import { ApplicationInterface } from 'src/infrastructure/application-container/interfaces';
+import { UseCaseResult } from 'src/domain/kernel/use-case/UseCaseResult';
 import { ExpressPresenter } from './ExpressPresenter';
-import { UseCaseInput } from 'src/app/use-case/input';
-import { UseCaseResultPresenter } from 'src/app/use-case/definitions';
+import { UseCaseResultPresenter } from 'src/domain/interfaces';
+import {
+  UseCaseInput,
+  SecurityContext,
+  UseCaseContext,
+} from 'src/domain/kernel/use-case';
 export class ExpressJsAdapter {
   private createUseCaseInputFromRequest(
     request: express.Request,

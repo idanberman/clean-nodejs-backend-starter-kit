@@ -1,4 +1,4 @@
-import { ApplicationFactory } from './infrastructure/core/ApplicationFactory';
+import { ApplicationFactory } from './infrastructure/application-container/ApplicationFactory';
 ApplicationFactory.productionApp()
   .then(app => app.startApp())
   .catch(error => {

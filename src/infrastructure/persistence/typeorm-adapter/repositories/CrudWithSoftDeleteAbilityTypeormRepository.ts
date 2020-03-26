@@ -1,8 +1,9 @@
 import { CrudTypeormRepository } from './CrudTypeormRepository';
 import { SoftDeletedRepository } from 'src/domain/interfaces';
-import { WriteResourceNotFoundError } from 'src/domain/errors/operation';
+import { WriteResourceNotFoundError } from 'src/domain/kernel/errors/operation';
 import { DeepPartial, ObjectType, EntityManager } from 'typeorm';
-import { HasSoftDeleteAbilityEntity, BaseEntity } from 'src/domain/definitions';
+import { HasSoftDeleteAbilityEntity } from 'src/domain/kernel/building-blocks';
+import { BaseEntity } from 'src/domain/kernel/ddd';
 
 // tslint:disable-next-line: no-empty-interface
 interface BaseEntityAndHasSoftDeleteAbilityEntity

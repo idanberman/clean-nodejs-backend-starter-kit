@@ -1,5 +1,4 @@
-import { BaseEntity } from '../definitions';
-import { DomainRepository } from './DomainRepository';
+import { BaseEntity, DomainRepository } from '../kernel/ddd';
 
 export interface BasicWriteRepository<T extends BaseEntity>
   extends DomainRepository {

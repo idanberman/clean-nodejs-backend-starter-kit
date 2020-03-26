@@ -3,7 +3,7 @@ import { DomainType } from 'src/domain/DomainType';
 import {
   AppConfiguration,
   DatabaseConfiguration,
-} from 'src/domain/value-objects/configuration';
+} from 'src/domain/kernel/configuration';
 import {
   Repository,
   Connection,
@@ -13,7 +13,7 @@ import {
   EntitySchema,
   EntityManager,
 } from 'typeorm';
-import { AsyncInitializable } from 'src/infrastructure/core/interfaces/AsyncInitializable';
+import { AsyncInitializable } from 'src/infrastructure/application-container/interfaces/AsyncInitializable';
 import { Entities } from './consts/Entities';
 
 export class TypeormDatabaseConnection implements AsyncInitializable {

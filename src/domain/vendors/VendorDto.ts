@@ -12,16 +12,18 @@ import {
 import { Exclude, Expose } from 'class-transformer';
 
 import { Vendor } from './Vendor';
-import { InputReadingMode } from 'src/app/services/input';
-import { BaseEntityDto } from '../definitions';
+import { IoFormattingMode } from 'src/app/services/io-formatting-service';
+import { VendorProperties } from './VendorProperties';
+import { HasInputSyntaxSchema } from '../kernel/building-blocks';
 
-export class VendorDto implements BaseEntityDto, Partial<Vendor> {
+export class VendorDto extends HasInputSyntaxSchema
+  implements VendorProperties {
   @Exclude()
   public readonly id: number;
 
-  @IsEmpty({ groups: [InputReadingMode.Update] })
-  @Length(10, 10, { groups: [InputReadingMode.Create] })
-  @Expose({ groups: [InputReadingMode.Create] })
+  @IsEmpty({ groups: [IoFormattingMode.Update] })
+  @Length(10, 10, { groups: [IoFormattingMode.Create] })
+  @Expose({ groups: [IoFormattingMode.Create] })
   public readonly governmentalId: string;
 
   @Length(3, 80, { always: true })
@@ -52,6 +54,10 @@ export class VendorDto implements BaseEntityDto, Partial<Vendor> {
   @Length(0, 30, { always: true })
   @IsOptional({ always: true })
   public readonly budgetClassification: string;
+
+  public static getInputSyntaxSchema() {
+    return VendorDto;
+  }
 
   public static createFromData(data: Partial<VendorDto>): VendorDto {
     const {

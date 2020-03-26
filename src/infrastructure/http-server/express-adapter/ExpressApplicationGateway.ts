@@ -1,7 +1,7 @@
 import {
   ApplicationGateway,
   ApplicationInterface,
-} from 'src/infrastructure/core/interfaces';
+} from 'src/infrastructure/application-container/interfaces';
 import express from 'express';
 import bodyParser from 'body-parser';
 import { RouterFactory } from './RouterFactory';

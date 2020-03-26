@@ -3,10 +3,10 @@ import {
   DatabaseConfiguration,
   DatabaseConfigurationSqlDataBaseType,
   WebServerConfiguration,
-} from 'src/domain/value-objects/configuration/AppConfiguration';
+} from 'src/domain/kernel/configuration/AppConfiguration';
 import dotenv = require('dotenv');
 import { injectable } from 'inversify';
-import { ConfigurationProvider } from 'src/app/services';
+import { ConfigurationProvider } from 'src/app/services/chassis';
 dotenv.config();
 
 @injectable()
