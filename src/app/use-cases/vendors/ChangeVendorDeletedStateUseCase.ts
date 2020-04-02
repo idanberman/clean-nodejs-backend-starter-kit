@@ -10,6 +10,7 @@ import {
 } from 'src/app/use-cases/common/input-schemas';
 import { UseCase } from 'src/domain/kernel/ddd';
 import { UseCaseContext, UseCaseResult } from 'src/domain/kernel/use-case';
+import { IoFormattingMode } from 'src/app/services/io-formatting-service';
 
 @injectable()
 export class ChangeVendorDeletedStateUseCase implements UseCase {
@@ -36,6 +37,7 @@ export class ChangeVendorDeletedStateUseCase implements UseCase {
               WithNumericIdParameters,
               useCaseInput.parameters,
               {
+                ioFormattingMode: IoFormattingMode.Default,
                 inputSection: 'parameters',
               },
             ),
@@ -44,6 +46,7 @@ export class ChangeVendorDeletedStateUseCase implements UseCase {
               ChangeDeletedStateData,
               useCaseInput.data,
               {
+                ioFormattingMode: IoFormattingMode.Default,
                 inputSection: 'data',
               },
             ),

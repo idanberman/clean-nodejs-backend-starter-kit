@@ -1,0 +1,1 @@
+export { IdentifiedDomainObject } from './IdentifiedDomainObject';

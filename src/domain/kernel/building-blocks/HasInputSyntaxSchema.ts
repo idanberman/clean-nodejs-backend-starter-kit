@@ -2,7 +2,7 @@ import { InternalServiceError } from '../errors/operation';
 
 type InputSyntaxSchema = any;
 
-export abstract class HasInputSyntaxSchema {
+export abstract class HasFormattingSchema {
   public static getInputSyntaxSchema(): InputSyntaxSchema {
     throw new InternalServiceError(
       typeof this,

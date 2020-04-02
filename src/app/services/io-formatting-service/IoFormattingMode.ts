@@ -1,5 +1,5 @@
 export enum IoFormattingMode {
   Create = 'Create',
   Update = 'Update',
-  Display = 'Display',
+  Default = 'Default',
 }

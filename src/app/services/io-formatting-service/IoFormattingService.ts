@@ -1,8 +1,8 @@
 import { IoFormattingResult, IoFormattingMode } from '.';
-import { HasInputSyntaxSchema } from 'src/domain/kernel/building-blocks';
+import { HasFormattingSchema } from 'src/domain/kernel/building-blocks';
 
 export interface IoFormattingService {
-  formatObject<T extends HasInputSyntaxSchema>(
+  formatObject<T extends HasFormattingSchema>(
     targetFormat: T,
     fromValue: any,
     options?: {

@@ -1,8 +1,8 @@
 import { IsInt, Min, IsBoolean, IsDefined } from 'class-validator';
 import { Type } from 'class-transformer';
-import { HasInputSyntaxSchema } from 'src/domain/kernel/building-blocks/HasInputSyntaxSchema';
+import { HasFormattingSchema } from 'src/domain/kernel/building-blocks/HasInputSyntaxSchema';
 
-export class ChangeDeletedStateData extends HasInputSyntaxSchema {
+export class ChangeDeletedStateData extends HasFormattingSchema {
   @IsDefined({ always: true })
   @Type(() => Boolean)
   public readonly deleted: boolean;

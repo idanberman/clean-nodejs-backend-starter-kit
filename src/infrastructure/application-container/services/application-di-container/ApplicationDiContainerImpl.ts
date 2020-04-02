@@ -17,7 +17,7 @@ import { DotenvConfigurationProvider } from 'src/infrastructure/configuration/Do
 import { ApplicationUnderlyingResource } from '../../interfaces';
 import { InfrastructureType } from 'src/infrastructure/InfrastructureType';
 import { TypeormRepositoryFactoryService } from 'src/infrastructure/persistence/typeorm-adapter/TypeormRepositoryFactoryService';
-import { TypeormVendorsReadWriteRepository } from 'src/infrastructure/persistence/typeorm-adapter/repositories';
+import { TypeormVendorsRepository } from 'src/infrastructure/persistence/typeorm-adapter/repositories';
 import { ClassTransformerValidatorsIoFormattingService } from 'src/infrastructure/io-formatting';
 import {
   MultiInputReader,
@@ -88,7 +88,7 @@ export class ApplicationDiContainerImpl implements ApplicationDiContainer {
           .get<TypeormRepositoryFactoryService>(
             InfrastructureType.TypeormRepositoryFactoryService,
           )
-          .getRepositoryFactory(TypeormVendorsReadWriteRepository),
+          .getRepositoryFactory(TypeormVendorsRepository),
       );
   }
 

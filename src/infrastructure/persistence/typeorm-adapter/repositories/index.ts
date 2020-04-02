@@ -1,1 +1,1 @@
-export { TypeormVendorsReadWriteRepository } from './TypeormVendorsReadWriteRepository';
+export { TypeormVendorsRepository } from './TypeormVendorsRepository';

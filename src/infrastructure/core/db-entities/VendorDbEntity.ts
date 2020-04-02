@@ -1,13 +1,13 @@
-import { TypeormDbEntity } from './TypeormDbEntity';
+import { TypeormEntity } from '../../persistence/typeorm-adapter/definitions/TypeormEntity';
 import { Vendor } from 'src/domain/vendors';
 import { VendorProperties } from 'src/domain/vendors/VendorProperties';
 import { PrimaryGeneratedColumn, Column, VersionColumn } from 'typeorm';
 
-export class VendorDbEntity extends TypeormDbEntity
+export class VendorDbEntity extends TypeormEntity<number>
   implements VendorProperties {
-  private constructor(id: number, properties: VendorProperties) {
-    super();
-    Object.assign(this, { id }, properties);
+  private constructor(id: number) {
+    super(id);
+    Object.assign(this, properties, { id });
   }
 
   @Column('date', { nullable: true, default: null })

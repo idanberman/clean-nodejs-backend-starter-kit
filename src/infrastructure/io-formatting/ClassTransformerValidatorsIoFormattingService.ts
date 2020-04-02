@@ -9,7 +9,7 @@ import {
   IoFormattingResult,
   IoFormattingService,
 } from 'src/app/services/io-formatting-service';
-import { HasInputSyntaxSchema } from 'src/domain/kernel/building-blocks';
+import { HasFormattingSchema } from 'src/domain/kernel/building-blocks';
 
 @injectable()
 export class ClassTransformerValidatorsIoFormattingService
@@ -19,7 +19,7 @@ export class ClassTransformerValidatorsIoFormattingService
     this.classValidationErrorToDomainResultConverter = new ClassValidationErrorToDomainResultConverter();
   }
 
-  public formatObject<T extends HasInputSyntaxSchema>(
+  public formatObject<T extends HasFormattingSchema>(
     targetFormat: T,
     fromValue: any,
     options: {
@@ -30,7 +30,7 @@ export class ClassTransformerValidatorsIoFormattingService
     try {
       const groups = [options && options.ioFormattingMode];
       const rawResult = transformAndValidateSync(
-        (targetFormat.constructor as typeof HasInputSyntaxSchema).getInputSyntaxSchema() as ClassType<
+        (targetFormat.constructor as typeof HasFormattingSchema).getInputSyntaxSchema() as ClassType<
           T
         >,
         fromValue as object,

@@ -1,7 +1,10 @@
-import { BaseEntity, DomainRepository } from '../kernel/ddd';
+import { DomainEntity, DomainRepository } from '../kernel/ddd';
+import { AggregateUuidType } from '../kernel/ddd/DomainObjectIdentity';
 
-export interface BasicReadRepository<T extends BaseEntity>
-  extends DomainRepository {
-  findAll(): Promise<T[]>;
-  findById(id: any): Promise<T>;
+export interface BasicReadRepository<
+  DomainEntityType extends DomainEntity<UuidType>,
+  UuidType extends AggregateUuidType
+> extends DomainRepository {
+  findAll(): Promise<DomainEntityType[]>;
+  findById(id: UuidType): Promise<DomainEntityType>;
 }

@@ -1,5 +1,4 @@
 import { injectable, inject } from 'inversify';
-import { DomainType } from 'src/domain/DomainType';
 import {
   AppConfiguration,
   DatabaseConfiguration,
@@ -14,7 +13,7 @@ import {
   EntityManager,
 } from 'typeorm';
 import { AsyncInitializable } from 'src/infrastructure/application-container/interfaces/AsyncInitializable';
-import { Entities } from './consts/Entities';
+import { ConfiguredDbEntities } from '../../core/db-entities';
 
 export class TypeormDatabaseConnection implements AsyncInitializable {
   constructor(private readonly databaseConfiguration: DatabaseConfiguration) {}
@@ -30,7 +29,7 @@ export class TypeormDatabaseConnection implements AsyncInitializable {
     );
     this.connection = await createConnection({
       ...this.databaseConfiguration,
-      entities: Entities,
+      entities: ConfiguredDbEntities,
     });
     console.log('connection succeed');
   }

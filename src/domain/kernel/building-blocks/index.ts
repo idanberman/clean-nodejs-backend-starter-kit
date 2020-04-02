@@ -1,2 +1,2 @@
-export { HasSoftDeleteAbilityEntity } from './HasSoftDeleteAbilityEntity';
-export { HasInputSyntaxSchema } from './HasInputSyntaxSchema';
+export { HasFormattingSchema } from './HasInputSyntaxSchema';
+export { Constructor } from './Constructor';

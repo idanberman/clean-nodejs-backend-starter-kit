@@ -1,6 +1,6 @@
 export { UseCase } from './UseCase';
 export { AggregateRoot } from './AggregateRoot';
-export { AggregateIdentity } from './AggregateIdentity';
+export { DomainObjectIdentity } from './DomainObjectIdentity';
 export { ValueObject } from './ValueObject';
-export { BaseEntity } from './BaseEntity';
+export { DomainEntity } from './DomainEntity';
 export { DomainRepository } from './DomainRepository';

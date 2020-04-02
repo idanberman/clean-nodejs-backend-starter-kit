@@ -1,35 +1,45 @@
-import { BasicReadRepository } from 'src/domain/interfaces/BasicReadRepository';
-import { BasicWriteRepository } from 'src/domain/interfaces/BasicWriteRepository';
-import {
-  EntityManager,
-  ObjectType,
-  Repository,
-  InsertResult,
-  DeepPartial,
-} from 'typeorm';
+import { EntityManager, Repository, InsertResult, DeepPartial } from 'typeorm';
 import {
   WriteResourceNotFoundError,
   ReadResourceNotFoundError,
 } from 'src/domain/kernel/errors/operation';
-import { BaseEntity } from 'src/domain/kernel/ddd';
+import { TypeormEntity } from '../../definitions/';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { DbEntityUuidType } from '../../definitions';
+import { DomainEntity } from 'src/domain/kernel/ddd';
+import { AggregateUuidType } from 'src/domain/kernel/ddd/DomainObjectIdentity';
+import { DomainEntitiesMapper } from '../../definitions/DomainEntitiesMapper';
+import { Constructor } from 'src/domain/kernel/building-blocks';
 
-export class CrudTypeormRepository<T extends BaseEntity>
-  implements BasicReadRepository<T>, BasicWriteRepository<T> {
-  protected readonly typeormRepository: Repository<T>;
+export class CrudTypeormRepository<
+  DomainEntityType extends DomainEntity<UuidType>,
+  DbEntityType extends TypeormEntity<UuidType>,
+  UuidType extends AggregateUuidType
+> {
+  protected readonly typeormRepository: Repository<DbEntityType>;
   private readonly entityType: string;
-  constructor(private target: ObjectType<T>, manager: EntityManager) {
-    this.typeormRepository = manager.getRepository(target);
-    this.entityType = target.name;
+  constructor(
+    protected domainEntityClass: Constructor<DomainEntityType>,
+    protected dbEntityClass: Constructor<DbEntityType>,
+    protected manager: EntityManager,
+  ) {
+    this.typeormRepository = manager.getRepository(dbEntityClass);
+    this.entityType = dbEntityClass.name;
   }
   public async findAll(): Promise<T[]> {
     return await this.typeormRepository.find();
   }
+
   public async findById(id: any): Promise<T> {
     return await this.typeormRepository.findOne(id);
   }
-  public async createEntity(entity: T): Promise<T> {
-    const insertResult: InsertResult = await this.typeormRepository.insert(
-      entity.toDto(),
+
+  public async createEntity(
+    entity: QueryDeepPartialEntity<T> | QueryDeepPartialEntity<T>[],
+  ): Promise<T> {
+    const insertResult: InsertResult = await this.manager.insert(
+      this.target,
+      entity,
     );
 
     return ({ ...entity, ...insertResult.identifiers[0] } as unknown) as T;
