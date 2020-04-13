@@ -3,9 +3,9 @@ import {
   BasicReadRepository,
   BasicWriteRepository,
 } from '../interfaces/';
-import { Vendor } from './Vendor';
+import { Vendor, VendorUidType } from './Vendor';
 
 export interface VendorsRepository
-  extends BasicReadRepository<Vendor, number>,
-    BasicWriteRepository<Vendor, number>,
-    SoftDeletedRepository<Vendor, number> {}
+  extends BasicReadRepository<Vendor, VendorUidType>,
+    BasicWriteRepository<Vendor, VendorUidType>,
+    SoftDeletedRepository<Vendor, VendorUidType> {}

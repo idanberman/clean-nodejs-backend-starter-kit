@@ -1,12 +1,15 @@
 export const AppType = {
+  // Application Services
   IoFormattingService: Symbol.for('IoFormattingService'),
   ConfigurationProvider: Symbol.for('ConfigurationProvider'),
   MultiInputReader: Symbol.for('MultiInputReader'),
+  TransactionContext: Symbol.for('TransactionContext'),
+
+  // Repositories
   VendorsRepository: Symbol.for('VendorsRepository'),
 
-  // * Use Cases
-
-  // Vendors UseCases
+  // Use Cases
+  // * Vendors UseCases
   CreateVendorUseCase: Symbol.for('CreateVendorUseCase'),
   IndexVendorsUseCase: Symbol.for('IndexVendorsUseCase'),
   ReadOneVendorUseCase: Symbol.for('ReadOneVendorUseCase'),

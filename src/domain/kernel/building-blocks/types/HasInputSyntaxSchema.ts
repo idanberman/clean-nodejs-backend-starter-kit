@@ -1,4 +1,4 @@
-import { InternalServiceError } from '../errors/operation';
+import { InternalServiceError } from '../../errors/operation';
 
 type InputSyntaxSchema = any;
 

@@ -1,11 +1,12 @@
 import { DomainEntity } from 'src/domain/kernel/ddd';
-import { AggregateUuidType } from 'src/domain/kernel/ddd/DomainObjectIdentity';
+import { ValidEntityUid } from 'src/domain/kernel/ddd/object-identity';
 import { TypeormEntity } from './TypeormEntity';
-import { DbEntityUuidType } from './DbEntityUuidType';
+import { ValidDbEntityUuid } from './DbEntityUuidType';
+import { ValidPropertiesMap } from 'src/domain/kernel/building-blocks/types';
 
 export interface DomainEntitiesMapper<
-  DomainEntityType extends DomainEntity<AggregateUuidType>,
-  DbEntityType extends TypeormEntity<DbEntityUuidType>
+  DomainEntityType extends DomainEntity<ValidEntityUid, ValidPropertiesMap>,
+  DbEntityType extends TypeormEntity<ValidDbEntityUuid>
 > {
   mapFromDb(dbEntity: DbEntityType): DomainEntityType;
   mapToDb(domainEntity: DomainEntityType): DbEntityType;

@@ -1,5 +1,5 @@
 import { IoFormattingResult, IoFormattingMode } from '.';
-import { HasFormattingSchema } from 'src/domain/kernel/building-blocks';
+import { HasFormattingSchema } from 'src/domain/kernel/building-blocks/types';
 
 export interface IoFormattingService {
   formatObject<T extends HasFormattingSchema>(

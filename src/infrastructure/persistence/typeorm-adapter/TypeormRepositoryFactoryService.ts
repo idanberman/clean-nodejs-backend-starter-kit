@@ -5,7 +5,7 @@ import { InstanceFactory } from 'src/infrastructure/application-container/interf
 import { EntityManager, ObjectType } from 'typeorm';
 import { NoDatabaseConnectionError } from './errors/NoDatabaseConnectionError';
 import { TypeormDatabaseConnection } from './TypeormDatabaseConnection';
-import { AppConfiguration } from 'src/domain/kernel/configuration';
+import { AppConfiguration } from 'src/domain/configuration';
 import {
   ApplicationUnderlyingResource,
   UnderlyingResourceStateReporter,
@@ -16,7 +16,7 @@ import { ConfigurationProvider } from 'src/app/services/chassis/ConfigurationPro
 @injectable()
 export class TypeormRepositoryFactoryService
   implements ApplicationUnderlyingResource {
-  public resourceId = 'TypeormRepositoryFactoryService';
+  public resourceId: string = 'TypeormRepositoryFactoryService';
   private underlyingResourceStateReporter: UnderlyingResourceStateReporter;
   private readonly applicationConfiguration: AppConfiguration;
 

@@ -1,13 +1,28 @@
-import { VendorsRepository } from 'src/domain/vendors';
-import { applyMixin } from 'src/infrastructure/application-container/js-helpers';
-import { CrudTypeormRepository } from 'src/infrastructure/persistence/typeorm-adapter/repositories/common/CrudTypeormRepository';
-import { CrudWithSoftDeleteAbilityTypeormRepository } from 'src/infrastructure/persistence/typeorm-adapter/repositories/common/CrudWithSoftDeleteAbilityTypeormRepository';
+import { Vendor } from 'src/domain/vendors';
+import {
+  BasicWriteRepository,
+  TransactionContext,
+} from 'src/domain/interfaces';
+import { injectable, inject } from 'inversify';
+import { AppType } from 'src/app/AppType';
 
-// tslint:disable-next-line: no-empty-interface
-export interface VendorsRepositoryAdapter extends VendorsRepository {}
-export class VendorsRepositoryAdapter {}
-
-applyMixin(VendorsRepositoryAdapter, [
-  CrudTypeormRepository,
-  CrudWithSoftDeleteAbilityTypeormRepository,
-]);
+@injectable()
+export class VendorsRepositoryAdapter
+  implements BasicWriteRepository<Vendor, number> {
+  constructor(
+    @inject(AppType.TransactionContext)
+    protected transactionContext: TransactionContext,
+  ) {}
+  public createEntity(entity: Vendor): Promise<Vendor> {
+    throw new Error('Method not implemented.');
+  }
+  public updateEntity(entity: Vendor): Promise<Vendor> {
+    throw new Error('Method not implemented.');
+  }
+  public removeEntity(entity: Vendor): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+  public removeById(id: number): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+}

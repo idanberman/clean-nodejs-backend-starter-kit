@@ -1,13 +1,13 @@
-import { SimplePlainObject } from '../kernel/building-blocks/SimplePlainObject';
+import { AggregateRootProperties } from '../kernel/ddd';
 
-export class VendorProperties {
-  public governmentalId: string;
-  public name: string;
-  public contactName: string;
-  public contactPhone: string;
-  public email: string;
-  public address: string;
-  public city: string;
-  public zipCode: string;
-  public budgetClassification: string;
-}
+export type VendorProperties = AggregateRootProperties & {
+  governmentalId: string;
+  name: string;
+  contactName: string;
+  contactPhone: string;
+  email: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  budgetClassification: string;
+};

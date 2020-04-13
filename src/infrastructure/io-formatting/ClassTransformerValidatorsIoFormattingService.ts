@@ -9,7 +9,7 @@ import {
   IoFormattingResult,
   IoFormattingService,
 } from 'src/app/services/io-formatting-service';
-import { HasFormattingSchema } from 'src/domain/kernel/building-blocks';
+import { HasFormattingSchema } from 'src/domain/kernel/building-blocks/types';
 
 @injectable()
 export class ClassTransformerValidatorsIoFormattingService

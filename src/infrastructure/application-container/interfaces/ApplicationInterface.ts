@@ -1,4 +1,4 @@
-import { AppConfiguration } from 'src/domain/kernel/configuration';
+import { AppConfiguration } from 'src/domain/configuration';
 import {
   UseCaseInput,
   SecurityContext,

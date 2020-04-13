@@ -6,5 +6,5 @@ export type SimplePlainObject =
       [key: string]:
         | PrimitiveTypes
         | SimplePlainObject
-        | Array<PrimitiveTypes | SimplePlainObject>;
+        | (PrimitiveTypes | SimplePlainObject)[];
     };

@@ -1,18 +1,47 @@
-import {
-  DomainObjectIdentity,
-  AggregateUuidType,
-} from './DomainObjectIdentity';
+import { DomainObjectIdentity, ValidEntityUid } from './object-identity';
 import { DomainEntity } from './DomainEntity';
-import { Constructor } from '../building-blocks/Constructor';
-import { SimplePlainObject } from '../building-blocks/SimplePlainObject';
-export type AggregatePropertiesType = SimplePlainObject;
-export abstract class AggregateRoot<T extends AggregateUuidType>
-  implements DomainEntity<T> {
-  constructor(public readonly aggregateId: DomainObjectIdentity<T>) {}
+import { DomainRepository } from './DomainRepository';
+import { DomainEvent } from './DomainEvent';
+import { CrudRepositoryOperation } from '../building-blocks/values';
 
-  public abstract getProperties(): AggregatePropertiesType;
+export type AggregateRootProperties = { version: number };
+export type PersistentDataBlock = CrudRepositoryOperation<DomainRepository>;
 
-  public getIdentity(): DomainObjectIdentity<T> {
-    return this.aggregateId;
+export abstract class AggregateRoot<
+  AggregateIdType extends ValidEntityUid,
+  AggregatePropertiesType extends AggregateRootProperties,
+  AggregatePersistentDataBlocksType extends PersistentDataBlock
+> extends DomainEntity<AggregateIdType, AggregatePropertiesType> {
+  private persistentDataBlocks: AggregatePersistentDataBlocksType[];
+  private domainEventsToBePublished: DomainEvent<any>[];
+
+  constructor(
+    aggregateUid: AggregateIdType,
+    aggregateType: string,
+    properties: AggregatePropertiesType,
+  ) {
+    super(aggregateUid, aggregateType, properties);
+    this.persistentDataBlocks = [];
+    this.domainEventsToBePublished = [];
+  }
+
+  protected addEvent(event: DomainEvent<any>): void {
+    this.domainEventsToBePublished.push(event);
+  }
+
+  public fetchEventsForPublish(): DomainEvent<any>[] {
+    const events: DomainEvent<any>[] = this.domainEventsToBePublished;
+    this.domainEventsToBePublished = [];
+    return events;
+  }
+
+  protected addPersistentDataBlock(
+    persistentDataBlock: AggregatePersistentDataBlocksType,
+  ): void {
+    this.persistentDataBlocks.push(persistentDataBlock);
+  }
+
+  protected fetchPersistentDataBlocks(): PersistentDataBlock[] {
+    return Array.from(this.persistentDataBlocks);
   }
 }

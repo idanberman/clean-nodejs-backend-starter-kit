@@ -1,6 +1,6 @@
 import { IsInt, Min, IsNumberString } from 'class-validator';
 import { Type } from 'class-transformer';
-import { HasFormattingSchema } from 'src/domain/kernel/building-blocks/HasInputSyntaxSchema';
+import { HasFormattingSchema } from 'src/domain/kernel/building-blocks/types/HasInputSyntaxSchema';
 
 export class WithNumericIdParameters extends HasFormattingSchema {
   @Type(() => Number)

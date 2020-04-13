@@ -5,7 +5,7 @@ import {
   AsyncInitializable,
 } from 'src/infrastructure/application-container/interfaces';
 import 'src/app/use-cases/vendors';
-import { AppConfiguration } from 'src/domain/kernel/configuration';
+import { AppConfiguration } from 'src/domain/configuration';
 import express = require('express');
 import { ApplicationEventEmitterImpl } from './services/application-event-emitter/ApplicationEventEmitterImpl';
 import { ConfigurationProvider } from 'src/app/services/chassis';
@@ -122,7 +122,7 @@ export class Application implements ApplicationInterface, AsyncInitializable {
     }
 
     await Promise.all(
-      this.applicationGateways.map(gateway => {
+      this.applicationGateways.map((gateway) => {
         gateway.start();
       }),
     );

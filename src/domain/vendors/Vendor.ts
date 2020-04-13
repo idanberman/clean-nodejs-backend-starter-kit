@@ -1,30 +1,52 @@
 import { AggregateRoot, DomainObjectIdentity } from '../kernel/ddd';
-import { SimplePlainObject } from '../kernel/building-blocks/SimplePlainObject';
 import { VendorProperties } from './VendorProperties';
+import { VendorsRepository } from './VendorsRepository';
+import { CrudRepositoryOperation } from '../kernel/building-blocks/values';
 
-type VendorId = number;
-export class Vendor extends AggregateRoot<VendorId>
-  implements VendorProperties {
-  constructor(domainObjectUuid: VendorId) {
-    super(new DomainObjectIdentity(domainObjectUuid, 'Vendor'));
+export type VendorUidType = number;
+export class Vendor
+  extends AggregateRoot<
+    VendorUidType,
+    VendorProperties,
+    CrudRepositoryOperation<VendorsRepository>
+  >
+  implements Readonly<VendorProperties> {
+  constructor(domainObjectUuid: VendorUidType, properties: VendorProperties) {
+    super(domainObjectUuid, 'Vendor', properties);
   }
 
-  public readonly governmentalId: string;
-  public readonly name: string;
-  public readonly contactName: string;
-  public readonly contactPhone: string;
-  public readonly email: string;
-  public readonly address: string;
-  public readonly city: string;
-  public readonly zipCode: string;
-  public readonly budgetClassification: string;
-  public readonly version: number;
-  public readonly deletedAt: Date;
-
-  public getProperties(): SimplePlainObject {
-    return { ...new VendorProperties() };
+  public get governmentalId(): string {
+    return this.properties.governmentalId;
   }
-  public static create(domainObjectUuid: VendorId): Vendor {
+  public get name(): string {
+    return this.properties.name;
+  }
+  public get contactName(): string {
+    return this.properties.contactName;
+  }
+  public get contactPhone(): string {
+    return this.properties.contactPhone;
+  }
+  public get email(): string {
+    return this.properties.email;
+  }
+  public get address(): string {
+    return this.properties.address;
+  }
+  public get city(): string {
+    return this.properties.city;
+  }
+  public get zipCode(): string {
+    return this.properties.zipCode;
+  }
+  public get budgetClassification(): string {
+    return this.properties.budgetClassification;
+  }
+  public get version(): number {
+    return this.properties.version;
+  }
+
+  public static create(domainObjectUuid: VendorUidType): Vendor {
     return new Vendor(domainObjectUuid);
   }
 }

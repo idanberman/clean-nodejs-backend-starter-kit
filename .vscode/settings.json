@@ -5,6 +5,7 @@
         "dockest",
         "initializable",
         "maraidb",
+        "uuidv",
         "varchar"
     ],
     "jest.autoEnable": false

@@ -14,7 +14,7 @@ import { Exclude, Expose } from 'class-transformer';
 import { Vendor } from './Vendor';
 import { IoFormattingMode } from 'src/app/services/io-formatting-service';
 import { VendorProperties } from './VendorProperties';
-import { HasFormattingSchema } from '../kernel/building-blocks';
+import { HasFormattingSchema } from '../kernel/building-blocks/types';
 
 export class VendorDto extends HasFormattingSchema implements VendorProperties {
   @Exclude()
