@@ -1,11 +1,7 @@
-import {
-  SoftDeletedRepository,
-  BasicReadRepository,
-  BasicWriteRepository,
-} from '../interfaces/';
-import { Vendor, VendorUidType } from './Vendor';
+import { BasicReadRepository, BasicWriteRepository } from '../interfaces/';
+import { Vendor } from './Vendor';
+import { StandardUuid } from '../kernel/ddd/object-identity';
 
 export interface VendorsRepository
-  extends BasicReadRepository<Vendor, VendorUidType>,
-    BasicWriteRepository<Vendor, VendorUidType>,
-    SoftDeletedRepository<Vendor, VendorUidType> {}
+  extends BasicReadRepository<Vendor, StandardUuid>,
+    BasicWriteRepository<Vendor, StandardUuid> {}

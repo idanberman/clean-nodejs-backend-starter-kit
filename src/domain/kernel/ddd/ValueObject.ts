@@ -1,13 +1,16 @@
-import { ValidPropertiesMap } from '../building-blocks/types';
-import { ObjectTools } from '../building-blocks/tools/ObjectTools';
+import { ObjectCloningHelper } from '../building-blocks/tools';
+import { ValidValueObjectProperties } from '../building-blocks/types/types';
 
 // tslint:disable-next-line: no-empty-interface
-export abstract class ValueObject<PropertiesType extends ValidPropertiesMap> {
-  protected readonly properties: PropertiesType;
+// export abstract class ValueObject<PropertiesType extends ValidPropertiesMap> {
+export abstract class ValueObject<
+  PropertiesType extends ValidValueObjectProperties
+> {
+  protected readonly _properties: PropertiesType;
 
   constructor(properties: PropertiesType) {
-    this.properties = ObjectTools.clone(properties);
-    Object.freeze(this.properties);
+    this._properties = ObjectCloningHelper.clone(properties);
+    Object.freeze(this._properties);
     Object.freeze(this);
   }
 }

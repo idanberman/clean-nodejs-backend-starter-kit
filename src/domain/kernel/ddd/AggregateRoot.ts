@@ -1,47 +1,56 @@
-import { DomainObjectIdentity, ValidEntityUid } from './object-identity';
+import {
+  DomainObjectIdentity,
+  ValidEntityUid,
+  StandardUuid,
+} from './object-identity';
 import { DomainEntity } from './DomainEntity';
 import { DomainRepository } from './DomainRepository';
 import { DomainEvent } from './DomainEvent';
-import { CrudRepositoryOperation } from '../building-blocks/values';
+import { CrudRepositoryOperation } from 'src/app/values';
+import { ValidEntityProperties } from '../building-blocks/types/types';
 
 export type AggregateRootProperties = { version: number };
 export type PersistentDataBlock = CrudRepositoryOperation<DomainRepository>;
 
 export abstract class AggregateRoot<
-  AggregateIdType extends ValidEntityUid,
-  AggregatePropertiesType extends AggregateRootProperties,
+  AggregatePropertiesType extends ValidEntityProperties &
+    AggregateRootProperties,
   AggregatePersistentDataBlocksType extends PersistentDataBlock
-> extends DomainEntity<AggregateIdType, AggregatePropertiesType> {
-  private persistentDataBlocks: AggregatePersistentDataBlocksType[];
-  private domainEventsToBePublished: DomainEvent<any>[];
+> extends DomainEntity<StandardUuid, AggregatePropertiesType> {
+  private _persistentDataBlocks: AggregatePersistentDataBlocksType[];
+  private _domainEventsToBePublished: DomainEvent<any>[];
 
   constructor(
-    aggregateUid: AggregateIdType,
+    aggregateUid: StandardUuid,
     aggregateType: string,
     properties: AggregatePropertiesType,
   ) {
     super(aggregateUid, aggregateType, properties);
-    this.persistentDataBlocks = [];
-    this.domainEventsToBePublished = [];
+    this._persistentDataBlocks = [];
+    this._domainEventsToBePublished = [];
   }
 
   protected addEvent(event: DomainEvent<any>): void {
-    this.domainEventsToBePublished.push(event);
+    this._domainEventsToBePublished.push(event);
   }
 
   public fetchEventsForPublish(): DomainEvent<any>[] {
-    const events: DomainEvent<any>[] = this.domainEventsToBePublished;
-    this.domainEventsToBePublished = [];
+    const events: DomainEvent<any>[] = this._domainEventsToBePublished;
+    this._domainEventsToBePublished = [];
     return events;
   }
 
   protected addPersistentDataBlock(
     persistentDataBlock: AggregatePersistentDataBlocksType,
   ): void {
-    this.persistentDataBlocks.push(persistentDataBlock);
+    this._persistentDataBlocks.push(persistentDataBlock);
   }
 
-  protected fetchPersistentDataBlocks(): PersistentDataBlock[] {
-    return Array.from(this.persistentDataBlocks);
+  public fetchPersistentDataBlocks(): PersistentDataBlock[] {
+    const blocks: AggregatePersistentDataBlocksType[] = Array.from(
+      this._persistentDataBlocks,
+    );
+    this._persistentDataBlocks = [];
+    return blocks;
   }
 }

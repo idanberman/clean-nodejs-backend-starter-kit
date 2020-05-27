@@ -9,7 +9,7 @@ export class TimeStamp extends ValueObject<TimeStampProperties> {
   }
 
   get value(): number {
-    return this.properties.epochTimestamp;
+    return this._properties.epochTimestamp;
   }
 
   public static now(): TimeStamp {

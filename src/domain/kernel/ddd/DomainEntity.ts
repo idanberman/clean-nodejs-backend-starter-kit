@@ -1,37 +1,38 @@
 import { DomainObjectIdentity, ValidEntityUid } from './object-identity';
-import {
-  SimplePlainObject,
-  ValidPropertiesMap,
-} from '../building-blocks/types';
-import { ObjectTools } from '../building-blocks/tools/ObjectTools';
+import { ObjectCloningHelper } from '../building-blocks/tools';
+import { ValidEntityProperties } from '../building-blocks/types/types';
 
 export abstract class DomainEntity<
   T extends ValidEntityUid,
-  Properties extends ValidPropertiesMap
+  Properties extends ValidEntityProperties
 > {
-  private readonly entityIdentity: DomainObjectIdentity<T>;
-  protected properties: Properties;
+  private readonly _entityIdentity: DomainObjectIdentity<T>;
+  protected _properties: Properties;
   constructor(uid: T, aggregateType: string, properties: Properties) {
-    this.entityIdentity = new DomainObjectIdentity(uid, aggregateType);
-    this.properties = ObjectTools.clone(properties);
+    this._entityIdentity = new DomainObjectIdentity(uid, aggregateType);
+    this._properties = ObjectCloningHelper.clone(properties);
     Object.freeze(this);
+  }
+
+  public get version(): number {
+    return this._properties.version as number;
   }
 
   public equals(other: any): boolean {
     return (
-      other?.getIdentity && this.entityIdentity.equals(other.getIdentity())
+      other?.getIdentity && this._entityIdentity.equals(other.getIdentity())
     );
   }
 
   public getIdentity(): DomainObjectIdentity<T> {
-    return this.entityIdentity;
+    return this._entityIdentity;
   }
 
   public getRawProperties(): Readonly<Properties> {
-    return this.properties;
+    return this._properties;
   }
 
   public setRawProperties(properties: Properties): void {
-    this.properties = properties;
+    this._properties = properties;
   }
 }

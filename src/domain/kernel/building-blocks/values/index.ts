@@ -1,1 +1,1 @@
-export { CrudRepositoryOperation } from './CrudRepositoryOperationsSet';
+export { TimeStamp } from './TimeStamp';

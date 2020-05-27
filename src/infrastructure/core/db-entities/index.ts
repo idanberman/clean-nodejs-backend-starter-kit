@@ -1,1 +1,0 @@
-export { ConfiguredDbEntities } from './ConfiguredDbEntities';

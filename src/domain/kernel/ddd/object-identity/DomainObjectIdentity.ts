@@ -9,32 +9,32 @@ export type ValidEntityUid =
 
 export type DomainObjectIdentityProperties<T extends ValidEntityUid> = {
   readonly domainObjectType: string;
-  readonly domainObjectUuid: T;
+  readonly domainObjectUid: T;
 };
 export class DomainObjectIdentity<T extends ValidEntityUid>
   extends ValueObject<DomainObjectIdentityProperties<T>>
   implements Readonly<DomainObjectIdentityProperties<T>> {
-  constructor(domainObjectUuid: T, domainObjectType: string) {
+  constructor(domainObjectUid: T, domainObjectType: string) {
     const properties: DomainObjectIdentityProperties<T> = {
-      domainObjectUuid,
+      domainObjectUid,
       domainObjectType,
     };
     super(properties);
   }
 
-  get domainObjectUuid(): T {
-    return this.properties.domainObjectUuid;
+  get domainObjectUid(): T {
+    return this._properties.domainObjectUid;
   }
   get domainObjectType(): string {
-    return this.properties.domainObjectType;
+    return this._properties.domainObjectType;
   }
   public equals(other: any): boolean {
-    if (!other.domainObjectUuid || !other.domainObjectType) {
+    if (!other.domainObjectUid || !other.domainObjectType) {
       return false;
     }
 
     return (
-      this.domainObjectUuid === other.domainObjectType &&
+      this.domainObjectUid === other.domainObjectType &&
       this.domainObjectType === other.domainObjectType
     );
   }

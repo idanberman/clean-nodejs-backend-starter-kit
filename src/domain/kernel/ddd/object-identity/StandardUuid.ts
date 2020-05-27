@@ -20,13 +20,14 @@ const DASH_INDEXES: Set<number> = new Set([8, 13, 18, 23]);
 type StandardUuidProperties = {
   value: string;
 };
+
 export class StandardUuid extends ValueObject<StandardUuidProperties> {
   private constructor(uuid: string) {
     super({ value: StandardUuid.formatUuid(uuid) });
   }
 
   get value(): string {
-    return this.properties.value;
+    return this._properties.value;
   }
 
   get dashedUuid(): string {
@@ -43,7 +44,7 @@ export class StandardUuid extends ValueObject<StandardUuidProperties> {
     ) {
       dashedFormatCharacters[dashedIndex] = DASH_INDEXES.has(dashedIndex)
         ? '-'
-        : this.properties.value[normalizedScannerIndex++];
+        : this._properties.value[normalizedScannerIndex++];
     }
 
     return dashedFormatCharacters.join('');

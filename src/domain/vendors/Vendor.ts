@@ -1,52 +1,52 @@
 import { AggregateRoot, DomainObjectIdentity } from '../kernel/ddd';
 import { VendorProperties } from './VendorProperties';
 import { VendorsRepository } from './VendorsRepository';
-import { CrudRepositoryOperation } from '../kernel/building-blocks/values';
+import { CrudRepositoryOperation } from 'src/app/values';
+import { StandardUuid } from '../kernel/ddd/object-identity';
 
-export type VendorUidType = number;
+export type VendorUidType = StandardUuid;
 export class Vendor
   extends AggregateRoot<
-    VendorUidType,
     VendorProperties,
     CrudRepositoryOperation<VendorsRepository>
   >
   implements Readonly<VendorProperties> {
-  constructor(domainObjectUuid: VendorUidType, properties: VendorProperties) {
-    super(domainObjectUuid, 'Vendor', properties);
+  constructor(domainObjectUuid: StandardUuid, properties: VendorProperties) {
+    super(domainObjectUuid ?? StandardUuid.create(), 'Vendor', properties);
   }
 
   public get governmentalId(): string {
-    return this.properties.governmentalId;
+    return this._properties.governmentalId;
   }
   public get name(): string {
-    return this.properties.name;
+    return this._properties.name;
   }
   public get contactName(): string {
-    return this.properties.contactName;
+    return this._properties.contactName;
   }
   public get contactPhone(): string {
-    return this.properties.contactPhone;
+    return this._properties.contactPhone;
   }
   public get email(): string {
-    return this.properties.email;
+    return this._properties.email;
   }
   public get address(): string {
-    return this.properties.address;
+    return this._properties.address;
   }
   public get city(): string {
-    return this.properties.city;
+    return this._properties.city;
   }
   public get zipCode(): string {
-    return this.properties.zipCode;
+    return this._properties.zipCode;
   }
   public get budgetClassification(): string {
-    return this.properties.budgetClassification;
-  }
-  public get version(): number {
-    return this.properties.version;
+    return this._properties.budgetClassification;
   }
 
-  public static create(domainObjectUuid: VendorUidType): Vendor {
-    return new Vendor(domainObjectUuid);
+  public static create(
+    domainObjectUuid: VendorUidType,
+    properties: VendorProperties,
+  ): Vendor {
+    return new Vendor(domainObjectUuid, properties);
   }
 }

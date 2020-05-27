@@ -1,14 +1,28 @@
-import { TypeormEntity } from '../../persistence/typeorm-adapter/definitions/TypeormEntity';
+import { TypeormEntity } from '../../persistence/typeorm-wrapper/definitions/TypeormEntity';
 import { Vendor } from 'src/domain/vendors';
 import { VendorProperties } from 'src/domain/vendors/VendorProperties';
-import { PrimaryGeneratedColumn, Column, VersionColumn } from 'typeorm';
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  VersionColumn,
+  PrimaryColumn,
+} from 'typeorm';
+import { StandardUuid } from 'src/domain/kernel/ddd/object-identity';
 
-export class VendorDbEntity extends TypeormEntity<number>
+export class VendorPersistentEntity extends TypeormEntity<StandardUuid>
   implements VendorProperties {
-  private constructor(id: number) {
-    super(id);
-    Object.assign(this, properties, { id });
+  constructor() {
+    super(['uuid']);
   }
+
+  @PrimaryColumn('char', {
+    length: 32,
+    transformer: {
+      from: (uuid: StandardUuid) => uuid.value,
+      to: (uuidString: string) => StandardUuid.createFrom(uuidString),
+    },
+  })
+  public readonly uid: StandardUuid;
 
   @Column('date', { nullable: true, default: null })
   public readonly deletedAt: Date;

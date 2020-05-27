@@ -1,18 +1,26 @@
-import { ValidPropertiesMap, ValidPropertiesValue } from '../types';
 import { ValueObject } from '../../ddd';
 // tslint:disable-next-line: no-unused-expression
 import * as DomainTypeGuard from './DomainTypeGuard';
+import {
+  ValidValueObjectProperties,
+  ValidValueObjectPropertiesValue,
+} from '../types/types';
 
-export class ObjectTools {
+export class ObjectCloningHelper {
   private static MAX_DEPTH: number = 8;
-  public static clone<T extends ValidPropertiesMap>(propertiesMap: T): T {
-    return ObjectTools.cloneObjectValue(propertiesMap);
+  private static MAX_PROPERTIES: number = 100;
+  private static MAX_LIST_LENGTH: number = 4_294_967_295;
+
+  public static clone<T extends ValidValueObjectProperties>(
+    propertiesMap: T,
+  ): T {
+    return ObjectCloningHelper.cloneObjectValue(propertiesMap);
   }
 
   private static cloneObjectValue<
-    T extends ValidPropertiesMap | ValueObject<any>
+    T extends ValidValueObjectProperties | ValueObject<any>
   >(originalObject: T, depth: number = 0): T {
-    ObjectTools.testDepth(depth, originalObject);
+    ObjectCloningHelper.testDepth(depth, originalObject);
 
     if (!originalObject || typeof originalObject !== 'object') {
       return null;
@@ -20,20 +28,19 @@ export class ObjectTools {
 
     if (Array.isArray(originalObject)) {
       throw new TypeError(
-        `Do not support cloning of array or value of nested arrays (array contain array as property [[]])`,
+        `Do not support cloning of array or value of nested arrays (arrays that contain other array like [[]])`,
       );
     }
     if (DomainTypeGuard.isValueObject(originalObject)) {
       return originalObject;
     }
 
-    return ObjectTools.cloneEachKeyInObject<Exclude<T, ValueObject<any>>>(
-      originalObject as Exclude<T, ValueObject<any>>,
-      depth,
-    );
+    return ObjectCloningHelper.cloneEachKeyInObject<
+      Exclude<T, ValueObject<any>>
+    >(originalObject as Exclude<T, ValueObject<any>>, depth);
   }
 
-  private static cloneEachKeyInObject<T extends ValidPropertiesMap>(
+  private static cloneEachKeyInObject<T extends ValidValueObjectProperties>(
     propertiesMap: T,
     depth: number,
   ): T {
@@ -41,14 +48,14 @@ export class ObjectTools {
     const clonedObject: any = {};
     for (const key of keys) {
       if (typeof propertiesMap[key] !== 'object') {
-        clonedObject[key] = ObjectTools.cloneValue(
+        clonedObject[key] = ObjectCloningHelper.cloneValue(
           propertiesMap[key] as Exclude<
             ValidPropertiesValue,
-            ValidPropertiesMap
+            ValidValueObjectProperties
           >,
         );
       } else {
-        ObjectTools.copyKeyToClonedObject<T>(
+        ObjectCloningHelper.copyKeyToClonedObject<T>(
           key,
           propertiesMap,
           clonedObject,
@@ -59,7 +66,7 @@ export class ObjectTools {
     return clonedObject;
   }
 
-  private static copyKeyToClonedObject<T extends ValidPropertiesMap>(
+  private static copyKeyToClonedObject<T extends ValidValueObjectProperties>(
     key: keyof T,
     propertiesMap: T,
     clonedObject: any,
@@ -76,14 +83,20 @@ export class ObjectTools {
           : this.cloneValue(item);
       });
     } else {
-      clonedObject[key] = ObjectTools.cloneObjectValue(
-        propertiesMap[key] as ValidPropertiesMap,
+      clonedObject[key] = ObjectCloningHelper.cloneObjectValue(
+        propertiesMap[key] as ValidValueObjectProperties,
         depth + 1,
       );
     }
   }
 
-  private static cloneValue<T extends ValidPropertiesValue>(value: T): T {
+  cloneValuesCollection<T>(
+    valueCollection: ValidValueObjectPropertiesValue[] | ,
+  ): {};
+
+  private static cloneValue<T extends ValidValueObjectPropertiesValue>(
+    value: T,
+  ): T {
     switch (typeof value) {
       case 'symbol':
       case 'undefined':
@@ -98,7 +111,7 @@ export class ObjectTools {
   }
 
   public static testDepth(depth: number, propertiesMap: object): void {
-    if (depth > ObjectTools.MAX_DEPTH) {
+    if (depth > ObjectCloningHelper.MAX_DEPTH) {
       throw Error(
         `Max depth of cloning has been reached. Last keys of the cloned propertiesMap were: ${Object.keys(
           propertiesMap,

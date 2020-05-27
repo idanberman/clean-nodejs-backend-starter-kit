@@ -1,22 +1,9 @@
-import { injectable, inject } from 'inversify';
-import {
-  AppConfiguration,
-  DatabaseConfiguration,
-} from 'src/domain/configuration';
-import {
-  Repository,
-  Connection,
-  ObjectType,
-  ConnectionOptions,
-  createConnection,
-  EntitySchema,
-  EntityManager,
-  ConnectionManager,
-} from 'typeorm';
+import { DatabaseConfiguration } from 'src/domain/configuration';
+import { Connection, createConnection, EntityManager } from 'typeorm';
 import { AsyncInitializable } from 'src/infrastructure/application-container/interfaces/AsyncInitializable';
-import { ConfiguredDbEntities } from '../../core/db-entities';
+import { ConfiguredPersistentEntities } from '../../core/persistent-entities';
 import { TransactionContext } from 'src/domain/interfaces/TransactionContext';
-import { TransactionContextTypeormAdapter } from './repositories/TransactionContextTypeormAdapter';
+import { TransactionContextTypeormAdapter } from './repositories/common';
 
 export class TypeormDatabaseConnection implements AsyncInitializable {
   constructor(private readonly databaseConfiguration: DatabaseConfiguration) {}
@@ -24,7 +11,6 @@ export class TypeormDatabaseConnection implements AsyncInitializable {
   private connection: Connection;
 
   public async asyncInit(): Promise<void> {
-    this.connection;
     console.log(
       'connecting to ',
       this.databaseConfiguration.database,
@@ -33,7 +19,7 @@ export class TypeormDatabaseConnection implements AsyncInitializable {
     );
     this.connection = await createConnection({
       ...this.databaseConfiguration,
-      entities: ConfiguredDbEntities,
+      entities: ConfiguredPersistentEntities,
     });
     console.log('connection succeed');
   }
@@ -42,7 +28,7 @@ export class TypeormDatabaseConnection implements AsyncInitializable {
     return !!this.connection?.isConnected;
   }
 
-  public getSlaveDbTransactionContext(): TransactionContext {
+  public getSlavePersistentTransactionContext(): TransactionContext {
     return new TransactionContextTypeormAdapter(
       this.connection.createQueryRunner('slave'),
     );

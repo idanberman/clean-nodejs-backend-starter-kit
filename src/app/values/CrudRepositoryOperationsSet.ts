@@ -1,4 +1,4 @@
-import { ValueObject, DomainRepository } from '../../ddd';
+import { ValueObject, DomainRepository } from '../../domain/kernel/ddd';
 
 export type CrudRepositoryOperationExecutor = <
   Repository extends DomainRepository
@@ -10,6 +10,11 @@ export class CrudRepositoryOperation<
 > extends ValueObject<{}> {
   constructor(private operation: CrudRepositoryOperationExecutor) {
     super({});
+    if (!operation || typeof operation !== 'function') {
+      throw TypeError(
+        `'operation' parameter is invalid. Received: '${operation.toString()}'`,
+      );
+    }
   }
 
   public executeOperation(repository: Repository): void {

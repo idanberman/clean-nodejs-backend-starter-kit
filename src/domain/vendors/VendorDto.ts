@@ -1,20 +1,18 @@
-import {
-  Length,
-  IsPhoneNumber,
-  IsEmail,
-  IsInt,
-  IsOptional,
-  IsEmpty,
-  Allow,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
 import { Exclude, Expose } from 'class-transformer';
 
 import { Vendor } from './Vendor';
 import { IoFormattingMode } from 'src/app/services/io-formatting-service';
 import { VendorProperties } from './VendorProperties';
 import { HasFormattingSchema } from '../kernel/building-blocks/types';
+import {
+  IsEmpty,
+  Length,
+  IsPhoneNumber,
+  IsEmail,
+  IsOptional,
+  IsInt,
+  Min,
+} from 'class-validator';
 
 export class VendorDto extends HasFormattingSchema implements VendorProperties {
   @Exclude()
@@ -54,6 +52,9 @@ export class VendorDto extends HasFormattingSchema implements VendorProperties {
   @IsOptional({ always: true })
   public readonly budgetClassification: string;
 
+  @IsInt({ groups: [IoFormattingMode.Update] })
+  @Min(2, { always: true })
+  public version: number;
   public static getInputSyntaxSchema() {
     return VendorDto;
   }
